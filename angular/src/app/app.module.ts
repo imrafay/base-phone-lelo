@@ -41,6 +41,7 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { AdminHeaderComponent } from './layout/admin-header.component';
 import { PublicHeaderComponent } from './layout/public-header.component';
 import { PublicHomeComponent } from './home/public-home.component';
+import { CategoryComponent } from './category/category.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +73,7 @@ import { PublicHomeComponent } from './home/public-home.component';
     AdminHeaderComponent,
     PublicHeaderComponent,
     PublicHomeComponent,
+    CategoryComponent,
   ],
   imports: [
     CommonModule,
