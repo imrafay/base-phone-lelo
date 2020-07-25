@@ -11,7 +11,7 @@ export class AppConsts {
     };
 
     static readonly localization = {
-        defaultLocalizationSourceName: 'Project'
+        defaultLocalizationSourceName: 'Phonelelo'
     };
 
     static readonly authorization = {

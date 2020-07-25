@@ -29,7 +29,6 @@ import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.c
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 // layout
-import { HeaderComponent } from './layout/header.component';
 import { HeaderLeftNavbarComponent } from './layout/header-left-navbar.component';
 import { HeaderLanguageMenuComponent } from './layout/header-language-menu.component';
 import { HeaderUserMenuComponent } from './layout/header-user-menu.component';
@@ -39,6 +38,9 @@ import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 
+import { AdminHeaderComponent } from './layout/admin-header.component';
+import { PublicHeaderComponent } from './layout/public-header.component';
+import { PublicHomeComponent } from './home/public-home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +61,6 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     ChangePasswordComponent,
     ResetPasswordDialogComponent,
     // layout
-    HeaderComponent,
     HeaderLeftNavbarComponent,
     HeaderLanguageMenuComponent,
     HeaderUserMenuComponent,
@@ -67,7 +68,10 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     SidebarComponent,
     SidebarLogoComponent,
     SidebarUserPanelComponent,
-    SidebarMenuComponent
+    SidebarMenuComponent,
+    AdminHeaderComponent,
+    PublicHeaderComponent,
+    PublicHomeComponent,
   ],
   imports: [
     CommonModule,

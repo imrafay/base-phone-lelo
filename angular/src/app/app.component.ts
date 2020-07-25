@@ -8,6 +8,7 @@ import { LayoutStoreService } from '@shared/layout/layout-store.service';
 })
 export class AppComponent extends AppComponentBase implements OnInit {
   sidebarExpanded: boolean;
+  admin = false;
 
   constructor(
     injector: Injector,
