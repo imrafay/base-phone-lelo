@@ -23,6 +23,7 @@ namespace PhoneLelo.Project.EntityFrameworkCore.Seed
 
             // Host seed
             new InitialHostDbBuilder(context).Create();
+            new DefaultProductCreator(context).Create();
 
             // Default tenant seed (in host database).
             new DefaultTenantBuilder(context).Create();
