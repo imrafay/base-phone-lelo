@@ -384,6 +384,34 @@ namespace PhoneLelo.Project.Users
 
         [Name("main_camera_single")]
         public string MainCameraSingle { get; set; }
+        
+        
+        [Name("body")]
+        public string Body { get; set; }
+        
+        [Name("platform_os")]
+        public string PlatformOS { get; set; }
+        
+        [Name("selfie_camera_features")]
+        public string SelfieCameraFeature { get; set; }
+        
+        [Name("sound")]
+        public string Sound { get; set; }
+        
+        [Name("battery")]
+        public string Battery { get; set; }
+        
+        [Name("battery_talk_time")]
+        public string BatteryTalkTime { get; set; }
+        
+        [Name("launch_announced")]
+        public string LaunchAnnouncedYear { get; set; }
+        
+        [Name("display_resolution")]
+        public string DisplayResolution { get; set; }
+        
+        [Name("features_sensors")]
+        public string FeaturesSensors { get; set; }
     }
 }
 
