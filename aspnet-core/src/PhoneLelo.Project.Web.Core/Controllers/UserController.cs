@@ -93,5 +93,13 @@ namespace PhoneLelo.Project.Controllers
                 await _userAppService.UpdateUserProfile(input);
             }
         }
+        
+        
+        [HttpPost]
+        public List<GsmCsvRow> ImportMobilePhones()
+        {
+              var result = _userAppService.ImportMobilePhones();
+               return result;
+        }
     }
 }

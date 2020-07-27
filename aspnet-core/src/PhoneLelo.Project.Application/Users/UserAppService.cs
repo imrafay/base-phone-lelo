@@ -23,6 +23,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Abp.Domain.Uow;
 using System;
+using System.Reflection;
+using System.IO;
+using System.Globalization;
+using CsvHelper;
+using CsvHelper.Configuration.Attributes;
 
 namespace PhoneLelo.Project.Users
 {
@@ -35,7 +40,7 @@ namespace PhoneLelo.Project.Users
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
-        private readonly int _tenantId=1;
+        private readonly int _tenantId = 1;
 
         public UserAppService(
             IRepository<User, long> repository,
@@ -79,7 +84,7 @@ namespace PhoneLelo.Project.Users
             return MapToEntityDto(user);
         }
 
- 
+
         public override async Task<UserDto> UpdateAsync(UserDto input)
         {
             CheckUpdatePermission();
@@ -260,7 +265,7 @@ namespace PhoneLelo.Project.Users
                 EmailAddress = phoneNumber,
                 IsActive = true,
                 PhoneNumber = phoneNumber,
-                TenantId=_tenantId
+                TenantId = _tenantId
             };
 
             //TODO:Change this dummy confirmation
@@ -295,14 +300,14 @@ namespace PhoneLelo.Project.Users
             long userId,
             string verificationCode)
         {
-                var user = await _userManager.GetUserByIdAsync(userId);
-                if (user!=null && user.PhoneNumberCode==verificationCode)
-                {
-                    user.IsPhoneNumberConfirmed = true;
-                    await _userManager.UpdateAsync(user);
-                    return true;
-                }
-                      
+            var user = await _userManager.GetUserByIdAsync(userId);
+            if (user != null && user.PhoneNumberCode == verificationCode)
+            {
+                user.IsPhoneNumberConfirmed = true;
+                await _userManager.UpdateAsync(user);
+                return true;
+            }
+
             return false;
         }
 
@@ -312,6 +317,73 @@ namespace PhoneLelo.Project.Users
             var code = AppConsts.DefaultPhoneNumberCode;
             return code;
         }
+
+        [AbpAllowAnonymous]
+        public List<GsmCsvRow> ImportMobilePhones()
+        {
+            var folderPath = "PhoneLelo.Project.Users";
+            var fileContent = GetFileContent($"{folderPath}.gsm.csv");
+
+            using (var reader = new StringReader(fileContent))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                csv.Configuration.HasHeaderRecord = true;
+
+                var records = csv.GetRecords<GsmCsvRow>().ToList();
+                if (!records.Any())
+                {
+                    return records;
+                }
+
+                return records;
+            }
+        }
+
+        private string GetFileContent(string fileName)
+        {
+            try
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                using (Stream stream = assembly.GetManifestResourceStream(fileName))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+
+                        return reader.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.StackTrace);
+                throw;
+            }
+        }
+    }
+    
+    public class GsmCsvRow
+    {
+        [Name("oem")]
+        public string Brand { get; set; }
+
+        [Name("model")]
+        public string Model { get; set; }
+
+        [Name("network_technology")]
+        public string NetworkTechnology { get; set; }
+
+        [Name("display_size")]
+        public string DisplaySize { get; set; }
+
+        [Name("display")]
+        public string Display { get; set; }
+
+        [Name("features")]
+        public string Features { get; set; }
+
+        [Name("memory_internal")]
+        public string MemoryInternal { get; set; }
+
+        [Name("main_camera_single")]
+        public string MainCameraSingle { get; set; }
     }
 }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
@@ -23,5 +24,7 @@ namespace PhoneLelo.Project.Users
             string verificationCode);
 
         Task UpdateUserProfile(UserDto input);
+
+        List<GsmCsvRow> ImportMobilePhones();
     }
 }

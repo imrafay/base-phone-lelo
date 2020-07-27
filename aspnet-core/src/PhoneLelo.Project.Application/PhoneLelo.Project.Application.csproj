@@ -11,6 +11,16 @@
     <RootNamespace>PhoneLelo.Project</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Users\gsm.csv" />
+    <None Remove="Users\users.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Users\gsm.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="15.0.5" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\PhoneLelo.Project.Core\PhoneLelo.Project.Core.csproj" />
   </ItemGroup>
 </Project>
