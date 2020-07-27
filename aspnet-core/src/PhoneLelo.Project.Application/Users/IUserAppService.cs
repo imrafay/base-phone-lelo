@@ -24,7 +24,5 @@ namespace PhoneLelo.Project.Users
             string verificationCode);
 
         Task UpdateUserProfile(UserDto input);
-
-        List<GsmCsvRow> ImportMobilePhones();
     }
 }
