@@ -34,15 +34,84 @@ namespace PhoneLelo.Project.Import.MobilePhone
 {
     public class ImportMobilePhoneAppService : ApplicationService, IImportMobilePhoneAppService
     {
-        private readonly IAbpSession _abpSession;
-        private readonly int _tenantId = 1;
+        private readonly IAbpSession _abpSession; 
+        private readonly ProductCompanyManager _productCompanyManager;
+        private readonly ProductModelManager _productModelManager;
 
         public ImportMobilePhoneAppService(
 
-            IAbpSession abpSession)
+            IAbpSession abpSession,
+            ProductCompanyManager productCompanyManager,
+            ProductModelManager productModelManager)
         {
             _abpSession = abpSession;
+            _productCompanyManager = productCompanyManager;
+            _productModelManager = productModelManager;
+        }
 
+
+
+        [AbpAllowAnonymous]
+        public void CreateOrUpdateProductModels()
+        {
+            var models = ImportMobilePhones();
+            var productModels = new List<ProductModel>();
+
+            foreach (var model in models)
+            {
+                var productCompanyId = _productCompanyManager.GetIdByName(model.Brand);
+                if (productCompanyId==0)
+                {
+                    continue;
+                }
+
+                var isProductModelExist = _productModelManager.IsProductModelExist(
+                    modelName: model.Model,
+                    companyId: productCompanyId);
+                if (isProductModelExist)
+                {
+                    continue;
+                }
+
+                var productModel = MapCsvRowToProductModel(
+                    model: model,
+                    productCompanyId: productCompanyId);
+
+                if (productModel!=null)
+                {
+                    productModels.Add(productModel);
+                }
+            }
+
+            _productModelManager.InsertPhoneModelList(productModels);
+        }
+
+        private ProductModel MapCsvRowToProductModel(
+            GsmCsvRow model,
+            long productCompanyId)
+        {
+            var productModel = new ProductModel()
+            {
+                ProductCompanyId =productCompanyId,
+                Brand=model.Brand,
+                Battery= model.Battery,
+                BatteryTalkTime= model.BatteryTalkTime,
+                Body= model.Body,
+                Display= model.Display,
+                LaunchAnnouncedYear= model.LaunchAnnouncedYear,
+                MainCameraSingle= model.MainCameraSingle,
+                MemoryInternal= model.MemoryInternal,
+                NetworkTechnology= model.NetworkTechnology,
+                PlatformOS= model.PlatformOS,
+                SelfieCameraFeature= model.SelfieCameraFeature,
+                Sound= model.Sound,
+                DisplaySize= model.DisplaySize,
+                DisplayResolution= model.DisplayResolution,
+                Features= model.Features,
+                FeaturesSensors= model.FeaturesSensors,
+                Model= model.Model               
+            };
+            return productModel;
         }
 
         [AbpAllowAnonymous]
@@ -60,8 +129,8 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 if (!records.Any())
                 {
                     return records;
-                }
 
+                }
                 return records;
             }
         }

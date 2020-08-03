@@ -10,6 +10,9 @@ namespace PhoneLelo.Project.Import.MobilePhone
 {
     public interface IImportMobilePhoneAppService : IApplicationService
     {    
+        //This Api is created for testing purpose
         List<GsmCsvRow> ImportMobilePhones();
+
+        void CreateOrUpdateProductModels();
     }
 }
