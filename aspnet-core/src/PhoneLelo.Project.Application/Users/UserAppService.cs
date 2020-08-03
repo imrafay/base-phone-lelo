@@ -23,6 +23,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Abp.Domain.Uow;
 using System;
+using System.Reflection;
+using System.IO;
+using System.Globalization;
+using CsvHelper;
+using CsvHelper.Configuration.Attributes;
 
 namespace PhoneLelo.Project.Users
 {
@@ -35,7 +40,7 @@ namespace PhoneLelo.Project.Users
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
-        private readonly int _tenantId=1;
+        private readonly int _tenantId = 1;
 
         public UserAppService(
             IRepository<User, long> repository,
@@ -79,7 +84,7 @@ namespace PhoneLelo.Project.Users
             return MapToEntityDto(user);
         }
 
- 
+
         public override async Task<UserDto> UpdateAsync(UserDto input)
         {
             CheckUpdatePermission();
@@ -260,7 +265,7 @@ namespace PhoneLelo.Project.Users
                 EmailAddress = phoneNumber,
                 IsActive = true,
                 PhoneNumber = phoneNumber,
-                TenantId=_tenantId
+                TenantId = _tenantId
             };
 
             //TODO:Change this dummy confirmation
@@ -295,14 +300,14 @@ namespace PhoneLelo.Project.Users
             long userId,
             string verificationCode)
         {
-                var user = await _userManager.GetUserByIdAsync(userId);
-                if (user!=null && user.PhoneNumberCode==verificationCode)
-                {
-                    user.IsPhoneNumberConfirmed = true;
-                    await _userManager.UpdateAsync(user);
-                    return true;
-                }
-                      
+            var user = await _userManager.GetUserByIdAsync(userId);
+            if (user != null && user.PhoneNumberCode == verificationCode)
+            {
+                user.IsPhoneNumberConfirmed = true;
+                await _userManager.UpdateAsync(user);
+                return true;
+            }
+
             return false;
         }
 
@@ -313,5 +318,6 @@ namespace PhoneLelo.Project.Users
             return code;
         }
     }
+   
 }
 

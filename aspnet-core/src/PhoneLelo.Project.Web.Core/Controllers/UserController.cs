@@ -92,6 +92,6 @@ namespace PhoneLelo.Project.Controllers
             {
                 await _userAppService.UpdateUserProfile(input);
             }
-        }
+        }              
     }
 }

@@ -1620,6 +1620,95 @@ namespace PhoneLelo.Project.Migrations
                     b.ToTable("ProductCompanies");
                 });
 
+            modelBuilder.Entity("PhoneLelo.Project.ProductModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Battery")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BatteryTalkTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Brand")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Display")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayResolution")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplaySize")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Features")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FeaturesSensors")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("LaunchAnnouncedYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MainCameraSingle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MemoryInternal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NetworkTechnology")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlatformOS")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("ProductCompanyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("SelfieCameraFeature")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sound")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductCompanyId");
+
+                    b.ToTable("ProductModels");
+                });
+
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
                 {
                     b.HasBaseType("Abp.Application.Features.FeatureSetting");
@@ -1833,6 +1922,13 @@ namespace PhoneLelo.Project.Migrations
                     b.HasOne("PhoneLelo.Project.Authorization.Users.User", "LastModifierUser")
                         .WithMany()
                         .HasForeignKey("LastModifierUserId");
+                });
+
+            modelBuilder.Entity("PhoneLelo.Project.ProductModel", b =>
+                {
+                    b.HasOne("PhoneLelo.Project.ProductCompany", "ProductCompanyFk")
+                        .WithMany()
+                        .HasForeignKey("ProductCompanyId");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
