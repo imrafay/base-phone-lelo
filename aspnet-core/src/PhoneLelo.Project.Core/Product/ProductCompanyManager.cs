@@ -12,6 +12,8 @@ using PhoneLelo.Project.Authorization.Users;
 using PhoneLelo.Project.MultiTenancy;
 using Abp.Domain.Services;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PhoneLelo.Project.Authorization
 {
@@ -23,6 +25,23 @@ namespace PhoneLelo.Project.Authorization
             IRepository<ProductCompany, long> productCompanyRepository)
         {
             _productCompanyRepository = productCompanyRepository;
+        }
+
+
+        public IQueryable<ProductCompany> GetAll()
+        {
+            var productCompanyQuery = _productCompanyRepository
+                .GetAll();
+
+            return productCompanyQuery;
+        }
+        
+        public async Task<List<ProductCompany>> GetAllListAsync()
+        {
+            var productCompanies = await _productCompanyRepository
+                .GetAllListAsync();
+
+            return productCompanies;
         }
 
         public ProductCompany GetByName(string companyName)

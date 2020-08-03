@@ -32,6 +32,27 @@ namespace PhoneLelo.Project.Authorization
             _productModelRepository = productModelRepository;
         }
 
+        public async Task<List<ProductModel>> GetAllByCompanyIdAsync(long companyId)
+        {
+            var productModels = await _productModelRepository
+                .GetAll()
+                .Where(x => x.ProductCompanyId == companyId)
+                .ToListAsync();
+
+            return productModels;
+        }
+        
+        
+        public IQueryable<ProductModel> GetAllByCompanyId(long companyId)
+        {
+            var productModelQuery = _productModelRepository
+                .GetAll()
+                .Where(x => x.ProductCompanyId == companyId);
+
+            return productModelQuery;
+        } 
+        
+        
         public ProductModel GetByName(
             string modelName,
             long companyId)
