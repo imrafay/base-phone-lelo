@@ -10,6 +10,8 @@ namespace PhoneLelo.Project.EntityFrameworkCore
     {
         #region Product
         public virtual DbSet<ProductCompany> ProductCompanies { get; set; }
+
+        public virtual DbSet<ProductModel> ProductModels { get; set; }
         #endregion
 
         /* Define a DbSet for each entity of the application */
