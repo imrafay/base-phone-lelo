@@ -9,5 +9,10 @@
         public const string DefaultUserPassword = "123qwe";
         public const string DefaultUserName = "Seller";
         public const string DefaultPhoneNumberCode = "0000";
+
+        //Rostering from olx.
+        public const string OlxBaseUrl = "https://www.olx.com.pk";
+        public const string OlxUrlParameters = "/api/locations";
+        public const string OlxTownsParameters = "&hideAddressComponents=true";
     }
 }
