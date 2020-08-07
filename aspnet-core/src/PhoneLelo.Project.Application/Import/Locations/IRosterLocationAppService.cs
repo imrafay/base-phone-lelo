@@ -11,5 +11,6 @@ namespace PhoneLelo.Project.Import.Locations
     public interface IRosterLocationAppService : IApplicationService
     {
         Task GetAndSeedPakistanCities();
+        Task GetAndSeedPakistanNeighbourhoods();
     }
 }

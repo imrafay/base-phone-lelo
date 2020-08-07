@@ -81,6 +81,42 @@ namespace PhoneLelo.Project.Import.MobilePhone
 
             await _rosterLocationManager.InsertCitiesAsync(citiesList);
         }
+        
+        
+        [AbpAllowAnonymous]
+        public async Task GetAndSeedPakistanNeighbourhoods()
+        {
+            var cities = await _rosterLocationManager.GetAllCityListAsync();
+            var neighbourhoodsList = new List<Neighbourhood>();
+
+            foreach (var city in cities)
+            {
+                var parentParameter = $"?parent={city.RosterSourceId}{ AppConsts.OlxTownsParameters}";
+                
+                var neighbourhoods = await _rosterLocationManager.GetOlxApiResponse(
+                baseUrl: AppConsts.OlxBaseUrl,
+                baseParameter: AppConsts.OlxUrlParameters,
+                optionalParameter: parentParameter);
+
+                foreach (var neighbourhood in neighbourhoods)
+                {
+                    var neighbourhoodLongitude = Convert.ToDecimal(neighbourhood.longitude.ToString());
+                    var neighbourhoodLatitude = Convert.ToDecimal(neighbourhood.latitude.ToString());
+
+                    var neighbourhoodDb = new Neighbourhood()
+                    {
+                        CityId = city.Id,
+                        RosterSourceId = neighbourhood.id.ToString(),
+                        Name = neighbourhood.name.ToString(),
+                        Longitude = neighbourhoodLongitude,
+                        Latitude = neighbourhoodLatitude
+                    };
+                    neighbourhoodsList.Add(neighbourhoodDb);
+                }
+            }
+
+            await _rosterLocationManager.InsertNeighbourhoodsAsync(neighbourhoodsList);
+        }
     }
 }
 

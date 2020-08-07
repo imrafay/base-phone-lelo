@@ -162,5 +162,35 @@ namespace PhoneLelo.Project.Authorization
                 await CurrentUnitOfWork.SaveChangesAsync();
             }
         }
+        
+        public async Task InsertNeighbourhoodsAsync(List<Neighbourhood> neighbourhoods)
+        {
+            var neighbourhoodsRosterSourceIds = neighbourhoods
+                .Select(x => x.RosterSourceId)
+                .ToList();
+
+            //Insert only new cities
+            var dbNeighbourhoods = await _neighbourhoodRepository
+                .GetAll()
+                .Where(c => neighbourhoodsRosterSourceIds
+                    .Contains(c.RosterSourceId))
+                .ToListAsync();
+
+            neighbourhoods = neighbourhoods
+                .Where(c => !dbNeighbourhoods
+                    .Select(x => x.RosterSourceId)
+                    .ToList()
+                        .Contains(c.RosterSourceId))
+                .ToList();
+
+            if (neighbourhoods.Any())
+            {
+                await _neighbourhoodRepository
+                .GetDbContext()
+                .AddRangeAsync(neighbourhoods);
+
+                await CurrentUnitOfWork.SaveChangesAsync();
+            }
+        }
     }
 }
