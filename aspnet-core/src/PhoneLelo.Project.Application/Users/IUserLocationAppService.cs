@@ -18,5 +18,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
 
         Task<List<DropdownOutputDto>> GetNeighbourhoodsByCityId(
             long cityId);
+
+        Task UpdateUserLocation(UserLocationInputDto input);
     }
 }

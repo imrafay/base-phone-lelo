@@ -97,15 +97,15 @@ namespace PhoneLelo.Project.Controllers
                 await _userAppService.UpdateUserProfile(input);
             }
         }
-        
-        [HttpPost]
+
+        [HttpGet]
         public async Task<List<DropdownOutputDto>> GetStates()
         {
             return await _userLocationAppService
                 .GetStates();          
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<List<DropdownOutputDto>> GetCitiesByStateId(
             long stateId)
         {
@@ -113,12 +113,23 @@ namespace PhoneLelo.Project.Controllers
                 .GetCitiesByStateId(stateId);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<List<DropdownOutputDto>> GetNeighbourhoodsByCityId(
             long cityId)
         {
             return await _userLocationAppService
                 .GetNeighbourhoodsByCityId(cityId);
+        }
+
+        [HttpPost]
+        public async Task UpdateUserLocation(
+            UserLocationInputDto input)
+        {
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+            {
+                await _userLocationAppService.UpdateUserLocation(input);
+            }
         }
     }
 }
