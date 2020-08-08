@@ -20,6 +20,8 @@ using PhoneLelo.Project.MultiTenancy;
 using PhoneLelo.Project.Users;
 using PhoneLelo.Project.Users.Dto;
 using Abp.Domain.Uow;
+using PhoneLelo.Project.Product.Dto;
+using PhoneLelo.Project.Import.MobilePhone;
 
 namespace PhoneLelo.Project.Controllers
 {
@@ -34,6 +36,7 @@ namespace PhoneLelo.Project.Controllers
         private readonly IExternalAuthManager _externalAuthManager;
         private readonly UserRegistrationManager _userRegistrationManager;
         private readonly IUserAppService _userAppService;
+        private readonly IUserLocationAppService _userLocationAppService;
 
         public UserController(
             LogInManager logInManager,
@@ -42,7 +45,7 @@ namespace PhoneLelo.Project.Controllers
             TokenAuthConfiguration configuration,
             IExternalAuthConfiguration externalAuthConfiguration,
             IExternalAuthManager externalAuthManager,
-            UserRegistrationManager userRegistrationManager, IUserAppService userAppService)
+            UserRegistrationManager userRegistrationManager, IUserAppService userAppService, IUserLocationAppService userLocationAppService)
         {
             _logInManager = logInManager;
             _tenantCache = tenantCache;
@@ -52,6 +55,7 @@ namespace PhoneLelo.Project.Controllers
             _externalAuthManager = externalAuthManager;
             _userRegistrationManager = userRegistrationManager;
             _userAppService = userAppService;
+            _userLocationAppService = userLocationAppService;
         }
 
         [HttpPost]
@@ -92,6 +96,29 @@ namespace PhoneLelo.Project.Controllers
             {
                 await _userAppService.UpdateUserProfile(input);
             }
-        }              
+        }
+        
+        [HttpPost]
+        public async Task<List<DropdownOutputDto>> GetStates()
+        {
+            return await _userLocationAppService
+                .GetStates();          
+        }
+
+        [HttpPost]
+        public async Task<List<DropdownOutputDto>> GetCitiesByStateId(
+            long stateId)
+        {
+            return await _userLocationAppService
+                .GetCitiesByStateId(stateId);
+        }
+
+        [HttpPost]
+        public async Task<List<DropdownOutputDto>> GetNeighbourhoodsByCityId(
+            long cityId)
+        {
+            return await _userLocationAppService
+                .GetNeighbourhoodsByCityId(cityId);
+        }
     }
 }

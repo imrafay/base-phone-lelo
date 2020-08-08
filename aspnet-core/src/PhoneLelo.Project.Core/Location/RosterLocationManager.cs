@@ -64,7 +64,8 @@ namespace PhoneLelo.Project.Authorization
         public IQueryable<State> GetAllStates()
         {
             var stateQuery = _stateRepository
-                .GetAll();
+                 .GetAll()
+                 .OrderBy(x => x.Name);
 
             return stateQuery;
         }
@@ -74,6 +75,7 @@ namespace PhoneLelo.Project.Authorization
         {
             var cityQuery = _cityRepository
                 .GetAll()
+                .OrderBy(x => x.Name)
                 .WhereIf(stateId > 0, x => x.StateId == stateId);
 
             return cityQuery;
@@ -84,6 +86,7 @@ namespace PhoneLelo.Project.Authorization
         {
             var neighbourhoodQuery = _neighbourhoodRepository
                 .GetAll()
+                .OrderBy(x => x.Name)
                 .WhereIf(cityId > 0, x => x.CityId == cityId);
 
             return neighbourhoodQuery;
@@ -92,7 +95,9 @@ namespace PhoneLelo.Project.Authorization
         public async Task<List<State>> GetAllStateListAsync()
         {
             var states = await _stateRepository
-                .GetAllListAsync();
+                 .GetAll()
+                 .OrderBy(x => x.Name)
+                 .ToListAsync();
             return states;
         }
 
@@ -101,6 +106,7 @@ namespace PhoneLelo.Project.Authorization
             var cities = await _cityRepository
                 .GetAll()
                 .WhereIf(stateId > 0, x => x.StateId == stateId)
+                 .OrderBy(x => x.Name)
                 .ToListAsync();
 
             return cities;
@@ -112,6 +118,7 @@ namespace PhoneLelo.Project.Authorization
             var neighbourhoods = await _neighbourhoodRepository
                  .GetAll()
                  .WhereIf(cityId > 0, x => x.CityId == cityId)
+                 .OrderBy(x=>x.Name)
                  .ToListAsync();
 
             return neighbourhoods;
