@@ -18,9 +18,17 @@ namespace PhoneLelo.Project.EntityFrameworkCore
         #region Location
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<City> Cities { get; set; }
-        public virtual DbSet<Neighbourhood> Neighbourhoods { get; set; } 
+        public virtual DbSet<Neighbourhood> Neighbourhoods { get; set; }
         #endregion
 
+
+        #region Product Advert
+        public virtual DbSet<ProductAdvert> ProductAdverts { get; set; }
+
+        public virtual DbSet<ProductAdvertBatteryUsage> ProductAdvertBatteryUsages { get; set; }
+        
+        public virtual DbSet<ProductAdvertImage> ProductAdvertImages { get; set; }
+        #endregion
         /* Define a DbSet for each entity of the application */
 
         public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
