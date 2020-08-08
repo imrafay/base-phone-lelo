@@ -205,6 +205,259 @@ export class ConfigurationServiceProxy {
 }
 
 @Injectable()
+export class ImportMobilePhoneServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    createOrUpdateProductModels(): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ImportMobilePhone/CreateOrUpdateProductModels";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateOrUpdateProductModels(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrUpdateProductModels(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateOrUpdateProductModels(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    importMobilePhones(): Observable<GsmCsvRow[]> {
+        let url_ = this.baseUrl + "/api/services/app/ImportMobilePhone/ImportMobilePhones";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processImportMobilePhones(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processImportMobilePhones(<any>response_);
+                } catch (e) {
+                    return <Observable<GsmCsvRow[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GsmCsvRow[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processImportMobilePhones(response: HttpResponseBase): Observable<GsmCsvRow[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(GsmCsvRow.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GsmCsvRow[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class ProductCompanyServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getProductCompanyDropdown(): Observable<DropdownOutputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ProductCompany/GetProductCompanyDropdown";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProductCompanyDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProductCompanyDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProductCompanyDropdown(response: HttpResponseBase): Observable<DropdownOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownOutputDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class ProductModelServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param companyId (optional) 
+     * @return Success
+     */
+    getProductModelDropdown(companyId: number | undefined): Observable<DropdownOutputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ProductModel/GetProductModelDropdown?";
+        if (companyId === null)
+            throw new Error("The parameter 'companyId' cannot be null.");
+        else if (companyId !== undefined)
+            url_ += "companyId=" + encodeURIComponent("" + companyId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProductModelDropdown(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProductModelDropdown(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProductModelDropdown(response: HttpResponseBase): Observable<DropdownOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownOutputDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -658,6 +911,112 @@ export class RoleServiceProxy {
             }));
         }
         return _observableOf<RoleDtoPagedResultDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class RosterLocationServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getAndSeedPakistanCities(): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RosterLocation/GetAndSeedPakistanCities";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAndSeedPakistanCities(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAndSeedPakistanCities(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAndSeedPakistanCities(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAndSeedPakistanNeighbourhoods(): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RosterLocation/GetAndSeedPakistanNeighbourhoods";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAndSeedPakistanNeighbourhoods(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAndSeedPakistanNeighbourhoods(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAndSeedPakistanNeighbourhoods(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -1417,6 +1776,243 @@ export class UserServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getStates(): Observable<DropdownOutputDto[]> {
+        let url_ = this.baseUrl + "/api/User/GetStates";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetStates(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStates(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStates(response: HttpResponseBase): Observable<DropdownOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownOutputDto[]>(<any>null);
+    }
+
+    /**
+     * @param stateId (optional) 
+     * @return Success
+     */
+    getCitiesByStateId(stateId: number | undefined): Observable<DropdownOutputDto[]> {
+        let url_ = this.baseUrl + "/api/User/GetCitiesByStateId?";
+        if (stateId === null)
+            throw new Error("The parameter 'stateId' cannot be null.");
+        else if (stateId !== undefined)
+            url_ += "stateId=" + encodeURIComponent("" + stateId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCitiesByStateId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCitiesByStateId(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCitiesByStateId(response: HttpResponseBase): Observable<DropdownOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownOutputDto[]>(<any>null);
+    }
+
+    /**
+     * @param cityId (optional) 
+     * @return Success
+     */
+    getNeighbourhoodsByCityId(cityId: number | undefined): Observable<DropdownOutputDto[]> {
+        let url_ = this.baseUrl + "/api/User/GetNeighbourhoodsByCityId?";
+        if (cityId === null)
+            throw new Error("The parameter 'cityId' cannot be null.");
+        else if (cityId !== undefined)
+            url_ += "cityId=" + encodeURIComponent("" + cityId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNeighbourhoodsByCityId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNeighbourhoodsByCityId(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetNeighbourhoodsByCityId(response: HttpResponseBase): Observable<DropdownOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownOutputDto[]>(<any>null);
+    }
+
+    /**
+     * @param neighbourhoodId (optional) 
+     * @return Success
+     */
+    updateUserLocation(userId: number, stateId: number, cityId: number, neighbourhoodId: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/User/UpdateUserLocation?";
+        if (userId === undefined || userId === null)
+            throw new Error("The parameter 'userId' must be defined and cannot be null.");
+        else
+            url_ += "UserId=" + encodeURIComponent("" + userId) + "&";
+        if (stateId === undefined || stateId === null)
+            throw new Error("The parameter 'stateId' must be defined and cannot be null.");
+        else
+            url_ += "StateId=" + encodeURIComponent("" + stateId) + "&";
+        if (cityId === undefined || cityId === null)
+            throw new Error("The parameter 'cityId' must be defined and cannot be null.");
+        else
+            url_ += "CityId=" + encodeURIComponent("" + cityId) + "&";
+        if (neighbourhoodId !== undefined)
+            url_ += "NeighbourhoodId=" + encodeURIComponent("" + neighbourhoodId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateUserLocation(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateUserLocation(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateUserLocation(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
@@ -2087,6 +2683,245 @@ export class UserServiceProxy {
     }
 }
 
+@Injectable()
+export class UserLocationServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getStates(): Observable<DropdownOutputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/UserLocation/GetStates";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetStates(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStates(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStates(response: HttpResponseBase): Observable<DropdownOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownOutputDto[]>(<any>null);
+    }
+
+    /**
+     * @param stateId (optional) 
+     * @return Success
+     */
+    getCitiesByStateId(stateId: number | undefined): Observable<DropdownOutputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/UserLocation/GetCitiesByStateId?";
+        if (stateId === null)
+            throw new Error("The parameter 'stateId' cannot be null.");
+        else if (stateId !== undefined)
+            url_ += "stateId=" + encodeURIComponent("" + stateId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCitiesByStateId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCitiesByStateId(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCitiesByStateId(response: HttpResponseBase): Observable<DropdownOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownOutputDto[]>(<any>null);
+    }
+
+    /**
+     * @param cityId (optional) 
+     * @return Success
+     */
+    getNeighbourhoodsByCityId(cityId: number | undefined): Observable<DropdownOutputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/UserLocation/GetNeighbourhoodsByCityId?";
+        if (cityId === null)
+            throw new Error("The parameter 'cityId' cannot be null.");
+        else if (cityId !== undefined)
+            url_ += "cityId=" + encodeURIComponent("" + cityId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNeighbourhoodsByCityId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNeighbourhoodsByCityId(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetNeighbourhoodsByCityId(response: HttpResponseBase): Observable<DropdownOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownOutputDto[]>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateUserLocation(body: UserLocationInputDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/UserLocation/UpdateUserLocation";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateUserLocation(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateUserLocation(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateUserLocation(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     tenancyName: string;
 
@@ -2330,6 +3165,160 @@ export class ChangeUiThemeInput implements IChangeUiThemeInput {
 
 export interface IChangeUiThemeInput {
     theme: string;
+}
+
+export class GsmCsvRow implements IGsmCsvRow {
+    brand: string | undefined;
+    model: string | undefined;
+    networkTechnology: string | undefined;
+    displaySize: string | undefined;
+    display: string | undefined;
+    features: string | undefined;
+    memoryInternal: string | undefined;
+    mainCameraSingle: string | undefined;
+    body: string | undefined;
+    platformOS: string | undefined;
+    selfieCameraFeature: string | undefined;
+    sound: string | undefined;
+    battery: string | undefined;
+    batteryTalkTime: string | undefined;
+    launchAnnouncedYear: string | undefined;
+    displayResolution: string | undefined;
+    featuresSensors: string | undefined;
+
+    constructor(data?: IGsmCsvRow) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.brand = _data["brand"];
+            this.model = _data["model"];
+            this.networkTechnology = _data["networkTechnology"];
+            this.displaySize = _data["displaySize"];
+            this.display = _data["display"];
+            this.features = _data["features"];
+            this.memoryInternal = _data["memoryInternal"];
+            this.mainCameraSingle = _data["mainCameraSingle"];
+            this.body = _data["body"];
+            this.platformOS = _data["platformOS"];
+            this.selfieCameraFeature = _data["selfieCameraFeature"];
+            this.sound = _data["sound"];
+            this.battery = _data["battery"];
+            this.batteryTalkTime = _data["batteryTalkTime"];
+            this.launchAnnouncedYear = _data["launchAnnouncedYear"];
+            this.displayResolution = _data["displayResolution"];
+            this.featuresSensors = _data["featuresSensors"];
+        }
+    }
+
+    static fromJS(data: any): GsmCsvRow {
+        data = typeof data === 'object' ? data : {};
+        let result = new GsmCsvRow();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["brand"] = this.brand;
+        data["model"] = this.model;
+        data["networkTechnology"] = this.networkTechnology;
+        data["displaySize"] = this.displaySize;
+        data["display"] = this.display;
+        data["features"] = this.features;
+        data["memoryInternal"] = this.memoryInternal;
+        data["mainCameraSingle"] = this.mainCameraSingle;
+        data["body"] = this.body;
+        data["platformOS"] = this.platformOS;
+        data["selfieCameraFeature"] = this.selfieCameraFeature;
+        data["sound"] = this.sound;
+        data["battery"] = this.battery;
+        data["batteryTalkTime"] = this.batteryTalkTime;
+        data["launchAnnouncedYear"] = this.launchAnnouncedYear;
+        data["displayResolution"] = this.displayResolution;
+        data["featuresSensors"] = this.featuresSensors;
+        return data; 
+    }
+
+    clone(): GsmCsvRow {
+        const json = this.toJSON();
+        let result = new GsmCsvRow();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGsmCsvRow {
+    brand: string | undefined;
+    model: string | undefined;
+    networkTechnology: string | undefined;
+    displaySize: string | undefined;
+    display: string | undefined;
+    features: string | undefined;
+    memoryInternal: string | undefined;
+    mainCameraSingle: string | undefined;
+    body: string | undefined;
+    platformOS: string | undefined;
+    selfieCameraFeature: string | undefined;
+    sound: string | undefined;
+    battery: string | undefined;
+    batteryTalkTime: string | undefined;
+    launchAnnouncedYear: string | undefined;
+    displayResolution: string | undefined;
+    featuresSensors: string | undefined;
+}
+
+export class DropdownOutputDto implements IDropdownOutputDto {
+    id: number;
+    name: string | undefined;
+
+    constructor(data?: IDropdownOutputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): DropdownOutputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DropdownOutputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data; 
+    }
+
+    clone(): DropdownOutputDto {
+        const json = this.toJSON();
+        let result = new DropdownOutputDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDropdownOutputDto {
+    id: number;
+    name: string | undefined;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
@@ -3981,6 +4970,61 @@ export class UserDtoPagedResultDto implements IUserDtoPagedResultDto {
 export interface IUserDtoPagedResultDto {
     totalCount: number;
     items: UserDto[] | undefined;
+}
+
+export class UserLocationInputDto implements IUserLocationInputDto {
+    userId: number;
+    stateId: number;
+    cityId: number;
+    neighbourhoodId: number | undefined;
+
+    constructor(data?: IUserLocationInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userId = _data["userId"];
+            this.stateId = _data["stateId"];
+            this.cityId = _data["cityId"];
+            this.neighbourhoodId = _data["neighbourhoodId"];
+        }
+    }
+
+    static fromJS(data: any): UserLocationInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserLocationInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
+        data["stateId"] = this.stateId;
+        data["cityId"] = this.cityId;
+        data["neighbourhoodId"] = this.neighbourhoodId;
+        return data; 
+    }
+
+    clone(): UserLocationInputDto {
+        const json = this.toJSON();
+        let result = new UserLocationInputDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserLocationInputDto {
+    userId: number;
+    stateId: number;
+    cityId: number;
+    neighbourhoodId: number | undefined;
 }
 
 export class ApiException extends Error {
