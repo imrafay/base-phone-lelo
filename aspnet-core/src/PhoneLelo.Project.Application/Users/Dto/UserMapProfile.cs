@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PhoneLelo.Project.Authorization.Users;
+using PhoneLelo.Project.Product.Dto;
 
 namespace PhoneLelo.Project.Users.Dto
 {
@@ -14,6 +15,15 @@ namespace PhoneLelo.Project.Users.Dto
 
             CreateMap<CreateUserDto, User>();
             CreateMap<CreateUserDto, User>().ForMember(x => x.Roles, opt => opt.Ignore());
+        }
+    }
+    
+    
+    public class ProductAdvertProfile : Profile
+    {
+        public ProductAdvertProfile()
+        {
+            CreateMap<ProductAdvertDto, ProductAdvert>();
         }
     }
 }
