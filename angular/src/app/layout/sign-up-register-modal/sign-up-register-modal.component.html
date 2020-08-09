@@ -2,7 +2,7 @@
     aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
     <div class="modal-dialog modal-md">
         <div class="modal-content" *ngIf="active">
-            <form #signUpForm="ngForm" *ngIf="mobileForm == true">
+            <form #signUpForm="ngForm" *ngIf="mobileFormBool == true">
 
                 <div class="modal-body">
 
@@ -44,7 +44,7 @@
 
             </form>
 
-            <form #verificationForm="ngForm" *ngIf="mobileForm == false && verificationForm == true">
+            <form #verificationForm="ngForm" *ngIf="mobileFormBool == false && verificationFormBool == true">
 
                 <div class="modal-body">
 
@@ -74,15 +74,50 @@
                             <span>
                                 Next</span></button>
 
-                    </div>
 
+                    </div>
                 </div>
 
             </form>
-            <!-- <form #signUpDetailsForm="ngForm" *ngIf="signUpDetailForm == true
-            && mobileForm == false && verificationForm == false" #dd>
+            <!-- *ngIf="registerAsUserChoice == true" -->
+            <form #registerAsUserChoiceForm="ngForm" *ngIf="registerAsUserChoice == true">
+                <div class="modal-body">
 
-                <div class="modal-body" >
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div class="form-group text-center mt-100 mb-5">
+                        <img src="../../../assets/img/logo.png">
+                    </div>
+
+
+                    <div class="mb-50 text-center">
+
+                        <input name="inputShopOwner" type="radio" (change)="changeOption($event)" value="Individual">
+                        <label class="ml-1">Register as Individual</label>
+
+                    </div>
+                    <div class="text-center">
+                        <input name="inputShopOwner" type="radio" (change)="changeOption($event)" value="shopOwner">
+                        <label class="ml-1">Register as Shop Owner</label>
+                    </div>
+
+
+                    <div class="form-group text-center mb-100 mt-5">
+                        <button type="submit" class="btn nxtBtn" (click)="registerOption()"
+                            [disabled]="!inputRegisterOption">
+                            <span>
+                                Next</span></button>
+
+                    </div>
+
+                </div>
+            </form>
+
+            <form #signUpDetailsForm="ngForm" id="signUpDetail" *ngIf="signUpDetailFormBool == true">
+
+                <div class="modal-body">
 
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
                         <span aria-hidden="true">&times;</span>
@@ -114,7 +149,7 @@
 
                 </div>
 
-            </form> -->
+            </form>
 
         </div>
     </div>

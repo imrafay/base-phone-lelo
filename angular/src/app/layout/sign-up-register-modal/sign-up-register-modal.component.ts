@@ -11,17 +11,20 @@ import { AppComponentBase } from '@shared/app-component-base';
 })
 export class SignUpRegisterModalComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
+
   CreateUserDto = new CreateUserDto()
   active = false;
   saving = false;
-  mobileForm = true;
-  verificationForm = false;
-  signUpDetailForm = false;
+  mobileFormBool = true;
+  verificationFormBool = false;
+  signUpDetailFormBool = false;
   inputVerifyCode: string;
   inputNumber: string;
   inputEmail;
   inputPassword;
-  userId:any;
+  userId: any;
+  inputRegisterOption
+  registerAsUserChoice = false;
   constructor(private _UserServiceProxy: UserServiceProxy,
     injector: Injector,
     private _AppSessionService: AppSessionService,
@@ -30,24 +33,34 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
 
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+
   }
-  show(productDetailId?: number): void {
+  show(): void {
     this.active = true;
-    this.mobileForm = true;
+    this.mobileFormBool = true;
     this.inputNumber = '';
-    this.verificationForm = false;
-    this.signUpDetailForm = false;
+    this.verificationFormBool = false;
+    this.signUpDetailFormBool = false;
     this.modal.show();
 
   }
+  registerOption() {
+    this.signUpDetailFormBool = true;
+    this.mobileFormBool = false;
+    this.registerAsUserChoice = false;
+    this.verificationFormBool = false;
+  }
+
+  changeOption = (e) => this.inputRegisterOption = e.target.value;
 
   signUpNumber(): void {
-    this.mobileForm = false;
-    this.verificationForm = true;
+    // debugger
+    this.mobileFormBool = false;
+    this.verificationFormBool = true;
     this._UserServiceProxy.signUpUserByPhoneNumber(this.inputNumber, undefined).subscribe(res => {
+      this.userId = res;
       console.log(res)
-      this.userId=res;
     })
   }
 
@@ -62,37 +75,32 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
       event.preventDefault();
     }
   }
-  // signUpDetail() {
-  //   this.CreateUserDto.emailAddress = this.inputEmail;
-  //   this.CreateUserDto.userName = this.inputEmail;
-  //   this.CreateUserDto.name = this.inputEmail;
-  //   this.CreateUserDto.password = this.inputPassword;
-  //   this.CreateUserDto.surname = this.inputEmail;
-  //   this._UserServiceProxy.create(this.CreateUserDto).subscribe(res => {
-  //     setTimeout(() => {
-  //       this.notify.success(this.l('SuccessfullyRegistered'));
-  //       this.close()
-  //     }, 1000);
-  //   })
-  //   console.log(this.CreateUserDto)
-  // }
-  // userVerified = false;
-  sendVerificationCode() {
-    let userId = this.userId;
-    setTimeout(() => {
-      this._UserServiceProxy.verifyUserPhoneNumberPost(userId, this.inputVerifyCode).subscribe(res => {
-        console.log(res)
-        if (res == false) {
-          setTimeout(() => {
-            this.notify.success(this.l('SuccessfullyRegistered'));
-            this.close()
-          }, 1000);
-
-        }
+  signUpDetail() {
+    this.CreateUserDto.emailAddress = this.inputEmail;
+    this.CreateUserDto.userName = this.inputEmail;
+    this.CreateUserDto.name = this.inputEmail;
+    this.CreateUserDto.password = this.inputPassword;
+    this.CreateUserDto.surname = this.inputEmail;
+    this._UserServiceProxy.completeUserProfile(this.CreateUserDto.userName,
+      this.CreateUserDto.emailAddress, this.CreateUserDto.emailAddress, this.CreateUserDto.emailAddress,
+      true, this.CreateUserDto.emailAddress, undefined, undefined,
+      undefined, undefined).subscribe(res => {
+        setTimeout(() => {
+          this.notify.success(this.l('SuccessfullyRegistered'));
+          this.close()
+        }, 1000);
       })
-    }, 1000);
+    console.log(this.CreateUserDto)
+  }
 
+  sendVerificationCode() {
+    this._UserServiceProxy.verifyUserPhoneNumberPost(this.userId, this.inputVerifyCode).subscribe(res => {
+      console.log(res)
 
+    })
+    this.registerAsUserChoice = true
+    this.mobileFormBool = false;
+    this.verificationFormBool = false;
   }
   close(): void {
     this.active = false;
