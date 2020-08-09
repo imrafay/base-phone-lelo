@@ -3,6 +3,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { UserServiceProxy, CreateUserDto } from '@shared/service-proxies/service-proxies';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { AppComponentBase } from '@shared/app-component-base';
+import { LoginRegisterModalComponent } from '../login-register-modal/login-register-modal.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'signUpRegisterModal',
@@ -11,6 +13,7 @@ import { AppComponentBase } from '@shared/app-component-base';
 })
 export class SignUpRegisterModalComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
+  @ViewChild('loginRegisterModal', { static: true }) loginRegisterModal: LoginRegisterModalComponent;
 
   CreateUserDto = new CreateUserDto()
   active = false;
@@ -23,18 +26,26 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   inputEmail;
   inputPassword;
   userId: any;
-  inputRegisterOption
-  registerAsUserChoice = false;
   constructor(private _UserServiceProxy: UserServiceProxy,
     injector: Injector,
     private _AppSessionService: AppSessionService,
+    private _formBuilder: FormBuilder
   ) {
     super(injector);
 
   }
+  isEditable = false;
 
+  isLinear = false;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
   ngOnInit() {
-
+    this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
   }
   show(): void {
     this.active = true;
@@ -45,22 +56,14 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
     this.modal.show();
 
   }
-  registerOption() {
-    this.signUpDetailFormBool = true;
-    this.mobileFormBool = false;
-    this.registerAsUserChoice = false;
-    this.verificationFormBool = false;
-  }
-
-  changeOption = (e) => this.inputRegisterOption = e.target.value;
 
   signUpNumber(): void {
     // debugger
-    this.mobileFormBool = false;
-    this.verificationFormBool = true;
     this._UserServiceProxy.signUpUserByPhoneNumber(this.inputNumber, undefined).subscribe(res => {
       this.userId = res;
       console.log(res)
+      this.mobileFormBool = false;
+      this.verificationFormBool = true;
     })
   }
 
@@ -75,32 +78,50 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
       event.preventDefault();
     }
   }
-  signUpDetail() {
-    this.CreateUserDto.emailAddress = this.inputEmail;
-    this.CreateUserDto.userName = this.inputEmail;
-    this.CreateUserDto.name = this.inputEmail;
-    this.CreateUserDto.password = this.inputPassword;
-    this.CreateUserDto.surname = this.inputEmail;
-    this._UserServiceProxy.completeUserProfile(this.CreateUserDto.userName,
-      this.CreateUserDto.emailAddress, this.CreateUserDto.emailAddress, this.CreateUserDto.emailAddress,
-      true, this.CreateUserDto.emailAddress, undefined, undefined,
-      undefined, undefined).subscribe(res => {
-        setTimeout(() => {
-          this.notify.success(this.l('SuccessfullyRegistered'));
-          this.close()
-        }, 1000);
-      })
-    console.log(this.CreateUserDto)
-  }
-
+  // signUpDetail() {
+  //   this.CreateUserDto.emailAddress = this.inputEmail;
+  //   this.CreateUserDto.userName = this.inputEmail;
+  //   this.CreateUserDto.name = this.inputEmail;
+  //   this.CreateUserDto.password = this.inputPassword;
+  //   this.CreateUserDto.surname = this.inputEmail;
+  //   this._UserServiceProxy.create(this.CreateUserDto).subscribe(res => {
+  //     setTimeout(() => {
+  //       this.notify.success(this.l('SuccessfullyRegistered'));
+  //       this.close()
+  //     }, 1000);
+  //   })
+  //   console.log(this.CreateUserDto)
+  // }
+  // userVerified = false;
+  inputIndividual;
+  inputShopOwner;
+  registerAsUserChoice = false;
   sendVerificationCode() {
+
     this._UserServiceProxy.verifyUserPhoneNumberPost(this.userId, this.inputVerifyCode).subscribe(res => {
       console.log(res)
+      if (res == true) {
+        // debugger
+        this.registerAsUserChoice = true
+        // document.getElementById('signUpDetail').style.display='block'
+        this.mobileFormBool = false;
+        this.verificationFormBool = false;
+        // setTimeout(() => {
+        //   // this.notify.success(this.l('SuccessfullyRegistered'));
+        //   this.close()
+        //   this.loginRegisterModal.show()zz
+        // }, 1000);
+
+      }
+      else {
+        // document.getElementById('signUpDetail').style.display='none'
+      }
 
     })
-    this.registerAsUserChoice = true
-    this.mobileFormBool = false;
-    this.verificationFormBool = false;
+
+
+
+
   }
   close(): void {
     this.active = false;
