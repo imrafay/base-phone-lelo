@@ -22,6 +22,8 @@ using PhoneLelo.Project.Users.Dto;
 using Abp.Domain.Uow;
 using PhoneLelo.Project.Product.Dto;
 using PhoneLelo.Project.Import.MobilePhone;
+using Abp.Application.Services.Dto;
+using PhoneLelo.Project.Roles.Dto;
 
 namespace PhoneLelo.Project.Controllers
 {
@@ -76,14 +78,12 @@ namespace PhoneLelo.Project.Controllers
             long userId,
             string code)
         {
-            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
-            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
-            {
+            
                 return await _userAppService.VerifyUserPhoneNumber(
                  userId: userId,
                 verificationCode: code
                  );
-            }
+            
         }
 
 
@@ -130,6 +130,13 @@ namespace PhoneLelo.Project.Controllers
             {
                 await _userLocationAppService.UpdateUserLocation(input);
             }
+        }
+
+        [HttpGet]
+        public async Task<ListResultDto<RoleDto>> GetRoles()
+        {
+
+            return await _userAppService.GetRoles();
         }
     }
 }

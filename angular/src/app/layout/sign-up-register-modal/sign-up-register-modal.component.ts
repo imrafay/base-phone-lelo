@@ -21,6 +21,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   inputNumber: string;
   inputEmail;
   inputPassword;
+  userId:any;
   constructor(private _UserServiceProxy: UserServiceProxy,
     injector: Injector,
     private _AppSessionService: AppSessionService,
@@ -46,7 +47,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
     this.verificationForm = true;
     this._UserServiceProxy.signUpUserByPhoneNumber(this.inputNumber, undefined).subscribe(res => {
       console.log(res)
-
+      this.userId=res;
     })
   }
 
@@ -77,7 +78,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   // }
   // userVerified = false;
   sendVerificationCode() {
-    let userId = this._AppSessionService.userId
+    let userId = this.userId;
     setTimeout(() => {
       this._UserServiceProxy.verifyUserPhoneNumberPost(userId, this.inputVerifyCode).subscribe(res => {
         console.log(res)
