@@ -36,3 +36,10 @@ input[type=number] {
 .textWarning{
 color:#e91e63;
 }
+.mat-stepper-horizontal {
+    margin-top: 8px;
+  }
+  
+  .mat-form-field {
+    margin-top: 16px;
+  }
