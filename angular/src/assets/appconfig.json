@@ -1,5 +1,5 @@
 {
-  "remoteServiceBaseUrl": "https://EcsApi.tplexdev.com",
+  "remoteServiceBaseUrl": "http://phone-lelo.azurewebsites.net",
   "appBaseUrl": "http://localhost:4200",
   "localeMappings": [
     {

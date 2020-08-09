@@ -41,6 +41,8 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { AdminHeaderComponent } from './layout/admin-header.component';
 import { PublicHeaderComponent } from './layout/public-header.component';
 import { PublicHomeComponent } from './home/public-home.component';
+import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/sign-up-register-modal.component';
+import { CreateUserDto } from '@shared/service-proxies/service-proxies';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +74,7 @@ import { PublicHomeComponent } from './home/public-home.component';
     AdminHeaderComponent,
     PublicHeaderComponent,
     PublicHomeComponent,
+    SignUpRegisterModalComponent,
   ],
   imports: [
     CommonModule,

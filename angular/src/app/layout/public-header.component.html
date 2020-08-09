@@ -100,7 +100,10 @@
                     </li>
                 </ul>
                 <div class="post-btn">
-                    <a class="btn btn-common" href="post-ads.html"><i class="lni-pencil-alt"></i> Post an Ad</a>
+                    <a class="btn btn-common" 
+                    (click)="signUpRegisterModal.show()"
+                    ><i class="lni-pencil-alt"></i> 
+                        Post an Ad</a>
                 </div>
             </div>
         </div>
@@ -214,3 +217,4 @@
     </div>
 
 </header>
+<signUpRegisterModal #signUpRegisterModal ></signUpRegisterModal>    
