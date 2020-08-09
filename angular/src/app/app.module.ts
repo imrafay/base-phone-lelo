@@ -42,6 +42,7 @@ import { AdminHeaderComponent } from './layout/admin-header.component';
 import { PublicHeaderComponent } from './layout/public-header.component';
 import { PublicHomeComponent } from './home/public-home.component';
 import { CategoryComponent } from './category/category.component';
+import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/sign-up-register-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,6 +75,7 @@ import { CategoryComponent } from './category/category.component';
     PublicHeaderComponent,
     PublicHomeComponent,
     CategoryComponent,
+    SignUpRegisterModalComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,122 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content" *ngIf="active">
+            <form #signUpForm="ngForm" *ngIf="mobileForm == true">
+
+                <div class="modal-body">
+
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div class="form-group text-center mt-100 mb-5">
+                        <img src="../../../assets/img/logo.png">
+                    </div>
+
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="form-group mb-50">
+                        <input name="mobNumber" autoFocus class="form-control m-input inputNumber"
+                            [(ngModel)]="inputNumber" placeholder="03xxxxxxxxx" type="text" #number="ngModel"
+                            minlength="11" maxlength="11" required="required" (keydown)="validateNumber($event)">
+                        <div *ngIf="number.invalid" class="text-center textWarning">
+                            <div *ngIf="number.errors.minlength">
+                                number must be at least 11 digitss.
+                            </div>
+                            <div *ngIf="number.errors.maxlength">
+                                number must be at least 11 digits.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group text-center mb-100">
+                        <button type="submit" class="btn nxtBtn" (click)="signUpNumber()"
+                            [disabled]="!signUpForm.form.valid">
+                            <span>
+                                Next</span></button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+            <form #verificationForm="ngForm" *ngIf="mobileForm == false && verificationForm == true">
+
+                <div class="modal-body">
+
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div class="form-group text-center mt-100 mb-5">
+                        <img src="../../../assets/img/logo.png">
+                    </div>
+                    <div class="form-group mb-50">
+                        <input name="verificationCode" autoFocus [(ngModel)]="inputVerifyCode"
+                            class="form-control m-input inputNumber" placeholder="Verification Code" type="number">
+                        <label class="d-flex justify-content-center mt-1 verifyLabel">We just sent your authentication
+                            code at
+                            {{inputNumber}}
+
+                        </label>
+
+                        <!-- <div class="resetCode text-center" (click)="signUpNumber()">
+                            Resend code
+                        </div> -->
+                    </div>
+
+                    <div class="form-group text-center mb-100">
+                        <button type="submit" class="btn nxtBtn" (click)="sendVerificationCode()">
+                            <span>
+                                Next</span></button>
+
+                    </div>
+
+                </div>
+
+            </form>
+            <!-- <form #signUpDetailsForm="ngForm" *ngIf="signUpDetailForm == true
+            && mobileForm == false && verificationForm == false" #dd>
+
+                <div class="modal-body" >
+
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div class="form-group text-center mt-100 mb-5">
+                        <img src="../../../assets/img/logo.png">
+                    </div>
+
+
+                    <div class="form-group mb-50">
+                        <input name="email" class="form-control m-input inputNumber" type="text"
+                            placeholder="Email Address" [(ngModel)]="inputEmail">
+
+                    </div>
+                    <div class="form-group mb-50">
+                        <input name="password" class="form-control m-input inputNumber" type="password"
+                            placeholder="Password" [(ngModel)]="inputPassword">
+
+                    </div>
+
+
+                    <div class="form-group text-center mb-100">
+                        <button type="submit" class="btn nxtBtn" (click)="signUpDetail()">
+                            <span>
+                                Submit</span></button>
+
+                    </div>
+
+                </div>
+
+            </form> -->
+
+        </div>
+    </div>
+
+</div>
