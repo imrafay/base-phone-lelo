@@ -1,4 +1,8 @@
-import { Component, OnInit, ViewChild, Injector } from '@angular/core';
+import {
+  Component, OnInit, ViewChild, Injector, ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  ElementRef
+} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { UserServiceProxy, CreateUserDto } from '@shared/service-proxies/service-proxies';
 import { AppSessionService } from '@shared/session/app-session.service';
@@ -7,10 +11,13 @@ import { AppComponentBase } from '@shared/app-component-base';
 @Component({
   selector: 'signUpRegisterModal',
   templateUrl: './sign-up-register-modal.component.html',
-  styleUrls: ['./sign-up-register-modal.component.css']
+  styleUrls: ['./sign-up-register-modal.component.css'],
+  // changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class SignUpRegisterModalComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
+  @ViewChild('someElement', { static: false }) someElement: ElementRef;
 
   CreateUserDto = new CreateUserDto()
   active = false;
@@ -19,15 +26,19 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   verificationFormBool = false;
   signUpDetailFormBool = false;
   inputVerifyCode: string;
+  incorrectCode = false;
   inputNumber: string;
   inputEmail;
   inputPassword;
   userId: any;
   inputRegisterOption
   registerAsUserChoice = false;
+  inputName
+  inputSurName
   constructor(private _UserServiceProxy: UserServiceProxy,
     injector: Injector,
     private _AppSessionService: AppSessionService,
+    private cd: ChangeDetectorRef
   ) {
     super(injector);
 
@@ -56,11 +67,13 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
 
   signUpNumber(): void {
     // debugger
-    this.mobileFormBool = false;
-    this.verificationFormBool = true;
     this._UserServiceProxy.signUpUserByPhoneNumber(this.inputNumber, undefined).subscribe(res => {
       this.userId = res;
+      this.mobileFormBool = false;
+      this.verificationFormBool = true;
+      this.cd.detectChanges();
       console.log(res)
+
     })
   }
 
@@ -78,17 +91,15 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   signUpDetail() {
     this.CreateUserDto.emailAddress = this.inputEmail;
     this.CreateUserDto.userName = this.inputEmail;
-    this.CreateUserDto.name = this.inputEmail;
-    this.CreateUserDto.password = this.inputPassword;
-    this.CreateUserDto.surname = this.inputEmail;
+    this.CreateUserDto.name = this.inputName;
+    // this.CreateUserDto.password = this.inputPassword;
+    this.CreateUserDto.surname = this.inputSurName;
     this._UserServiceProxy.completeUserProfile(this.CreateUserDto.userName,
-      this.CreateUserDto.emailAddress, this.CreateUserDto.emailAddress, this.CreateUserDto.emailAddress,
-      true, this.CreateUserDto.emailAddress, undefined, undefined,
-      undefined, undefined).subscribe(res => {
-        setTimeout(() => {
-          this.notify.success(this.l('SuccessfullyRegistered'));
-          this.close()
-        }, 1000);
+      this.CreateUserDto.name, this.CreateUserDto.surname, this.CreateUserDto.emailAddress,
+      true, undefined, undefined, undefined,
+      undefined, null).subscribe(res => {
+        this.notify.success(this.l('SuccessfullyRegistered'));
+        this.cd.detectChanges();
       })
     console.log(this.CreateUserDto)
   }
@@ -96,11 +107,20 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   sendVerificationCode() {
     this._UserServiceProxy.verifyUserPhoneNumberPost(this.userId, this.inputVerifyCode).subscribe(res => {
       console.log(res)
+      if (res == true) {
+        this.registerAsUserChoice = true
+        this.mobileFormBool = false;
+        this.verificationFormBool = false;
+        this.cd.detectChanges();
 
+      }
+      else {
+        this.incorrectCode = true;
+        this.cd.detectChanges();
+
+      }
     })
-    this.registerAsUserChoice = true
-    this.mobileFormBool = false;
-    this.verificationFormBool = false;
+
   }
   close(): void {
     this.active = false;

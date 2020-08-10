@@ -44,7 +44,8 @@
 
             </form>
 
-            <form #verificationForm="ngForm" *ngIf="mobileFormBool == false && verificationFormBool == true">
+            <form #verificationForm="ngForm" *ngIf="mobileFormBool == false && verificationFormBool == true"
+                #someElement>
 
                 <div class="modal-body">
 
@@ -57,7 +58,8 @@
                     </div>
                     <div class="form-group mb-50">
                         <input name="verificationCode" autoFocus [(ngModel)]="inputVerifyCode"
-                            class="form-control m-input inputNumber" placeholder="Verification Code" type="text">
+                            class="form-control m-input inputNumber" placeholder="Verification Code" type="text"
+                            (keydown)="validateNumber($event)">
                         <label class="d-flex justify-content-center mt-1 verifyLabel">We just sent your authentication
                             code at
                             {{inputNumber}}
@@ -68,6 +70,7 @@
                             Resend code
                         </div> -->
                     </div>
+                    <div class="textWarning text-center" *ngIf="incorrectCode">Code is incorrect</div>
 
                     <div class="form-group text-center mb-100">
                         <button type="submit" class="btn nxtBtn" (click)="sendVerificationCode()">
@@ -80,7 +83,8 @@
 
             </form>
             <!-- *ngIf="registerAsUserChoice == true" -->
-            <form #registerAsUserChoiceForm="ngForm" *ngIf="registerAsUserChoice == true">
+            <form #registerAsUserChoiceForm="ngForm"
+                *ngIf="registerAsUserChoice == true && mobileFormBool == false && verificationFormBool == false">
                 <div class="modal-body">
 
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
@@ -115,7 +119,9 @@
                 </div>
             </form>
 
-            <form #signUpDetailsForm="ngForm" id="signUpDetail" *ngIf="signUpDetailFormBool == true">
+
+            <form #signUpDetailsForm="ngForm" *ngIf="signUpDetailFormBool == true &&
+            registerAsUserChoice == false && mobileFormBool == false && verificationFormBool == false">
 
                 <div class="modal-body">
 
@@ -129,15 +135,38 @@
 
 
                     <div class="form-group mb-50">
-                        <input name="email" class="form-control m-input inputNumber" type="text"
-                            placeholder="Email Address" [(ngModel)]="inputEmail">
-
+                        <input name="name" class="form-control m-input inputNumber" type="text" placeholder="First Name"
+                            [(ngModel)]="inputName" #name="ngModel">
+                        <div *ngIf="name.invalid" class="text-center textWarning">
+                            <div *ngIf="name.errors.required">
+                                Name is required
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group mb-50">
-                        <input name="password" class="form-control m-input inputNumber" type="password"
-                            placeholder="Password" [(ngModel)]="inputPassword">
-
+                        <input name="surName" class="form-control m-input inputNumber" type="text"
+                            placeholder="Last Name" [(ngModel)]="inputSurName" #surName="ngModel">
+                        <div *ngIf="surName.invalid" class="text-center textWarning">
+                            <div *ngIf="surName.errors.required">
+                                Last Name is required
+                            </div>
+                        </div>
                     </div>
+                    <div class="form-group mb-50">
+                        <input name="EmailAddress" class="form-control m-input inputNumber" type="text"
+                            placeholder="Email Address" [(ngModel)]="inputEmail"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required #EmailAddress="ngModel">
+                        <div *ngIf="EmailAddress.invalid && (EmailAddress.dirty || EmailAddress.touched)"
+                            class="textWarning text-center">
+                            <div *ngIf="EmailAddress.errors.required">
+                                Email Address is required.
+                            </div>
+                            <div *ngIf="EmailAddress.errors.pattern">
+                                Email Address is incorrect.
+                            </div>
+                        </div>
+                    </div>
+
 
 
                     <div class="form-group text-center mb-100">
