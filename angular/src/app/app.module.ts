@@ -46,6 +46,7 @@ import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/si
 
 //primeng
 import {DropdownModule} from 'primeng/dropdown';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -95,9 +96,10 @@ import {DropdownModule} from 'primeng/dropdown';
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
-    
+
     //primeng
     DropdownModule,
+    ProgressSpinnerModule,
   ],
   providers: [],
   entryComponents: [

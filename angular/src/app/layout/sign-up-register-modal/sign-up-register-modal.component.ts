@@ -18,32 +18,32 @@ import { SelectItem } from 'primeng/api';
 })
 export class SignUpRegisterModalComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
-  @ViewChild('someElement', { static: false }) someElement: ElementRef;
 
   CreateUserDto = new CreateUserDto();
-  states: DropdownOutputDto[]=[];
-  roles:RoleDto[]=[];
-  city: DropdownOutputDto[]=[];
-  neighbourhood: DropdownOutputDto[]=[];
-  selectedState: DropdownOutputDto[]=[];
-  selectedCity: DropdownOutputDto[]=[];
-  selectedNeighbourhood: DropdownOutputDto[]=[];
-  active = false;
-  saving = false;
-  mobileFormBool = true;
-  verificationFormBool = false;
-  locationDetailForm = false;
-  signUpDetailFormBool = false;
+  states: DropdownOutputDto[] = [];
+  roles: RoleDto[] = [];
+  city: DropdownOutputDto[] = [];
+  neighbourhood: DropdownOutputDto[] = [];
+  selectedState: DropdownOutputDto[] = [];
+  selectedCity: DropdownOutputDto[] = [];
+  selectedNeighbourhood: DropdownOutputDto[] = [];
+  active: Boolean = false;
+  saving: Boolean = false;
+  mobileFormBool: Boolean = true;
+  verificationFormBool: Boolean = false;
+  locationDetailForm: Boolean = false;
+  signUpDetailFormBool: Boolean = false;
   inputVerifyCode: string;
-  incorrectCode = false;
+  incorrectCode: Boolean = false;
   inputNumber: string;
-  inputEmail;
-  inputPassword;
+  inputEmail: string = '';
+  inputPassword: string = '';
   userId: any;
   inputRegisterOption
-  registerAsUserChoice = false;
-  inputName
-  inputSurName
+  registerAsUserChoice: Boolean = false;
+  inputName: string = '';
+  inputSurName: string = '';
+
   constructor(private _UserServiceProxy: UserServiceProxy,
     injector: Injector,
     private _AppSessionService: AppSessionService,
@@ -80,12 +80,14 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   changeRole = (e) => this.inputRegisterOption = e.target.value;
 
   signUpNumber(): void {
-    // debugger
+
     this._UserServiceProxy.signUpUserByPhoneNumber(this.inputNumber, undefined).subscribe(res => {
       this.userId = res;
       this.mobileFormBool = false;
       this.verificationFormBool = true;
       this.cd.detectChanges();
+
+
       console.log(res)
 
     })
@@ -103,6 +105,8 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
     }
   }
   signUpDetail() {
+
+
     this.CreateUserDto.emailAddress = this.inputEmail;
     this.CreateUserDto.userName = this.inputEmail;
     this.CreateUserDto.name = this.inputName;
@@ -115,12 +119,15 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
     //     this.notify.success(this.l('SuccessfullyRegistered'));
     //     this.cd.detectChanges();
     //   })
+
     this.signUpDetailFormBool = false;
     this.locationDetailForm = true;
     console.log(this.CreateUserDto)
+
   }
 
   sendVerificationCode() {
+
     this._UserServiceProxy.verifyUserPhoneNumberPost(this.userId, this.inputVerifyCode).subscribe(res => {
       console.log(res)
       if (res == true) {
@@ -128,7 +135,6 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
         this.mobileFormBool = false;
         this.verificationFormBool = false;
         this.cd.detectChanges();
-
       }
       else {
         this.incorrectCode = true;
