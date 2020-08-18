@@ -43,6 +43,10 @@ import { PublicHeaderComponent } from './layout/public-header.component';
 import { PublicHomeComponent } from './home/public-home.component';
 import { CategoryComponent } from './category/category.component';
 import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/sign-up-register-modal.component';
+
+//primeng
+import {DropdownModule} from 'primeng/dropdown';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,6 +95,9 @@ import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/si
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
+    
+    //primeng
+    DropdownModule,
   ],
   providers: [],
   entryComponents: [

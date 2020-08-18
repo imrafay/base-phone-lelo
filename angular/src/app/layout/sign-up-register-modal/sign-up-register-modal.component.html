@@ -66,9 +66,6 @@
 
                         </label>
 
-                        <!-- <div class="resetCode text-center" (click)="signUpNumber()">
-                            Resend code
-                        </div> -->
                     </div>
                     <div class="textWarning text-center" *ngIf="incorrectCode">Code is incorrect</div>
 
@@ -82,9 +79,8 @@
                 </div>
 
             </form>
-            <!-- *ngIf="registerAsUserChoice == true" -->
             <form #registerAsUserChoiceForm="ngForm"
-                *ngIf="registerAsUserChoice == true && mobileFormBool == false && verificationFormBool == false">
+                *ngIf="registerAsUserChoice == true  && verificationFormBool == false">
                 <div class="modal-body">
 
                     <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
@@ -96,17 +92,12 @@
                     </div>
 
 
-                    <div class="mb-50 text-center">
+                    <div class="mb-50 text-center" *ngFor="let role of roles">
 
-                        <input name="inputShopOwner" type="radio" (change)="changeOption($event)" value="Individual">
-                        <label class="ml-1">Register as Individual</label>
+                        <input name="selectRole" type="radio" (change)="changeRole($event)" value="{{role.id}}">
+                        <label class="ml-1">Register as {{role.name}}</label>
 
                     </div>
-                    <div class="text-center">
-                        <input name="inputShopOwner" type="radio" (change)="changeOption($event)" value="shopOwner">
-                        <label class="ml-1">Register as Shop Owner</label>
-                    </div>
-
 
                     <div class="form-group text-center mb-100 mt-5">
                         <button type="submit" class="btn nxtBtn" (click)="registerOption()"
@@ -121,7 +112,7 @@
 
 
             <form #signUpDetailsForm="ngForm" *ngIf="signUpDetailFormBool == true &&
-            registerAsUserChoice == false && mobileFormBool == false && verificationFormBool == false">
+            registerAsUserChoice == false">
 
                 <div class="modal-body">
 
@@ -172,7 +163,7 @@
                     <div class="form-group text-center mb-100">
                         <button type="submit" class="btn nxtBtn" (click)="signUpDetail()">
                             <span>
-                                Submit</span></button>
+                                Next</span></button>
 
                     </div>
 
@@ -180,6 +171,55 @@
 
             </form>
 
+
+
+            <form #signUpDetailsForm="ngForm" *ngIf="locationDetailForm == true &&
+            signUpDetailFormBool == false">
+
+                <div class="modal-body">
+
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div class="form-group text-center mt-100 mb-5">
+                        <img src="../../../assets/img/logo.png">
+                    </div>
+
+
+                    <div class="form-group mb-50 text-center">
+                        <p-dropdown [options]="states" [(ngModel)]="selectedState" optionLabel="name" name="states"
+                            [style]="{'width':'50%'}" (onChange)="onStateSelect()" placeholder="Select a State">
+                        </p-dropdown>
+
+                    </div>
+
+                    <div class="form-group mb-50 text-center" *ngIf="city && city.length > 0">
+                        <p-dropdown [options]="city" [(ngModel)]="selectedCity" optionLabel="name" name="city"
+                            [style]="{'width':'50%'}" placeholder="Select a City" (onChange)="onCitySelect()">
+                        </p-dropdown>
+
+                    </div>
+
+                    <div class="form-group mb-50 text-center" *ngIf="neighbourhood && neighbourhood.length > 0">
+                        <p-dropdown [options]="neighbourhood" [(ngModel)]="selectedNeighbourhood" optionLabel="name"
+                            name="neighbourhood" [style]="{'width':'50%'}" placeholder="Select a Neighbourhood">
+                        </p-dropdown>
+
+                    </div>
+
+
+
+                    <div class="form-group text-center mb-100">
+                        <button type="submit" class="btn nxtBtn" [disabled]="!isValid()" (click)="saveLocation()">
+                            <span>
+                                Submit</span></button>
+
+                    </div>
+
+                </div>
+
+            </form>
         </div>
     </div>
 
