@@ -43,6 +43,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   registerAsUserChoice: Boolean = false;
   inputName: string = '';
   inputSurName: string = '';
+  phoneCode = '03';
 
   constructor(private _UserServiceProxy: UserServiceProxy,
     injector: Injector,
@@ -81,7 +82,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
 
   signUpNumber(): void {
 
-    this._UserServiceProxy.signUpUserByPhoneNumber(this.inputNumber, undefined).subscribe(res => {
+    this._UserServiceProxy.signUpUserByPhoneNumber(this.phoneCode + this.inputNumber, undefined).subscribe(res => {
       this.userId = res;
       this.mobileFormBool = false;
       this.verificationFormBool = true;
@@ -106,22 +107,23 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   }
   signUpDetail() {
 
-
     this.CreateUserDto.emailAddress = this.inputEmail;
     this.CreateUserDto.userName = this.inputEmail;
     this.CreateUserDto.name = this.inputName;
     // this.CreateUserDto.password = this.inputPassword;
     this.CreateUserDto.surname = this.inputSurName;
-    // this._UserServiceProxy.completeUserProfile(this.CreateUserDto.userName,
-    //   this.CreateUserDto.name, this.CreateUserDto.surname, this.CreateUserDto.emailAddress,
-    //   true, undefined, undefined, undefined,
-    //   undefined, null).subscribe(res => {
-    //     this.notify.success(this.l('SuccessfullyRegistered'));
-    //     this.cd.detectChanges();
-    //   })
+    this._UserServiceProxy.completeUserProfile(this.CreateUserDto.userName,
+      this.CreateUserDto.name, this.CreateUserDto.surname, this.CreateUserDto.emailAddress,
+      true, undefined, undefined, undefined,
+      undefined, this.userId).subscribe(res => {
+        console.log(res)
+        this.locationDetailForm = true;
+        this.signUpDetailFormBool = false;
+        this.notify.success(this.l('SuccessfullyRegistered'));
+        this.cd.detectChanges();
 
-    this.signUpDetailFormBool = false;
-    this.locationDetailForm = true;
+      })
+
     console.log(this.CreateUserDto)
 
   }
@@ -177,6 +179,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   getAllNeighbourhood() {
     this._UserServiceProxy.getNeighbourhoodsByCityId(this.selectedCity['id']).subscribe(res => {
       this.neighbourhood = res;
+      console.log(res)
       this.cd.detectChanges();
     })
   }
@@ -195,16 +198,33 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
     this.cd.detectChanges();
   }
   isValid() {
-    return (
-      this.selectedNeighbourhood &&
-      this.selectedCity &&
-      this.selectedState
-    )
+    if (this.selectedCity &&
+      this.selectedState && this.selectedNeighbourhood.length == 0 && this.neighbourhood.length == 0)
+      return (
+        this.selectedCity['id'] &&
+        this.selectedState['id']
+      )
+    if (this.selectedCity &&
+      this.selectedState && this.selectedNeighbourhood)
+      return (
+        this.selectedCity['id'] &&
+        this.selectedState['id'] &&
+        this.selectedNeighbourhood['id']
+      )
+
   }
   saveLocation() {
     console.log(this.selectedNeighbourhood,
       this.selectedCity,
       this.selectedState)
+    this._UserServiceProxy.updateUserLocation(this.userId, this.selectedState['id'], this.selectedCity['id'],
+      this.selectedNeighbourhood['id'] ? this.selectedNeighbourhood['id'] : null).subscribe(res => {
+        console.log(res)
+        this.notify.success(('Location Updated'));
+        setTimeout(() => this.close(), 2000);
+        this.cd.detectChanges();
+      })
+
   }
 
   close(): void {
