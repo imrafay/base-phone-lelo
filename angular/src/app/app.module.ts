@@ -42,6 +42,11 @@ import { AdminHeaderComponent } from './layout/admin-header.component';
 import { PublicHeaderComponent } from './layout/public-header.component';
 import { PublicHomeComponent } from './home/public-home.component';
 import { CategoryComponent } from './category/category.component';
+import { MatSliderModule } from '@angular/material/slider';
+import {MatButtonModule} from '@angular/material/button';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/sign-up-register-modal.component';
 
 //primeng
@@ -84,9 +89,11 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
   ],
   imports: [
     CommonModule,
-    FormsModule,
+    FormsModule,MatSliderModule,
+    MatButtonModule,MatStepperModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    
+    HttpClientModule,MatFormFieldModule,
     HttpClientJsonpModule,
     ModalModule.forChild(),
     BsDropdownModule,
