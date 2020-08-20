@@ -18,6 +18,7 @@ using Rhithm.Storage.FileManagement;
 
 namespace PhoneLelo.Project.Controllers
 {
+    [Route("api/[controller]/[action]")]
     public class FileController : ProjectControllerBase
     {
         private readonly ITempFileCacheManager _tempFileCacheManager;
@@ -99,14 +100,14 @@ namespace PhoneLelo.Project.Controllers
             }
         }
 
-        static double ConvertBytesToMegabytes(long bytes)
+        private static double ConvertBytesToMegabytes(long bytes)
         {
             return (bytes / 1024f) / 1024f;
         }
 
 
         [DisableAuditing]
-        public ActionResult DownloadTempFile(FileDto file)
+        private ActionResult DownloadTempFile(FileDto file)
         {
             var fileBytes = _tempFileCacheManager.GetFile(file.FileToken);
             if (fileBytes == null)
@@ -118,7 +119,7 @@ namespace PhoneLelo.Project.Controllers
         }
 
         [DisableAuditing]
-        public async Task<ActionResult> DownloadBinaryFile(Guid id, string contentType, string fileName)
+        private async Task<ActionResult> DownloadBinaryFile(Guid id, string contentType, string fileName)
         {
             var fileObject = await _binaryObjectManager.GetOrNullAsync(id);
             if (fileObject == null)
