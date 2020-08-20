@@ -18,6 +18,7 @@ using PhoneLelo.Project.Authorization.Users;
 using PhoneLelo.Project.Models.TokenAuth;
 using PhoneLelo.Project.MultiTenancy;
 using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 
 namespace PhoneLelo.Project.Controllers
 {
@@ -40,7 +41,7 @@ namespace PhoneLelo.Project.Controllers
             TokenAuthConfiguration configuration,
             IExternalAuthConfiguration externalAuthConfiguration,
             IExternalAuthManager externalAuthManager,
-            UserRegistrationManager userRegistrationManager, IRepository<User,long> userRepository)
+            UserRegistrationManager userRegistrationManager, IRepository<User, long> userRepository)
         {
             _logInManager = logInManager;
             _tenantCache = tenantCache;
@@ -55,30 +56,35 @@ namespace PhoneLelo.Project.Controllers
         [HttpPost]
         public async Task<AuthenticateResultModel> Authenticate([FromBody] AuthenticateModel model)
         {
-            var user = await _userRepository.FirstOrDefaultAsync(x => 
-            x.PhoneNumber == model.PhoneNumber &&
-            x.PhoneNumberCode == model.Code);
-
-            if (user==null)
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
             {
-                throw new UserFriendlyException($"Register this {model.PhoneNumber}");
+                var user = await _userRepository.FirstOrDefaultAsync(x =>
+            (x.PhoneNumber == model.UserNameOrEmailAddress &&
+            x.PhoneNumberCode == model.Password) ||
+            x.UserName == model.UserNameOrEmailAddress);//TODO: For Admin Login 
+
+                if (user == null)
+                {
+                    throw new UserFriendlyException($"Register this {model.UserNameOrEmailAddress}");
+                }
+
+                var loginResult = await GetLoginResultAsync(
+                    user.UserName,
+                    AppConsts.DefaultUserPassword,
+                    GetTenancyNameOrNull()
+                );
+
+                var accessToken = CreateAccessToken(CreateJwtClaims(loginResult.Identity));
+
+                return new AuthenticateResultModel
+                {
+                    AccessToken = accessToken,
+                    EncryptedAccessToken = GetEncryptedAccessToken(accessToken),
+                    ExpireInSeconds = (int)_configuration.Expiration.TotalSeconds,
+                    UserId = loginResult.User.Id
+                };
             }
-
-            var loginResult = await GetLoginResultAsync(
-                user.UserName,
-                AppConsts.DefaultUserPassword,
-                GetTenancyNameOrNull()
-            );
-
-            var accessToken = CreateAccessToken(CreateJwtClaims(loginResult.Identity));
-
-            return new AuthenticateResultModel
-            {
-                AccessToken = accessToken,
-                EncryptedAccessToken = GetEncryptedAccessToken(accessToken),
-                ExpireInSeconds = (int)_configuration.Expiration.TotalSeconds,
-                UserId = loginResult.User.Id
-            };
         }
 
         [HttpGet]
