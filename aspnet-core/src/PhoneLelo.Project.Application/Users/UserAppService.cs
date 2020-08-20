@@ -127,10 +127,15 @@ namespace PhoneLelo.Project.Users
             await _userManager.DeleteAsync(user);
         }
 
+        [AbpAllowAnonymous]
         public async Task<ListResultDto<RoleDto>> GetRoles()
         {
-            var roles = await _roleRepository.GetAllListAsync();
-            return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+            {
+                var roles = await _roleRepository.GetAllListAsync();
+                return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
+            }        
         }
 
         public async Task ChangeLanguage(ChangeUserLanguageDto input)
@@ -278,9 +283,9 @@ namespace PhoneLelo.Project.Users
             using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
             using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
             {
-                if (roleName != null)
+                if (!phoneNumber.IsNullOrEmpty())
                 {
-                    var roleNames = new List<string>() { roleName };
+                    var roleNames = new List<string>() { StaticRoleNames.Tenants.Seller };
                     using (AbpSession.Use(_tenantId, user.Id))
                     {
                         await _userManager.SetRolesAsync(user, roleNames.ToArray());
@@ -300,14 +305,17 @@ namespace PhoneLelo.Project.Users
             long userId,
             string verificationCode)
         {
-            var user = await _userManager.GetUserByIdAsync(userId);
-            if (user != null && user.PhoneNumberCode == verificationCode)
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
             {
-                user.IsPhoneNumberConfirmed = true;
-                await _userManager.UpdateAsync(user);
-                return true;
+                var user = await _userManager.GetUserByIdAsync(userId);
+                if (user != null && user.PhoneNumberCode == verificationCode)
+                {
+                    user.IsPhoneNumberConfirmed = true;
+                    await _userManager.UpdateAsync(user);
+                    return true;
+                }
             }
-
             return false;
         }
 

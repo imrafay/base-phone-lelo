@@ -45,7 +45,10 @@
                             "node_modules/sweetalert2/dist/sweetalert2.css",
                             "src/assets/freeze-ui/freeze-ui.css",
                             "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-                            "src/shared/core.less"
+                            "src/shared/core.less",
+                            "node_modules/primeng/resources/primeng.min.css",
+                            "node_modules/primeng/resources/themes/nova/theme.css",
+                            "node_modules/primeicons/primeicons.css"
                         ],
                         "scripts": [
                             "src/assets/cloudflare-static/email-decode.min.js",
@@ -159,7 +162,10 @@
                             "node_modules/sweetalert2/dist/sweetalert2.css",
                             "src/assets/freeze-ui/freeze-ui.css",
                             "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-                            "src/shared/core.less"
+                            "src/shared/core.less",
+                            "node_modules/primeng/resources/primeng.min.css",
+                            "node_modules/primeng/resources/theme-light/theme.css",
+                            "node_modules/primeicons/primeicons.css"
                         ],
                         "scripts": [
 
