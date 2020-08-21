@@ -1,13 +1,16 @@
 import {
   Component, OnInit, ViewChild, Injector, ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ElementRef
+  ElementRef,
+  EventEmitter,
+  Output
 } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { UserServiceProxy, CreateUserDto, DropdownOutputDto, RoleDto } from '@shared/service-proxies/service-proxies';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { AppComponentBase } from '@shared/app-component-base';
-import { SelectItem } from 'primeng/api';
+import { CreateUserLocationComponent } from '@shared/components/create-user-location/create-user-location.component';
+import { AppAuthService } from '@shared/auth/app-auth.service';
 
 @Component({
   selector: 'signUpRegisterModal',
@@ -18,15 +21,15 @@ import { SelectItem } from 'primeng/api';
 })
 export class SignUpRegisterModalComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
+  @ViewChild('appcreateuserlocation', { static: true }) appcreateuserlocation: CreateUserLocationComponent;
 
   CreateUserDto = new CreateUserDto();
-  states: DropdownOutputDto[] = [];
   roles: RoleDto[] = [];
-  city: DropdownOutputDto[] = [];
-  neighbourhood: DropdownOutputDto[] = [];
-  selectedState: DropdownOutputDto[] = [];
-  selectedCity: DropdownOutputDto[] = [];
-  selectedNeighbourhood: DropdownOutputDto[] = [];
+
+  neighbourhood: number = 0;
+  selectedState: string = ''
+  selectedCity: string = ''
+  selectedNeighbourhood: string = ''
   active: Boolean = false;
   saving: Boolean = false;
   mobileFormBool: Boolean = true;
@@ -45,19 +48,25 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   inputSurName: string = '';
   phoneCode = '03';
 
+  @Output() newItemEvent = new EventEmitter<string>();
+
+
   constructor(private _UserServiceProxy: UserServiceProxy,
     injector: Injector,
     private _AppSessionService: AppSessionService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    public authService: AppAuthService,
+
   ) {
     super(injector);
+    console.log(this.appSession)
 
   }
 
   ngOnInit() {
     this.getRoles()
 
-    this.getAllStates();
+    // this.getAllStates();
   }
   show(): void {
     this.active = true;
@@ -105,6 +114,17 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
       event.preventDefault();
     }
   }
+  onSelectDropdown(valuesArray): void {
+    console.log(valuesArray)
+    if (valuesArray) {
+      this.selectedState = valuesArray[0];
+      this.selectedCity = valuesArray[1];
+      this.selectedNeighbourhood = valuesArray[2];
+      this.neighbourhood = valuesArray[3];
+    }
+
+    // this.isValid(valuesArray)
+  }
   signUpDetail() {
 
     this.CreateUserDto.emailAddress = this.inputEmail;
@@ -148,7 +168,6 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   }
 
   getRoles() {
-
     this._UserServiceProxy.getRoles().subscribe(res => {
       this.roles = res.items;
       console.log(this.roles)
@@ -157,49 +176,12 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
     })
   }
 
-  getAllStates() {
 
-    this._UserServiceProxy.getStates().subscribe(res => {
-      this.states = res;
-      console.log(this.states)
-      this.cd.detectChanges();
-
-    })
-    console.log(this.city)
-  }
-  getAllCities() {
-
-    this._UserServiceProxy.getCitiesByStateId(this.selectedState['id']).subscribe(res => {
-      this.city = res;
-      this.cd.detectChanges();
-
-    })
-  }
-
-  getAllNeighbourhood() {
-    this._UserServiceProxy.getNeighbourhoodsByCityId(this.selectedCity['id']).subscribe(res => {
-      this.neighbourhood = res;
-      console.log(res)
-      this.cd.detectChanges();
-    })
-  }
-  onStateSelect() {
-    if (this.selectedState) {
-      this.getAllCities();
-
-    }
-  }
-
-  onCitySelect() {
-    if (this.selectedCity) {
-      this.getAllNeighbourhood();
-
-    }
-    this.cd.detectChanges();
-  }
   isValid() {
+    // console.log(valuesArray)
+    console.log(this.neighbourhood)
     if (this.selectedCity &&
-      this.selectedState && this.selectedNeighbourhood.length == 0 && this.neighbourhood.length == 0)
+      this.selectedState && this.selectedNeighbourhood.length == 0 && this.neighbourhood == 0)
       return (
         this.selectedCity['id'] &&
         this.selectedState['id']
@@ -213,19 +195,25 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
       )
 
   }
+
   saveLocation() {
     console.log(this.selectedNeighbourhood,
       this.selectedCity,
       this.selectedState)
-    this._UserServiceProxy.updateUserLocation(this.userId, this.selectedState['id'], this.selectedCity['id'],
+    this._UserServiceProxy.updateUserLocation(22, this.selectedState['id'], this.selectedCity['id'],
       this.selectedNeighbourhood['id'] ? this.selectedNeighbourhood['id'] : null).subscribe(res => {
         console.log(res)
         this.notify.success(('Location Updated'));
-        setTimeout(() => this.close(), 2000);
+        this.authService.authenticateModel.password=this.inputVerifyCode
+        this.authService.authenticateModel.userNameOrEmailAddress=this.inputEmail
+        this.authService.authenticateModel.rememberClient=true;
+        this.authService.authenticate(() => console.log('res'));
+        // setTimeout(() => this.close(), 2000);
         this.cd.detectChanges();
       })
 
   }
+
 
   close(): void {
     this.active = false;

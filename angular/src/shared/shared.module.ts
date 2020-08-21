@@ -17,12 +17,18 @@ import { LayoutStoreService } from './layout/layout-store.service';
 
 import { BusyDirective } from './directives/busy.directive';
 import { EqualValidator } from './directives/equal-validator.directive';
+import { CreateUserLocationComponent } from './components/create-user-location/create-user-location.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
         RouterModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        DropdownModule,
+
     ],
     declarations: [
         AbpPaginationControlsComponent,
@@ -31,7 +37,8 @@ import { EqualValidator } from './directives/equal-validator.directive';
         AbpModalFooterComponent,
         LocalizePipe,
         BusyDirective,
-        EqualValidator
+        EqualValidator,
+        CreateUserLocationComponent
     ],
     exports: [
         AbpPaginationControlsComponent,
@@ -40,7 +47,8 @@ import { EqualValidator } from './directives/equal-validator.directive';
         AbpModalFooterComponent,
         LocalizePipe,
         BusyDirective,
-        EqualValidator
+        EqualValidator,
+        CreateUserLocationComponent,
     ]
 })
 export class SharedModule {
