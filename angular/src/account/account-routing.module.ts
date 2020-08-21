@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AccountComponent } from './account.component';
+import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 
 @NgModule({
     imports: [
@@ -11,7 +12,7 @@ import { AccountComponent } from './account.component';
                 path: '',
                 component: AccountComponent,
                 children: [
-                    { path: 'login', component: LoginComponent },
+                    { path: 'login', component: LoginComponent ,canActivate: [AppRouteGuard]  },
                     { path: 'register', component: RegisterComponent }
                 ]
             }

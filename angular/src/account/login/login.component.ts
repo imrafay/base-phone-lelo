@@ -17,6 +17,7 @@ export class LoginComponent extends AppComponentBase {
     private _sessionService: AbpSessionService
   ) {
     super(injector);
+    console.log(this.appSession)
   }
 
   get multiTenancySideIsTeanant(): boolean {
@@ -32,6 +33,7 @@ export class LoginComponent extends AppComponentBase {
   }
 
   login(): void {
+    debugger
     this.submitting = true;
     this.authService.authenticate(() => (this.submitting = false));
   }

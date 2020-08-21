@@ -7,12 +7,18 @@
 
                     <ul class="list-inline">
                         <li><i class="lni-phone"></i> +0123 456 789</li>
-                        <li><i class="lni-envelope"></i> <a href="http://preview.uideck.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5e2d2b2e2e312c2a1e39333f3732703d3133">[email&#160;protected]</a></li>
+                        <li><i class="lni-envelope"></i> <a href="http://preview.uideck.com/cdn-cgi/l/email-protection"
+                                class="__cf_email__"
+                                data-cfemail="5e2d2b2e2e312c2a1e39333f3732703d3133">[email&#160;protected]</a></li>
                     </ul>
 
                 </div>
                 <div class="col-lg-5 col-md-7 col-xs-12">
                     <div class="roof-social float-right">
+                        <a routerLink="/account/login" class="header-top-button" *ngIf="!isUserValid"><i
+                                class="lni-lock"></i> Log In</a>
+                        <a routerLink="/account/login" class="header-top-button" (click)="logout()" *ngIf="isUserValid">
+                            <i class="lni-lock"></i> Logout</a>
                         <a class="facebook" href="#"><i class="lni-facebook-filled"></i></a>
                         <a class="twitter" href="#"><i class="lni-twitter-filled"></i></a>
                         <a class="instagram" href="#"><i class="lni-instagram-filled"></i></a>
@@ -20,7 +26,7 @@
                         <a class="google" href="#"><i class="lni-google-plus"></i></a>
                     </div>
                     <div class="header-top-right float-right">
-                        <a href="login.html" class="header-top-button"><i class="lni-lock"></i> Log In</a> |
+                        <!-- <a href="login.html" class="header-top-button"><i class="lni-lock"></i> Log In</a> | -->
                         <a href="register.html" class="header-top-button"><i class="lni-pencil"></i> Register</a>
                     </div>
                 </div>
@@ -33,30 +39,32 @@
         <div class="container">
 
             <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-  <span class="lni-menu"></span>
-  <span class="lni-menu"></span>
-  <span class="lni-menu"></span>
-  </button>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
+                    aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="lni-menu"></span>
+                    <span class="lni-menu"></span>
+                    <span class="lni-menu"></span>
+                </button>
                 <a href="index-2.html" class="navbar-brand"><img src="assets/img/logo.png" alt=""></a>
             </div>
             <div class="collapse navbar-collapse" id="main-navbar">
                 <ul class="navbar-nav mr-auto w-100 justify-content-center">
                     <li class="nav-item active">
                         <a class="nav-link" href="/" aria-haspopup="true" aria-expanded="false">
-  Home
-  </a>
+                            Home
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" [routerLink]="['/app/category']">
-  Categories
-  </a>
+                            Categories
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Listings
-  </a>
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Listings
+                        </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="adlistinggrid.html">Ad Grid</a>
                             <a class="dropdown-item" href="adlistinglist.html">Ad Listing</a>
@@ -64,14 +72,15 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Pages
-  </a>
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Pages
+                        </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="about.html">About Us</a>
                             <a class="dropdown-item" href="services.html">Services</a>
                             <a class="dropdown-item" href="ads-details.html">Ads Details</a>
-                            <a class="dropdown-item" href="post-ads.html">Ads Post</a>
+                            <a class="dropdown-item" routerLink="/app/main/add-post">Ads Post</a>
                             <a class="dropdown-item" href="pricing.html">Packages</a>
                             <a class="dropdown-item" href="testimonial.html">Testimonial</a>
                             <a class="dropdown-item" href="faq.html">FAQ</a>
@@ -79,9 +88,10 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  Blog
-  </a>
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Blog
+                        </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="blog.html">Blog - Right Sidebar</a>
                             <a class="dropdown-item" href="blog-left-sidebar.html">Blog - Left Sidebar</a>
@@ -91,14 +101,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">
-  Contact
-  </a>
+                            Contact
+                        </a>
                     </li>
                 </ul>
                 <div class="post-btn">
-                    <a class="btn btn-common" 
-                    (click)="signUpRegisterModal.show()"
-                    ><i class="lni-pencil-alt"></i> 
+                    <a class="btn btn-common" (click)="signUpRegisterModal.show()"><i class="lni-pencil-alt"></i>
                         Post an Ad</a>
                 </div>
             </div>
@@ -107,8 +115,8 @@
         <ul class="mobile-menu">
             <li>
                 <a class="active" href="#">
-  Home
-  </a>
+                    Home
+                </a>
                 <ul class="dropdown">
                     <li><a class="active" href="index-2.html">Home 1</a></li>
                     <li><a href="index-3.html">Home 2</a></li>
@@ -119,8 +127,8 @@
             </li>
             <li>
                 <a href="#">
-  Listings
-  </a>
+                    Listings
+                </a>
                 <ul class="dropdown">
                     <li><a href="adlistinggrid.html">Ad Grid</a></li>
                     <li><a href="adlistinglist.html">Ad Listing</a></li>
@@ -159,4 +167,4 @@
 
 
 </header>
-<signUpRegisterModal #signUpRegisterModal ></signUpRegisterModal>    
+<signUpRegisterModal #signUpRegisterModal></signUpRegisterModal>
