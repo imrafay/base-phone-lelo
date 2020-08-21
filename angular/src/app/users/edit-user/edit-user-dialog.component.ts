@@ -40,7 +40,7 @@ export class EditUserDialogComponent extends AppComponentBase
     this._userService.get(this.id).subscribe((result) => {
       this.user = result;
 
-      this._userService.getRoles().subscribe((result2) => {
+      this._userService.getRolesGet().subscribe((result2) => {
         this.roles = result2.items;
         this.setInitialRolesStatus();
       });

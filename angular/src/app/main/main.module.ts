@@ -13,6 +13,7 @@ import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module
 import { SharedModule } from '@shared/shared.module';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MainRoutingModule } from './main-routing.module';
+import { FileUploadModule } from 'primeng/fileupload';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { MainRoutingModule } from './main-routing.module';
     NgxPaginationModule,
     //primeng
     ProgressSpinnerModule,
+    FileUploadModule,
 	],
 	declarations: [
 	CreateOrEditAddPostComponent,

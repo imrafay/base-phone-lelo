@@ -134,13 +134,40 @@
                                         </div>
                                     </section>
                                 </div>
-                                <label class="tg-fileuploadlabel" for="tg-photogallery">
+                                <!-- <label class="tg-fileuploadlabel" for="tg-photogallery">
                                     <span>Drop files anywhere to upload</span>
                                     <span>Or</span>
                                     <span class="btn btn-common">Select Files</span>
                                     <span>Maximum upload file size: 500 KB</span>
                                     <input id="tg-photogallery" class="tg-fileinput" type="file" name="file">
-                                </label>
+                                </label> -->
+                                <p-fileUpload #pfileUpload class="file-upload-section"
+                                multiple="multiple"
+                                name="pfileUpload" [url]="uploadUrl"
+                                accept=".png" maxFileSize="10000000"
+                                (onBeforeUpload)="onBeforeUpload($event)"
+                                (onUpload)="onUpload($event)"
+                                (onSelect)="onSelect($event)"
+                                (onRemove)="onRemove($event)"
+                                chooseLabel="Browse" [auto]="true"
+                                (onError)="onError($event)"
+                                [showUploadButton]="false"
+                                [showCancelButton]="false">
+                                <ng-template pTemplate="content">
+                                    <ul *ngIf="uploadedFiles.length">
+                                        <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                                    </ul>
+                               </ng-template>
+                            </p-fileUpload>
+
+                            <!-- <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
+                            multiple="multiple" accept="image/*" maxFileSize="1000000">
+                            <ng-template pTemplate="content">
+                                <ul *ngIf="uploadedFiles.length">
+                                    <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                                </ul>
+                            </ng-template>
+                    </p-fileUpload> -->
                             </div>
                         </div>
                     </div>
@@ -187,8 +214,8 @@
                                         <input class="form-control input-md" name="address" type="text">
                                     </div>
                                     <div>
-                                        <app-create-user-location></app-create-user-location> 
-
+                                        <app-create-user-location (onSelectAllDropdownEvents)="onSelectDropdown($event)">
+                                        </app-create-user-location>
                                     </div>
                                     <div class="form-group mb-3 tg-inputwithicon">
                                         <label class="control-label">Country</label>

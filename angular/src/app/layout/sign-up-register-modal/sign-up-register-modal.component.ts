@@ -168,7 +168,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   }
 
   getRoles() {
-    this._UserServiceProxy.getRoles().subscribe(res => {
+    this._UserServiceProxy.getRolesGet().subscribe(res => {
       this.roles = res.items;
       console.log(this.roles)
       this.cd.detectChanges();
