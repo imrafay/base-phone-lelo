@@ -25,7 +25,7 @@ namespace PhoneLelo.Project.Product.Dto
 
         public bool? IsSpot { get; set; }
         public bool? IsDamage { get; set; }
-        public SortByEnum SortBy { get; set; }
+        public PagedAndSortDto pagedAndSort { get; set; }
 
 
     }

@@ -2,6 +2,7 @@
 using Abp.Domain.Entities.Auditing;
 using PhoneLelo.Project.Product.Enum;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhoneLelo.Project
@@ -29,5 +30,8 @@ namespace PhoneLelo.Project
         public bool? IsFaceSensorWorking{ get; set; }
         public int? BatteryHealth{ get; set; }
         public string  Description { get; set; }
+
+        public ICollection<ProductAdvertBatteryUsage> ProductAdvertBatteryUsages { get; set; }
+        public ICollection<ProductAdvertImage> ProductAdvertImages { get; set; }
     }
 }

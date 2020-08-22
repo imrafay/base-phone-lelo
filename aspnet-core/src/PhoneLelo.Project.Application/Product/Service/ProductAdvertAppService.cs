@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using Abp.Extensions;
 using Abp.Runtime.Session;
 using PhoneLelo.Project.Authorization;
 using PhoneLelo.Project.Product.Dto;
+using PhoneLelo.Project.Utils;
 
 namespace PhoneLelo.Project.Import.MobilePhone
 {
@@ -132,12 +135,26 @@ namespace PhoneLelo.Project.Import.MobilePhone
             #endregion
         }
 
-        public async Task<List<ProductAdvertDetailViewDto>> GetAll(
+        public async Task<PagedResultDto<ProductAdvertDetailViewDto>> GetAll(
             ProductAdvertFilterInputDto filter)
         {
-            var query = _productAdvertManager.GetAll(filter);
+            var query = _productAdvertManager.GetAllQuery(filter);
+            var totalCount = query.Count();
 
-            return null;
+            if (query.Any() && filter.pagedAndSort!=null)
+            {
+                var pagedAndSort = filter.pagedAndSort;
+                var sortBy = pagedAndSort.SortBy.GetDescription();
+                query =  query.OrderBy(sortBy).PageResult(
+                    pagedAndSort.Page,
+                    pagedAndSort.PageSize).Queryable;
+            }
+           
+             var output = query.ToList();
+             return new PagedResultDto<ProductAdvertDetailViewDto>(
+                totalCount,
+                (IReadOnlyList<ProductAdvertDetailViewDto>)output
+            ); ;
         }
     }
 }

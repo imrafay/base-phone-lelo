@@ -7,16 +7,16 @@ namespace PhoneLelo.Project.Product.Enum
         [Description("Name")]
         Name = 1,
 
-        [Description("Newest")]
+        [Description("CreationTime DESC")]
         Newest = 2,
 
-        [Description("Oldest")]
+        [Description("CreationTime")]
         Oldest = 3,
 
-        [Description("MaxPrice")]
+        [Description("Price DESC")]
         MaxPrice = 4,
 
-        [Description("MinPrice")]
+        [Description("Price")]
         MinPrice = 5,
     }
 }
