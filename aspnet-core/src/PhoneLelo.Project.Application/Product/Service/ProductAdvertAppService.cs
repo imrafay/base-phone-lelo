@@ -11,7 +11,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
 {
     public class ProductAdvertAppService : ApplicationService, IProductAdvertAppService
     {
-        private readonly IAbpSession _abpSession; 
+        private readonly IAbpSession _abpSession;
         private readonly ProductAdvertManager _productAdvertManager;
 
         public ProductAdvertAppService(
@@ -25,7 +25,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
 
         public async Task Create(ProductAdvertInputDto input)
         {
-            if (input==null)
+            if (input == null)
             {
                 return;
             }
@@ -45,7 +45,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
 
             #region Add Product Advert Battery Usages
             var productAdvertBatteryUsages = input.ProductAdvertBatteryUsages
-                  .Where(x=>x.Hours > 0)
+                  .Where(x => x.Hours > 0)
                   .Select(x => new ProductAdvertBatteryUsage()
                   {
                       Hours = x.Hours,
@@ -62,7 +62,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
 
             #region Add Product Advert Images
             var productAdvertImages = input.Images
-                    .Where(x=> !x.Image.IsNullOrEmpty())
+                    .Where(x => !x.Image.IsNullOrEmpty())
                    .Select(x => new ProductAdvertImage()
                    {
                        Image = x.Image,
@@ -74,22 +74,22 @@ namespace PhoneLelo.Project.Import.MobilePhone
             {
                 await _productAdvertManager.CreateProductAdvertImageAsync(
                     list: productAdvertImages);
-            } 
+            }
             #endregion
         }
-        
+
         public async Task Update(ProductAdvertInputDto input)
         {
             var productAdvert = await _productAdvertManager.GetByIdAsync(
                 id: input.ProductAdvertinput.Id);
 
-            if (productAdvert==null)
+            if (productAdvert == null)
             {
                 return;
             }
 
             #region Update Product Advert
-           
+
             ObjectMapper.Map(input.ProductAdvertinput, productAdvert);
 
             await _productAdvertManager.UpdateAsync(
@@ -98,7 +98,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
 
             #region Update Product Advert Battery Usages
             var productAdvertBatteryUsages = input.ProductAdvertBatteryUsages
-                  .Where(x=>x.Hours > 0)
+                  .Where(x => x.Hours > 0)
                   .Select(x => new ProductAdvertBatteryUsage()
                   {
                       Hours = x.Hours,
@@ -116,7 +116,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
 
             #region Add Product Advert Images
             var productAdvertImages = input.Images
-                    .Where(x=> !x.Image.IsNullOrEmpty())
+                    .Where(x => !x.Image.IsNullOrEmpty())
                    .Select(x => new ProductAdvertImage()
                    {
                        Image = x.Image,
@@ -128,8 +128,16 @@ namespace PhoneLelo.Project.Import.MobilePhone
             {
                 await _productAdvertManager.CreateProductAdvertImageAsync(
                     list: productAdvertImages);
-            } 
+            }
             #endregion
+        }
+
+        public async Task<List<ProductAdvertDetailViewDto>> GetAll(
+            ProductAdvertFilterInputDto filter)
+        {
+            var query = _productAdvertManager.GetAll(filter);
+
+            return null;
         }
     }
 }

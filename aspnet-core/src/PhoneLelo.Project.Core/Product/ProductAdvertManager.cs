@@ -1,7 +1,11 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using Abp.EntityFrameworkCore.Repositories;
+using Abp.Linq.Extensions;
+using Microsoft.EntityFrameworkCore;
+using PhoneLelo.Project.Product.Dto;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PhoneLelo.Project.Authorization
@@ -102,6 +106,26 @@ namespace PhoneLelo.Project.Authorization
             
             await CurrentUnitOfWork
                 .SaveChangesAsync();
+        }    
+        
+        public IQueryable<ProductAdvertViewDto> GetAll(
+            ProductAdvertFilterInputDto filter)
+        {
+            var query = _productAdvertRepository.GetAll()
+                 .Include(x => x.ProductModelFk)
+                 .WhereIf(filter.ProductCompanyId.HasValue,x=>
+                        x.ProductModelId==filter.ProductModelId)
+                 .WhereIf(filter.ProductCompanyId.HasValue,x=>
+                        x.ProductModelFk.ProductCompanyId==filter.ProductCompanyId)
+                 .WhereIf(string.IsNullOrEmpty(filter.NameFilter) == false,x => 
+                        x.ProductModelFk.Model.ToLower().Contains(filter.NameFilter) ||
+                        x.ProductModelFk.Brand.ToLower().Contains(filter.NameFilter))
+                 .WhereIf(filter.RamFilter.Any(),x =>
+                        filter.RamFilter.Contains(x.Ram))
+                 .WhereIf(filter.StorageFilter.Any(),x =>
+                        filter.StorageFilter.Contains(x.Storage));
+
+            return null;
         }
     }
 }
