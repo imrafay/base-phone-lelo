@@ -14,7 +14,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
         Task Create(ProductAdvertInputDto input);
         Task Update(ProductAdvertInputDto input);
 
-        Task<PagedResultDto<ProductAdvertDetailViewDto>> GetAll(
+        Task<ListResultDto<ProductAdvertViewDto>> GetAll(
             ProductAdvertFilterInputDto filter);
     }
 }

@@ -7,7 +7,9 @@ namespace PhoneLelo.Project.Product.Dto
     {
         public ProductAdvertFilterInputDto()
         {
-            NameFilter = NameFilter.ToLower();
+            NameFilter = (string.IsNullOrEmpty(NameFilter)==false) ? NameFilter.ToLower(): NameFilter;
+            RamFilter = new List<int>();     
+            StorageFilter = new List<int>();     
         }
 
         public long? ProductModelId { get; set; }

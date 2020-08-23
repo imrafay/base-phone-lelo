@@ -8,6 +8,7 @@ using Abp.Extensions;
 using Abp.Runtime.Session;
 using PhoneLelo.Project.Authorization;
 using PhoneLelo.Project.Product.Dto;
+using PhoneLelo.Project.Roles.Dto;
 using PhoneLelo.Project.Utils;
 
 namespace PhoneLelo.Project.Import.MobilePhone
@@ -135,7 +136,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
             #endregion
         }
 
-        public async Task<PagedResultDto<ProductAdvertDetailViewDto>> GetAll(
+        public async Task<ListResultDto<ProductAdvertViewDto>> GetAll(
             ProductAdvertFilterInputDto filter)
         {
             var query = _productAdvertManager.GetAllQuery(filter);
@@ -149,12 +150,10 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     pagedAndSort.Page,
                     pagedAndSort.PageSize).Queryable;
             }
-           
-             var output = query.ToList();
-             return new PagedResultDto<ProductAdvertDetailViewDto>(
-                totalCount,
-                (IReadOnlyList<ProductAdvertDetailViewDto>)output
-            ); ;
+
+             return new PagedResultDto<ProductAdvertViewDto>(
+                 totalCount: totalCount,
+                 items: query.ToList());
         }
     }
 }
