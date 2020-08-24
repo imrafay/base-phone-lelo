@@ -25,5 +25,21 @@ namespace PhoneLelo.Project.Users.Dto
         {
             CreateMap<ProductAdvertDto, ProductAdvert>();
         }
+    }    
+    
+    public class ProductAdvertBatteryUsageProfile : Profile
+    {
+        public ProductAdvertBatteryUsageProfile()
+        {
+            CreateMap<ProductAdvertBatteryUsageDto, ProductAdvertBatteryUsage>();
+        }
+    }    
+    
+    public class ProductAdvertImageProfile : Profile
+    {
+        public ProductAdvertImageProfile()
+        {
+            CreateMap<ProductAdvertImageDto, ProductAdvertImage>();
+        }
     }
 }

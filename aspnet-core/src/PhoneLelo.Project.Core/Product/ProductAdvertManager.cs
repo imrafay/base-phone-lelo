@@ -31,7 +31,9 @@ namespace PhoneLelo.Project.Authorization
         {
 
             var productAdvert = await _productAdvertRepository
-                  .FirstOrDefaultAsync(x => x.Id == id);
+                    .GetAll()
+                    .Include(x=>x.ProductModelFk)
+                    .FirstOrDefaultAsync(x => x.Id == id);
 
             return productAdvert;
         }
@@ -140,6 +142,7 @@ namespace PhoneLelo.Project.Authorization
                         x.IsExchangeable == filter.IsExchangeable)
                   .Select(x => new ProductAdvertViewDto()
                   {
+                      Id=x.Id,
                       Views = 0,
                       Ram = x.Ram,
                       Price = x.Price,
@@ -157,6 +160,31 @@ namespace PhoneLelo.Project.Authorization
                   });
 
             return productAdvertQuery;
+        }
+
+
+        public async Task<List<ProductAdvertImage>> GetProducAdverImagesById(
+            long productAdvertId)
+        {
+
+            var productAdvertImages = await _productAdvertImageRepository
+                  .GetAll()
+                  .Where(x => x.ProductAdvertId == productAdvertId)
+                  .ToListAsync();
+
+            return productAdvertImages;
+        }
+
+        public async Task<List<ProductAdvertBatteryUsage>> GetProducAdverBatteryUsagesById(
+            long productAdvertId)
+        {
+
+            var productAdvertBatteryUsages= await _productAdvertBatteryUsagerepository
+                  .GetAll()
+                  .Where(x => x.ProductAdvertId == productAdvertId)
+                  .ToListAsync();
+
+            return productAdvertBatteryUsages;
         }
     }
 }

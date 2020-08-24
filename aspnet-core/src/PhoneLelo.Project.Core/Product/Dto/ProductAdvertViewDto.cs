@@ -12,6 +12,7 @@ namespace PhoneLelo.Project.Product.Dto
 
     public class ProductAdvertViewDto : IProductAdvertViewDto
     {
+        public long Id { get; set; }
         public string ProductCompanyName { get; set; }
         public string ProductModelName { get; set; }
         public long ProductModelId { get; set; }
@@ -25,12 +26,12 @@ namespace PhoneLelo.Project.Product.Dto
         public DateTime AdvertPostedDate { get; set; }
        }
 
-    public class ProductAdvertDetailViewDto : ProductAdvertDto, IProductAdvertViewDto
+    public class ProductAdvertDetailViewDto : IProductAdvertViewDto
     {
         public string ProductCompanyName { get; set; }
         public string ProductModelName { get; set; }
         public int Views { get; set; }
-
+        public ProductAdvertDto ProductAdvert { get; set; }
         public List<ProductAdvertImageDto> Images { get; set; }
         public List<ProductAdvertBatteryUsageDto> ProductAdvertBatteryUsages { get; set; }
     }

@@ -31,8 +31,7 @@ export class CreateOrEditAddPostComponent  extends AppComponentBase implements O
 
   ) {
     super(injector);
-    this.uploadUrl = "https://dev-api.rhithm.app/File/UploadFiles";
-    // this.uploadUrl = this.baseUrl + "api/File/UploadFiles";
+     this.uploadUrl = this.baseUrl + "api/File/UploadFiles";
 
 
     console.log(this.appSession)
@@ -100,7 +99,7 @@ export class CreateOrEditAddPostComponent  extends AppComponentBase implements O
 }
   onBeforeUpload(event): void {
     console.log("event", event);
-    event.formData.append("RhithmDataFileType", 1);
+    event.formData.append("PhoneLeloDataFileType", 1);
   }
   
   onError(event) {
