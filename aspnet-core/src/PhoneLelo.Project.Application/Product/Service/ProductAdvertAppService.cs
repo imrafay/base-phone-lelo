@@ -5,6 +5,7 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Extensions;
 using Abp.Runtime.Session;
 using Abp.UI;
@@ -140,6 +141,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
             #endregion
         }
 
+        [AbpAllowAnonymous]
         public async Task<ListResultDto<ProductAdvertViewDto>> GetAll(
             ProductAdvertFilterInputDto filter)
         {
@@ -163,7 +165,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 items: output);
         }
 
-
+        [AbpAllowAnonymous]
         public async Task<ProductAdvertDetailViewDto> GetProductAdverForEdit(long id)
         {
             try
