@@ -173,9 +173,9 @@
                 </div>
 
             </form>
-            <!-- *ngIf="locationDetailForm == true &&
-            signUpDetailFormBool == false" -->
-            <form #locationDetailForm="ngForm">
+        
+            <form #locationDetailForm="ngForm" *ngIf="locationDetailForm == true &&
+            signUpDetailFormBool == false">
 
                 <div class="modal-body">
 
@@ -186,9 +186,7 @@
                     <div class="form-group text-center mt-100 mb-5">
                         <img src="../../../assets/img/logo.png">
                     </div>
-                    <div class="text-center">
-                        <p-progressSpinner></p-progressSpinner>
-                    </div>
+                 
 
                     <app-create-user-location (onSelectAllDropdownEvents)="onSelectDropdown($event)">
                     </app-create-user-location>

@@ -14,8 +14,12 @@ import { SharedModule } from '@shared/shared.module';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MainRoutingModule } from './main-routing.module';
 import { FileUploadModule } from 'primeng/fileupload';
+import { DropdownModule } from 'primeng/dropdown';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {SliderModule} from 'primeng/slider';
 
-
+import {TabMenuModule} from 'primeng/tabmenu';
+// import {MenuItem} from 'primeng/api';
 @NgModule({
 	imports: [
     CommonModule,
@@ -33,8 +37,11 @@ import { FileUploadModule } from 'primeng/fileupload';
     NgxPaginationModule,
     //primeng
     ProgressSpinnerModule,
+    DropdownModule,
+    TabMenuModule,
     FileUploadModule,
-	],
+    MultiSelectModule,	
+    SliderModule],
 	declarations: [
 	CreateOrEditAddPostComponent,
 ],
