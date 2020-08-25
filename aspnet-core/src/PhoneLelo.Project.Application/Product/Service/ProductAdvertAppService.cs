@@ -12,6 +12,7 @@ using Abp.UI;
 using PhoneLelo.Project.Authorization;
 using PhoneLelo.Project.FileManagement;
 using PhoneLelo.Project.Product.Dto;
+using PhoneLelo.Project.Product.Enum;
 using PhoneLelo.Project.Roles.Dto;
 using PhoneLelo.Project.Storage.FileManagement;
 using PhoneLelo.Project.Utils;
@@ -248,6 +249,46 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 Logger.Error($"GetProductAdverForEdit > ERROR > {ex.Message}");
                 throw new UserFriendlyException($"GetProductAdverForEdit > ERROR > {ex.Message}");
             }
+        }
+
+        public List<DropdownOutputDto> GetRamDropDown()
+        {
+            var ramEnums = Enum.GetValues(typeof(RamEnum)).Cast<RamEnum>();
+
+           return ramEnums
+                    .Select(
+                        x => new DropdownOutputDto()
+                        {
+                            Id = (long)x,
+                            Name = x.GetDescription()
+                        }).ToList();
+        }
+        
+        public List<DropdownOutputDto> GetStorageDropDown()
+        {
+            var storageEnums = Enum.GetValues(typeof(StorageEnum)).Cast<StorageEnum>();
+
+           return storageEnums
+                    .Select(
+                        x => new DropdownOutputDto()
+                        {
+                            Id = (long)x,
+                            Name = x.GetDescription()
+                        }).ToList();
+        }
+        
+        public List<DropdownOutputDto> GetAccessoriesDropDown()
+        {
+            var accessoryEnums = Enum.GetValues(typeof(ProductAccessoryEnum))
+                .Cast<ProductAccessoryEnum>();
+
+           return accessoryEnums
+                    .Select(
+                        x => new DropdownOutputDto()
+                        {
+                            Id = (long)x,
+                            Name = x.GetDescription()
+                        }).ToList();
         }
 
         private int GetProductAdverViews(long id)

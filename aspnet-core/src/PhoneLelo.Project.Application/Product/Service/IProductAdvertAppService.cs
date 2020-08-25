@@ -18,5 +18,11 @@ namespace PhoneLelo.Project.Import.MobilePhone
             ProductAdvertFilterInputDto filter);
 
         Task<ProductAdvertDetailViewDto> GetProductAdverForEdit(long id);
+
+        List<DropdownOutputDto> GetAccessoriesDropDown();
+
+        List<DropdownOutputDto> GetStorageDropDown();
+
+        List<DropdownOutputDto> GetRamDropDown();
     }
 }
