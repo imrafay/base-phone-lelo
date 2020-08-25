@@ -21,14 +21,15 @@ namespace PhoneLelo.Project.EntityFrameworkCore
         public virtual DbSet<Neighbourhood> Neighbourhoods { get; set; }
         #endregion
 
-
         #region Product Advert
         public virtual DbSet<ProductAdvert> ProductAdverts { get; set; }
 
         public virtual DbSet<ProductAdvertBatteryUsage> ProductAdvertBatteryUsages { get; set; }
         
         public virtual DbSet<ProductAdvertImage> ProductAdvertImages { get; set; }
+        public virtual DbSet<ProductAdvertAccessory> ProductAdvertAccessories{ get; set; }
         #endregion
+
         /* Define a DbSet for each entity of the application */
 
         public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
