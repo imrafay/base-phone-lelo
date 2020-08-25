@@ -10,6 +10,7 @@ namespace PhoneLelo.Project.Product.Dto
         public ProductAdvertDto ProductAdvertinput{ get; set; }
         public List<ProductAdvertImageDto> Images { get; set; }
         public List<ProductAdvertBatteryUsageDto> ProductAdvertBatteryUsages { get; set; }
+        public List<ProductAdvertAccessoryDto> ProductAdvertAccessories { get; set; }
     }
 
     [AutoMapFrom(typeof(ProductAdvert))]
@@ -32,6 +33,10 @@ namespace PhoneLelo.Project.Product.Dto
         public bool? IsFaceSensorWorking { get; set; }
         public int? BatteryHealth { get; set; }
         public string Description { get; set; }
+
+        public bool? IsKit { get; set; }
+        public bool? IsInWarranty { get; set; }
+        public int? RemaingWarrantyInMonths { get; set; }
     }
 
     [AutoMapFrom(typeof(ProductAdvertBatteryUsage))]
@@ -48,5 +53,12 @@ namespace PhoneLelo.Project.Product.Dto
         public string Image { get; set; }
         public ProductImagePriorityEnum ProductImagePriority { get; set; }
 
+    }
+    
+    [AutoMapFrom(typeof(ProductAdvertAccessory))]
+    public class ProductAdvertAccessoryDto : EntityDto<long>
+    {
+        public string AccessoryName { get; set; }
+        public ProductAccessoryEnum AccessoryType { get; set; }
     }
 }

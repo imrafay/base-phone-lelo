@@ -85,6 +85,23 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     list: productAdvertImages);
             }
             #endregion
+
+            #region Add Product Advert Accessory
+
+            var productAdvertAccessories = input.ProductAdvertAccessories
+                       .Select(x => new ProductAdvertAccessory()
+                       {
+                           ProductAdvertId = productAdvert.Id,
+                           AccessoryType = x.AccessoryType
+                       }).ToList();
+
+            if (productAdvertAccessories.Any())
+            {
+                await _productAdvertManager.CreateProductAdvertAccessoryAsync(
+                    list: productAdvertAccessories);
+            }
+
+            #endregion
         }
 
         public async Task Update(ProductAdvertInputDto input)
@@ -139,6 +156,22 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     list: productAdvertImages);
             }
             #endregion
+
+            #region Update Product Advert Accessory
+            var productAdvertAccessories = input.ProductAdvertAccessories
+                  .Select(x => new ProductAdvertAccessory()
+                  {
+                      AccessoryType = x.AccessoryType,
+                      ProductAdvertId = productAdvert.Id
+                  }).ToList();
+
+            if (productAdvertAccessories.Any())
+            {
+                await _productAdvertManager.UpdateProductAccessoryAsync(
+                    list: productAdvertAccessories,
+                    productAdvertId: productAdvert.Id);
+            }
+            #endregion
         }
 
         [AbpAllowAnonymous]
@@ -184,6 +217,9 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 var images = await _productAdvertManager
                     .GetProducAdverImagesById(id);
 
+                var productAdvertAccessories = await _productAdvertManager
+                    .GetProductAdvertAccessoriesById(id);
+
                 var productAdvertOutput = ObjectMapper
                     .Map<ProductAdvertDto>(productAdvert);
 
@@ -193,14 +229,18 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 var productAdvertImageList = (ObjectMapper.Map<List<ProductAdvertImageDto>>
                     (images));
 
+                var productAdvertAccessoryList = (ObjectMapper.Map<List<ProductAdvertAccessoryDto>>
+                    (productAdvertAccessories));
+
                 return new ProductAdvertDetailViewDto
                 {
-                    ProductCompanyName=productAdvert.ProductModelFk.Brand,
-                    ProductModelName=productAdvert.ProductModelFk.Model,
+                    ProductCompanyName = productAdvert.ProductModelFk.Brand,
+                    ProductModelName = productAdvert.ProductModelFk.Model,
                     Views = GetProductAdverViews(id),
                     ProductAdvert = productAdvertOutput,
                     ProductAdvertBatteryUsages = productAdvertBatteryUsageList,
-                    Images = productAdvertImageList
+                    Images = productAdvertImageList,
+                    productAdvertAccessories = productAdvertAccessoryList
                 };
             }
             catch (Exception ex)

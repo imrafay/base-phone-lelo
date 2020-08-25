@@ -34,5 +34,6 @@ namespace PhoneLelo.Project.Product.Dto
         public ProductAdvertDto ProductAdvert { get; set; }
         public List<ProductAdvertImageDto> Images { get; set; }
         public List<ProductAdvertBatteryUsageDto> ProductAdvertBatteryUsages { get; set; }
+        public List<ProductAdvertAccessoryDto> productAdvertAccessories { get; set; }
     }
 }

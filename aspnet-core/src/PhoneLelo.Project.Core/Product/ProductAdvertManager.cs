@@ -16,15 +16,17 @@ namespace PhoneLelo.Project.Authorization
         private readonly IRepository<ProductAdvert, long> _productAdvertRepository;
         private readonly IRepository<ProductAdvertBatteryUsage, long> _productAdvertBatteryUsagerepository;
         private readonly IRepository<ProductAdvertImage, long> _productAdvertImageRepository;
+        private readonly IRepository<ProductAdvertAccessory, long> _productAdvertAccessoryRepository;
 
         public ProductAdvertManager(
             IRepository<ProductAdvert, long> productAdvertRepository,
-            IRepository<ProductAdvertBatteryUsage, long> productAdvertBatteryUsagerepository, IRepository<ProductAdvertImage, long> productAdvertImageRepository)
+            IRepository<ProductAdvertBatteryUsage, long> productAdvertBatteryUsagerepository, IRepository<ProductAdvertImage, long> productAdvertImageRepository, IRepository<ProductAdvertAccessory, long> productAdvertAccessoryRepository)
 
         {
             _productAdvertRepository = productAdvertRepository;
             _productAdvertBatteryUsagerepository = productAdvertBatteryUsagerepository;
             _productAdvertImageRepository = productAdvertImageRepository;
+            _productAdvertAccessoryRepository = productAdvertAccessoryRepository;
         }
 
         public async Task<ProductAdvert> GetByIdAsync(long id)
@@ -68,6 +70,17 @@ namespace PhoneLelo.Project.Authorization
 
             await CurrentUnitOfWork
                 .SaveChangesAsync();
+        } 
+        
+        public async Task CreateProductAdvertAccessoryAsync(
+            List<ProductAdvertAccessory> list)
+        {
+            await _productAdvertAccessoryRepository
+                 .GetDbContext()
+                 .AddRangeAsync(list);
+
+            await CurrentUnitOfWork
+                .SaveChangesAsync();
         }
 
 
@@ -88,10 +101,27 @@ namespace PhoneLelo.Project.Authorization
             await DeleteBatteryUsageAsync(productAdvertId);
             await CreateBatteryUsageAsync(list);
         }
+        
+        public async Task UpdateProductAccessoryAsync(
+            List<ProductAdvertAccessory> list,
+            long productAdvertId)
+        {
+            await DeleteProductAccessoryAsync(productAdvertId);
+            await CreateProductAdvertAccessoryAsync(list);
+        }
 
         public async Task DeleteBatteryUsageAsync(long productAdvertId)
         {
             await _productAdvertBatteryUsagerepository.HardDeleteAsync(x =>
+                x.ProductAdvertId == productAdvertId);
+
+            await CurrentUnitOfWork
+                .SaveChangesAsync();
+        }
+        
+        public async Task DeleteProductAccessoryAsync(long productAdvertId)
+        {
+            await _productAdvertAccessoryRepository.HardDeleteAsync(x =>
                 x.ProductAdvertId == productAdvertId);
 
             await CurrentUnitOfWork
@@ -116,6 +146,7 @@ namespace PhoneLelo.Project.Authorization
         {
             var productAdvertQuery = _productAdvertRepository.GetAll()
                   .Include(x => x.ProductModelFk)
+                  .Include(x => x.ProductAdvertAccessories)
                   .Include(x => x.ProductAdvertImages)
                   .WhereIf(filter.ProductCompanyId.HasValue, x =>
                          x.ProductModelId == filter.ProductModelId)
@@ -185,6 +216,18 @@ namespace PhoneLelo.Project.Authorization
                   .ToListAsync();
 
             return productAdvertBatteryUsages;
+        } 
+        
+        public async Task<List<ProductAdvertAccessory>> GetProductAdvertAccessoriesById(
+            long productAdvertId)
+        {
+
+            var productAdvertAccessories = await _productAdvertAccessoryRepository
+                  .GetAll()
+                  .Where(x => x.ProductAdvertId == productAdvertId)
+                  .ToListAsync();
+
+            return productAdvertAccessories;
         }
     }
 }
