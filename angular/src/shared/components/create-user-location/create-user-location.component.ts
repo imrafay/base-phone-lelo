@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
-import { UserServiceProxy, DropdownOutputDto, CreateUserDto, RoleDto } from '@shared/service-proxies/service-proxies';
+import { UserServiceProxy,UserLocationServiceProxy, DropdownOutputDto, CreateUserDto, RoleDto } from '@shared/service-proxies/service-proxies';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { SelectItem } from 'primeng/api';
 
@@ -24,7 +24,9 @@ export class CreateUserLocationComponent extends AppComponentBase implements OnI
   @Output() onSelectAllDropdownEvents: EventEmitter<any> = new EventEmitter<any>();
 
 
-  constructor(private _UserServiceProxy: UserServiceProxy,
+  constructor(
+    private _UserServiceProxy: UserServiceProxy,
+    private _UserLocationServiceProxy: UserLocationServiceProxy,
     injector: Injector,
     private _AppSessionService: AppSessionService,
     private cd: ChangeDetectorRef
@@ -40,7 +42,7 @@ export class CreateUserLocationComponent extends AppComponentBase implements OnI
 
   getAllStates() {
 
-    this._UserServiceProxy.getStates().subscribe(res => {
+    this._UserLocationServiceProxy.getStates().subscribe(res => {
       this.states = res;
       this.cd.detectChanges();
 
@@ -48,7 +50,7 @@ export class CreateUserLocationComponent extends AppComponentBase implements OnI
   }
   getAllCities() {
 
-    this._UserServiceProxy.getCitiesByStateId(this.selectedState['id']).subscribe(res => {
+    this._UserLocationServiceProxy.getCitiesByStateId(this.selectedState['id']).subscribe(res => {
       this.city = res;
       this.cd.detectChanges();
 
@@ -56,7 +58,7 @@ export class CreateUserLocationComponent extends AppComponentBase implements OnI
   }
 
   getAllNeighbourhood() {
-    this._UserServiceProxy.getNeighbourhoodsByCityId(this.selectedCity['id']).subscribe(res => {
+    this._UserLocationServiceProxy.getNeighbourhoodsByCityId(this.selectedCity['id']).subscribe(res => {
       this.neighbourhood = res;
       this.onSelectDropdown()
       this.cd.detectChanges();

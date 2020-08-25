@@ -72,21 +72,6 @@ namespace PhoneLelo.Project.Controllers
             return userId;
         }
 
-
-        [HttpPost]
-        public async Task<bool> VerifyUserPhoneNumber(
-            long userId,
-            string code)
-        {
-            
-                return await _userAppService.VerifyUserPhoneNumber(
-                 userId: userId,
-                verificationCode: code
-                 );
-            
-        }
-
-
         [HttpPost]
         public async Task CompleteUserProfile(
             UserDto input)
@@ -98,29 +83,6 @@ namespace PhoneLelo.Project.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<List<DropdownOutputDto>> GetStates()
-        {
-            return await _userLocationAppService
-                .GetStates();          
-        }
-
-        [HttpGet]
-        public async Task<List<DropdownOutputDto>> GetCitiesByStateId(
-            long stateId)
-        {
-            return await _userLocationAppService
-                .GetCitiesByStateId(stateId);
-        }
-
-        [HttpGet]
-        public async Task<List<DropdownOutputDto>> GetNeighbourhoodsByCityId(
-            long cityId)
-        {
-            return await _userLocationAppService
-                .GetNeighbourhoodsByCityId(cityId);
-        }
-
         [HttpPost]
         public async Task UpdateUserLocation(
             UserLocationInputDto input)
@@ -130,13 +92,6 @@ namespace PhoneLelo.Project.Controllers
             {
                 await _userLocationAppService.UpdateUserLocation(input);
             }
-        }
-
-        [HttpGet]
-        public async Task<ListResultDto<RoleDto>> GetRoles()
-        {
-
-            return await _userAppService.GetRoles();
         }
     }
 }

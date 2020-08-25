@@ -12,6 +12,7 @@ using Abp.UI;
 using PhoneLelo.Project.Authorization;
 using PhoneLelo.Project.FileManagement;
 using PhoneLelo.Project.Product.Dto;
+using PhoneLelo.Project.Product.Enum;
 using PhoneLelo.Project.Roles.Dto;
 using PhoneLelo.Project.Storage.FileManagement;
 using PhoneLelo.Project.Utils;
@@ -85,6 +86,23 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     list: productAdvertImages);
             }
             #endregion
+
+            #region Add Product Advert Accessory
+
+            var productAdvertAccessories = input.ProductAdvertAccessories
+                       .Select(x => new ProductAdvertAccessory()
+                       {
+                           ProductAdvertId = productAdvert.Id,
+                           AccessoryType = x.AccessoryType
+                       }).ToList();
+
+            if (productAdvertAccessories.Any())
+            {
+                await _productAdvertManager.CreateProductAdvertAccessoryAsync(
+                    list: productAdvertAccessories);
+            }
+
+            #endregion
         }
 
         public async Task Update(ProductAdvertInputDto input)
@@ -139,6 +157,22 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     list: productAdvertImages);
             }
             #endregion
+
+            #region Update Product Advert Accessory
+            var productAdvertAccessories = input.ProductAdvertAccessories
+                  .Select(x => new ProductAdvertAccessory()
+                  {
+                      AccessoryType = x.AccessoryType,
+                      ProductAdvertId = productAdvert.Id
+                  }).ToList();
+
+            if (productAdvertAccessories.Any())
+            {
+                await _productAdvertManager.UpdateProductAccessoryAsync(
+                    list: productAdvertAccessories,
+                    productAdvertId: productAdvert.Id);
+            }
+            #endregion
         }
 
         [AbpAllowAnonymous]
@@ -184,6 +218,9 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 var images = await _productAdvertManager
                     .GetProducAdverImagesById(id);
 
+                var productAdvertAccessories = await _productAdvertManager
+                    .GetProductAdvertAccessoriesById(id);
+
                 var productAdvertOutput = ObjectMapper
                     .Map<ProductAdvertDto>(productAdvert);
 
@@ -193,14 +230,18 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 var productAdvertImageList = (ObjectMapper.Map<List<ProductAdvertImageDto>>
                     (images));
 
+                var productAdvertAccessoryList = (ObjectMapper.Map<List<ProductAdvertAccessoryDto>>
+                    (productAdvertAccessories));
+
                 return new ProductAdvertDetailViewDto
                 {
-                    ProductCompanyName=productAdvert.ProductModelFk.Brand,
-                    ProductModelName=productAdvert.ProductModelFk.Model,
+                    ProductCompanyName = productAdvert.ProductModelFk.Brand,
+                    ProductModelName = productAdvert.ProductModelFk.Model,
                     Views = GetProductAdverViews(id),
                     ProductAdvert = productAdvertOutput,
                     ProductAdvertBatteryUsages = productAdvertBatteryUsageList,
-                    Images = productAdvertImageList
+                    Images = productAdvertImageList,
+                    productAdvertAccessories = productAdvertAccessoryList
                 };
             }
             catch (Exception ex)
@@ -208,6 +249,46 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 Logger.Error($"GetProductAdverForEdit > ERROR > {ex.Message}");
                 throw new UserFriendlyException($"GetProductAdverForEdit > ERROR > {ex.Message}");
             }
+        }
+
+        public List<DropdownOutputDto> GetRamDropDown()
+        {
+            var ramEnums = Enum.GetValues(typeof(RamEnum)).Cast<RamEnum>();
+
+           return ramEnums
+                    .Select(
+                        x => new DropdownOutputDto()
+                        {
+                            Id = (long)x,
+                            Name = x.GetDescription()
+                        }).ToList();
+        }
+        
+        public List<DropdownOutputDto> GetStorageDropDown()
+        {
+            var storageEnums = Enum.GetValues(typeof(StorageEnum)).Cast<StorageEnum>();
+
+           return storageEnums
+                    .Select(
+                        x => new DropdownOutputDto()
+                        {
+                            Id = (long)x,
+                            Name = x.GetDescription()
+                        }).ToList();
+        }
+        
+        public List<DropdownOutputDto> GetAccessoriesDropDown()
+        {
+            var accessoryEnums = Enum.GetValues(typeof(ProductAccessoryEnum))
+                .Cast<ProductAccessoryEnum>();
+
+           return accessoryEnums
+                    .Select(
+                        x => new DropdownOutputDto()
+                        {
+                            Id = (long)x,
+                            Name = x.GetDescription()
+                        }).ToList();
         }
 
         private int GetProductAdverViews(long id)

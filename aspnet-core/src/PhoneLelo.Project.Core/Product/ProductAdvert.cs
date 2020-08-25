@@ -31,7 +31,12 @@ namespace PhoneLelo.Project
         public int? BatteryHealth{ get; set; }
         public string  Description { get; set; }
 
+        public bool? IsKit { get; set; }
+        public bool? IsInWarranty { get; set; }
+        public int? RemaingWarrantyInMonths { get; set; }
+
         public ICollection<ProductAdvertBatteryUsage> ProductAdvertBatteryUsages { get; set; }
         public ICollection<ProductAdvertImage> ProductAdvertImages { get; set; }
+        public ICollection<ProductAdvertAccessory> ProductAdvertAccessories { get; set; }
     }
 }
