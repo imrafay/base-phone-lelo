@@ -1,97 +1,47 @@
-<div class="page-header" style="background: url(assets/img/banner1.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="breadcrumb-wrapper">
-                    <h2 class="product-title">Post you Ads</h2>
-                    <ol class="breadcrumb">
-                        <li><a href="#">Home /</a></li>
-                        <li class="current">Post you Ads</li>
-                    </ol>
+<div id="content" class="section-padding">
+    <div class="row center" style="margin-top:20px;">
+        <div class="col-sm-12 col-md-12 page-sidebar">
+            <aside>
+                <div class="sidebar-box">
+                    <div>
+                        <section class="mb-4 mt-4">
+                            <div class="text-center">
+                                <h4 class="" style="    color: #233d7b;
+                                    ">
+                                    Sell your Phone With 4 Easy &amp; Simple Steps!
+                                </h4>
+                                <p class="" style="color: #070707;">It's free and takes less than a minute</p>
+                                <div class="" style="    margin: 20px 0 -10px;">
+
+                                    <i class="fa fa-phone header-logo"></i>
+                                    <span>
+                                        Enter Your Car Information
+                                    </span>
+                                    <i class="fa fa-upload header-logo" aria-hidden="true"></i>
+                                    <span>
+                                        Upload Photos
+                                    </span>
+                                    <i class="fas fa-money-check-alt header-logo"></i>
+                                    <span>
+
+                                        Enter Your Selling Price
+                                    </span>
+                                    <i class="fa fa-info-circle header-logo" aria-hidden="true"></i>
+                                    <span>
+
+                                        Enter Your Phone Condition
+                                    </span>
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
-            </div>
+
+            </aside>
         </div>
     </div>
-</div>
-<div id="content" class="section-padding">
     <div class="container">
-        <div class="row center">
-            <div class="col-sm-12 col-md-8 page-sidebar">
-                <aside>
-                    <div class="sidebar-box">
-                        <div class="user">
-                            <figure>
-                                <a href="#"><img src="../../../assets/img/author/img1.jpg" alt=""></a>
-                            </figure>
-                            <div class="usercontent">
-                                <h3>Hello {{appSession.user.name}}!</h3>
-                                <h4>Administrator</h4>
-                            </div>
-                        </div>
-                        <!-- <nav class="navdashboard">
-                            <ul>
-                                <li>
-                                    <a href="dashboard.html">
-                                        <i class="lni-dashboard"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="account-profile-setting.html">
-                                        <i class="lni-cog"></i>
-                                        <span>Profile Settings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="account-myads.html">
-                                        <i class="lni-layers"></i>
-                                        <span>My Ads</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="lni-envelope"></i>
-                                        <span>Offers/Messages</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="payments.html">
-                                        <i class="lni-wallet"></i>
-                                        <span>Payments</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="account-favourite-ads.html">
-                                        <i class="lni-heart"></i>
-                                        <span>My Favourites</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="account-profile-setting.html">
-                                        <i class="lni-star"></i>
-                                        <span>Privacy Settings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a routerLink="/account/login" (click)="logout()">
-                                        <i class="lni-enter"></i>
-                                        <span>Logout</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav> -->
-                    </div>
-                    <!-- <div class="widget">
-                        <h4 class="widget-title">Advertisement</h4>
-                        <div class="add-box">
-                            <img class="img-fluid" src="../../../assets/img/img1.jpg" alt="">
-                        </div>
-                    </div> -->
-                </aside>
-            </div>
-
-
-        </div>
         <div class="row center">
             <div class="col-sm-12 col-md-10">
                 <div class=" page-content">
@@ -152,84 +102,37 @@
                             <label class="control-label fontColor">Battery Timing</label><br>
                             <div class="form-group mb-3 box-container-dotted">
                                 <label class="control-label fw-500">With Wifi</label><br>
-                                <label class="control-label p-2">5-7 hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
-                                <label class="control-label p-2">7-10 hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
-                                <label class="control-label p-2">12+ hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
+
+                                <span class="form-group mb-3" *ngFor="let battery of batteryWifi">
+                                    <label class="ml-1 p-2">{{battery.name}} hours</label>
+                                    <input name="batteryTimingWifi" type="radio" value="{{battery.id}}">
+                                </span>
+
 
                                 <br>
                                 <label class="control-label fw-500">With Gaming</label><br>
-                                <label class="control-label p-2">5-7 hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
-                                <label class="control-label p-2">7-10 hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
-                                <label class="control-label p-2">12+ hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
-
-
-
-                                <br>
-                                <label class="control-label fw-500">With Mobile Data</label><br>
-                                <label class="control-label p-2">5-7 hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
-                                <label class="control-label p-2">7-10 hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
-                                <label class="control-label p-2">12+ hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
+                                <span class="form-group mb-3" *ngFor="let battery of batteryGaming">
+                                    <label class="ml-1 p-2">{{battery.name}} hours</label>
+                                    <input name="batteryTimingWifi" type="radio" value="{{battery.id}}">
+                                </span>
 
                                 <br>
                                 <label class="control-label fw-500">With 3G / 4G</label><br>
-                                <label class="control-label p-2">5-7 hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
-                                <label class="control-label p-2">7-10 hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
-                                <label class="control-label p-2">12+ hours</label>
-                                <input type="radio" name="isNegotiable" value="Negotiable" />
+                                <span class="form-group mb-3" *ngFor="let battery of batteryMobileData">
+                                    <label class="ml-1 p-2">{{battery.name}} hours</label>
+                                    <input name="batteryTimingWifi" type="radio" value="{{battery.id}}">
+                                </span>
                             </div>
-                            <!-- <div class="form-group mb-3">
-                                    <label class="control-label fontColor">Price Title</label>
-                                    <input class="form-control input-md" name="price" placeholder="Ad your Price"
-                                        type="text">
-                                    <div class="tg-checkbox mt-3">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="tg-priceoncall">
-                                            <label class="custom-control-label fontColor" for="tg-priceoncall">Price On
-                                                Call</label>
-                                        </div>
-                                    </div>
-                                </div> -->
+
                             <div class="form-group md-3">
                                 <section id="editor">
                                     <div id="summernote">
                                     </div>
                                 </section>
                             </div>
-                            <!-- <label class="tg-fileuploadlabel" for="tg-photogallery">
-                                    <span>Drop files anywhere to upload</span>
-                                    <span>Or</span>
-                                    <span class="btn btn-common">Select Files</span>
-                                    <span>Maximum upload file size: 500 KB</span>
-                                    <input id="tg-photogallery" class="tg-fileinput" type="file" name="file">
-                                </label> -->
-                            <!-- <p-fileUpload #pfileUpload class="file-upload-section" multiple="multiple"
-                                    name="pfileUpload" [url]="uploadUrl" accept=".png" maxFileSize="10000000"
-                                    (onBeforeUpload)="onBeforeUpload($event)" (onUpload)="onUpload($event)"
-                                    (onSelect)="onSelect($event)" (onRemove)="onRemove($event)" chooseLabel="Browse"
-                                    [auto]="true" (onError)="onError($event)" [showUploadButton]="false"
-                                    [showCancelButton]="false">
-                                    <ng-template pTemplate="content">
-                                        <ul *ngIf="uploadedFiles.length">
-                                            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes
-                                            </li>
-                                        </ul>
-                                    </ng-template>
-                                </p-fileUpload> -->
-
-
                         </div>
                     </div>
+
                     <div class="inner-box mt-3 mb-3">
                         <div class="dashboard-box">
                             <h2 class="dashbord-title">Image Upload</h2>
@@ -243,13 +146,18 @@
                                 [showCancelButton]="false">
                                 <ng-template pTemplate="content">
                                     <ul *ngIf="uploadedFiles.length">
-                                        <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes
+                                        <li *ngFor="let file of uploadedFiles">
+                                            <span>
+                                                <input type="radio" name="fileName" value="{{file.name}}">
+                                                {{file.name}}
+                                            </span>
                                         </li>
                                     </ul>
                                 </ng-template>
                             </p-fileUpload>
                         </div>
                     </div>
+
                     <div class="inner-box mt-3 mb-3">
                         <div class="dashboard-box">
                             <h2 class="dashbord-title">Price</h2>
@@ -286,43 +194,99 @@
                         </div>
                     </div>
 
-
-                </div>
-
-
-            </div>
-
-            <div class="col-sm-12 col-md-10">
-
-                <div class="inner-box mt-3 mb-3">
-                    <div class="tg-contactdetail">
+                    <div class="inner-box mt-3 mb-3">
                         <div class="dashboard-box">
-                            <h2 class="dashbord-title">Contact Detail</h2>
+                            <h2 class="dashbord-title">Mobile Condition</h2>
                         </div>
                         <div class="dashboard-wrapper">
+
                             <div class="form-group mb-3">
-                                <label class="control-label fontColor">First Name*</label>
-                                <input class="form-control input-md" name="name" type="text"
-                                    [(ngModel)]="appSession.user.name">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Last Name*</label>
-                                <input class="form-control input-md" name="name" type="text"
-                                    [(ngModel)]="appSession.user.surname">
+                                <label class="control-label fontColor">Spot</label>
+                                <input class="form-control input-md" name="Title" placeholder="0%" type="text">
                             </div>
                             <div class="form-group mb-3">
-                                <label class="control-label fontColor">Phone*</label>
-                                <input class="form-control input-md" name="phone" type="text">
+                                <label class="control-label fontColor">Damage</label>
+                                <input class="form-control input-md" name="Damage" placeholder="0%" type="text">
                             </div>
                             <div class="form-group mb-3">
-                                <label class="control-label fontColor">Enter Address</label>
-                                <input class="form-control input-md" name="address" type="text">
+                                <label class="control-label fontColor">Scratch</label>
+                                <input class="form-control input-md" name="Scratch" placeholder="0%" type="text">
                             </div>
-                            <div>
-                                <app-create-user-location (onSelectAllDropdownEvents)="onSelectDropdown($event)">
-                                </app-create-user-location>
+                            <div class="form-group mb-3">
+                                <label class="control-label fontColor">Finger working</label><br>
+
+                                <label class="control-label p-2">Yes</label>
+                                <input type="radio" name="isFingerWorking" value="new" />
+
+                                <label class="control-label p-2">No</label>
+                                <input type="radio" name="isFingerWorking" value="used" />
                             </div>
-                            <!-- <div class="form-group mb-3 tg-inputwithicon">
+                            <div class="form-group mb-3">
+                                <label class="control-label fontColor">Face working</label><br>
+
+                                <label class="control-label p-2">Yes</label>
+                                <input type="radio" name="isFaceWorking" value="new" />
+
+                                <label class="control-label p-2">No</label>
+                                <input type="radio" name="isFaceWorking" value="used" />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="inner-box mt-3 mb-3">
+                        <div class="dashboard-box">
+                            <h2 class="dashbord-title">Mobile Specification</h2>
+                        </div>
+                        <div class="dashboard-wrapper">
+
+                            <div class="form-group mb-3">
+                                <label class="control-label fontColor">Ram</label>
+
+                                <p-dropdown [options]="ram" optionLabel="name" name="Ram" [style]="{'width':'100%'}"
+                                    placeholder="Select Ram">
+                                </p-dropdown>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="control-label fontColor">Storage</label>
+
+                                <p-dropdown [options]="storage" optionLabel="name" name="Storage"
+                                    [style]="{'width':'100%'}" placeholder="Select Storage">
+                                </p-dropdown>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="inner-box mt-3 mb-3">
+                        <div class="tg-contactdetail">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Contact Detail</h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">First Name*</label>
+                                    <input class="form-control input-md" name="name" type="text"
+                                        [(ngModel)]="appSession.user.name">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Last Name*</label>
+                                    <input class="form-control input-md" name="name" type="text"
+                                        [(ngModel)]="appSession.user.surname">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Phone*</label>
+                                    <input class="form-control input-md" name="phone" type="text">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Enter Address</label>
+                                    <input class="form-control input-md" name="address" type="text">
+                                </div>
+                                <div>
+                                    <app-create-user-location (onSelectAllDropdownEvents)="onSelectDropdown($event)">
+                                    </app-create-user-location>
+                                </div>
+                                <!-- <div class="form-group mb-3 tg-inputwithicon">
                                 <label class="control-label fontColor">Country</label>
                                 <div class="tg-select form-control">
                                     <select>
@@ -356,20 +320,22 @@
                                     </select>
                                 </div>
                             </div> -->
-                            <div class="tg-checkbox">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="tg-agreetermsandrules">
-                                    <label class="custom-control-label fontColor" for="tg-agreetermsandrules">I agree to
-                                        all <a href="javascript:void(0);">Terms of Use &amp; Posting
-                                            Rules</a></label>
+                                <div class="tg-checkbox">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="tg-agreetermsandrules">
+                                        <label class="custom-control-label fontColor" for="tg-agreetermsandrules">I
+                                            agree to
+                                            all <a href="javascript:void(0);">Terms of Use &amp; Posting
+                                                Rules</a></label>
+                                    </div>
                                 </div>
+                                <button class="btn btn-common" type="button">Post Ad</button>
                             </div>
-                            <button class="btn btn-common" type="button">Post Ad</button>
                         </div>
                     </div>
+
+
                 </div>
-
-
             </div>
         </div>
     </div>

@@ -41,7 +41,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
 
   ) {
     super(injector);
-     this.uploadUrl = this.baseUrl + "api/File/UploadFiles";
+    this.uploadUrl = this.baseUrl + "api/File/UploadFiles";
 
 
     console.log(this.appSession)
@@ -52,6 +52,45 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   pricesBargaining = [
     { name: 'Negotiable', id: 1 },
     { name: 'Fixed', id: 2 },
+  ]
+
+  batteryWifi = [
+    { name: '5-7', id: 1 },
+    { name: '7-10', id: 2 },
+    { name: '10-12', id: 3 },
+    { name: '15+', id: 4 },
+  ]
+  batteryGaming = [
+    { name: '5-7', id: 1 },
+    { name: '7-10', id: 2 },
+    { name: '10-12', id: 3 },
+    { name: '15+', id: 4 },
+  ]
+  batteryMobileData = [
+    { name: '5-7', id: 1 },
+    { name: '7-10', id: 2 },
+    { name: '10-12', id: 3 },
+    { name: '15+', id: 4 },
+  ]
+  ram = [
+    { name: '2', id: 1 },
+    { name: '3', id: 2 },
+    { name: '4', id: 3 },
+    { name: '6', id: 4 },
+    { name: '8', id: 5 },
+    { name: '9', id: 6 },
+    { name: '10', id: 7 },
+    { name: '12', id: 8 },
+    { name: '12+', id: 9 },
+  ]
+  storage = [
+    { name: '16gb', id: 1 },
+    { name: '32gb', id: 2 },
+    { name: '64gb', id: 3 },
+    { name: '128gb', id: 4 },
+    { name: '256gb', id: 5 },
+    { name: '512gb', id: 6 },
+    { name: '1tb', id: 7 },
 
   ]
   ngOnInit(): void {
