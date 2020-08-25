@@ -150,7 +150,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
 
   sendVerificationCode() {
 
-    this._UserServiceProxy.verifyUserPhoneNumberPost(this.userId, this.inputVerifyCode).subscribe(res => {
+    this._UserServiceProxy.verifyUserPhoneNumber(this.userId, this.inputVerifyCode).subscribe(res => {
       console.log(res)
       if (res == true) {
         this.registerAsUserChoice = true
@@ -168,7 +168,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   }
 
   getRoles() {
-    this._UserServiceProxy.getRolesGet().subscribe(res => {
+    this._UserServiceProxy.getRoles().subscribe(res => {
       this.roles = res.items;
       console.log(this.roles)
       this.cd.detectChanges();

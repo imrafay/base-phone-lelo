@@ -2,7 +2,7 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { AppAuthService } from '@shared/auth/app-auth.service';
 import { AppComponentBase } from '@shared/app-component-base';
-import { DropdownOutputDto, RoleDto, UserServiceProxy, ProductCompanyServiceProxy, ProductModelServiceProxy } from '@shared/service-proxies/service-proxies';
+import { DropdownOutputDto, RoleDto,UserLocationServiceProxy, UserServiceProxy, ProductCompanyServiceProxy, ProductModelServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppConsts } from '@shared/AppConsts';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SelectItem, MenuItem } from 'primeng/api';
@@ -36,6 +36,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     private _AppSessionService: AppSessionService,
     private _authService: AppAuthService,
     private _UserServiceProxy: UserServiceProxy,
+    private _UserLocationServiceProxy: UserLocationServiceProxy,
     private _ProductCompanyService: ProductCompanyServiceProxy,
     private _ProductModelService: ProductModelServiceProxy
 
@@ -92,7 +93,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   }
   getAllStates() {
 
-    this._UserServiceProxy.getStates().subscribe(res => {
+    this._UserLocationServiceProxy.getStates().subscribe(res => {
       this.states = res;
       console.log(this.states)
 
@@ -101,7 +102,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   }
   getAllCities() {
 
-    this._UserServiceProxy.getCitiesByStateId(4).subscribe(res => {
+    this._UserLocationServiceProxy.getCitiesByStateId(4).subscribe(res => {
       this.city = res;
 
     })
