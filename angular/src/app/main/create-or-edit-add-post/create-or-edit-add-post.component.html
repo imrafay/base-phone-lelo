@@ -1,342 +1,368 @@
-<div id="content" class="section-padding">
-    <div class="row center" style="margin-top:20px;">
-        <div class="col-sm-12 col-md-12 page-sidebar">
-            <aside>
-                <div class="sidebar-box">
-                    <div>
-                        <section class="mb-4 mt-4">
-                            <div class="text-center">
-                                <h4 class="" style="    color: #233d7b;
+<form name="form" (ngSubmit)="f.form.valid && onPostAd()" #f="ngForm" novalidate>
+    <div id="content" class="section-padding">
+        <div class="row center" style="margin-top:20px;">
+            <div class="col-sm-12 col-md-12 page-sidebar">
+                <aside>
+                    <div class="sidebar-box">
+                        <div>
+                            <section class="mb-4 mt-4">
+                                <div class="text-center">
+                                    <h4 class="" style="    color: #233d7b;
                                     ">
-                                    Sell your Phone With 4 Easy &amp; Simple Steps!
-                                </h4>
-                                <p class="" style="color: #070707;">It's free and takes less than a minute</p>
-                                <div class="" style="    margin: 20px 0 -10px;">
+                                        Sell your Phone With 4 Easy &amp; Simple Steps!
+                                    </h4>
+                                    <p class="" style="color: #070707;">It's free and takes less than a minute</p>
+                                    <div class="" style="    margin: 20px 0 -10px;">
 
-                                    <i class="fa fa-phone header-logo"></i>
-                                    <span>
-                                        Enter Your Car Information
-                                    </span>
-                                    <i class="fa fa-upload header-logo" aria-hidden="true"></i>
-                                    <span>
-                                        Upload Photos
-                                    </span>
-                                    <i class="fas fa-money-check-alt header-logo"></i>
-                                    <span>
+                                        <i class="fa fa-phone header-logo"></i>
+                                        <span>
+                                            Enter Your Phone Information
+                                        </span>
+                                        <i class="fa fa-upload header-logo" aria-hidden="true"></i>
+                                        <span>
+                                            Upload Photos
+                                        </span>
+                                        <i class="fas fa-money-check-alt header-logo"></i>
+                                        <span>
 
-                                        Enter Your Selling Price
-                                    </span>
-                                    <i class="fa fa-info-circle header-logo" aria-hidden="true"></i>
-                                    <span>
+                                            Enter Your Selling Price
+                                        </span>
+                                        <i class="fa fa-info-circle header-logo" aria-hidden="true"></i>
+                                        <span>
 
-                                        Enter Your Phone Condition
-                                    </span>
+                                            Enter Your Phone Condition
+                                        </span>
 
+                                    </div>
                                 </div>
-                            </div>
-                        </section>
+                            </section>
+                        </div>
                     </div>
-                </div>
 
-            </aside>
+                </aside>
+            </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="row center">
-            <div class="col-sm-12 col-md-10">
-                <div class=" page-content">
+        <div>
 
-                    <div class="inner-box mt-3 mb-3">
-                        <div class="dashboard-box">
-                            <h2 class="dashbord-title">Mobile Information</h2>
-                        </div>
-                        <div class="dashboard-wrapper">
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Phone Title</label>
-                                <input class="form-control input-md" name="Title" placeholder="Title" type="text">
+        </div>
+        <div class="container">
+            <div class="row center">
+                <div class="col-sm-12 col-md-10">
+                    <div class=" page-content">
+
+                        <div class="inner-box mt-3 mb-3">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Mobile Information</h2>
                             </div>
-                            <div class="form-group mb-3" *ngIf="productBrands.length">
-                                <label class="control-label fontColor">Brands</label>
+                            <div class="dashboard-wrapper">
 
-                                <p-dropdown [options]="productBrands" [(ngModel)]="selectedProductBrands"
-                                    optionLabel="name" name="productBrands" [style]="{'width':'100%'}"
-                                    (onChange)="onSelectBrand($event)" placeholder="Select Brand" [filter]="true">
-                                </p-dropdown>
-                            </div>
-                            <div class="form-group mb-3" *ngIf="productModel.length">
-                                <label class="control-label fontColor">Model</label>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Phone Title</label>
+                                    <input class="form-control input-md" name="Title" placeholder="Title" type="text"
+                                        [(ngModel)]="phoneTitle">
 
-                                <p-dropdown [options]="productModel" [(ngModel)]="selectedProductModel"
-                                    optionLabel="name" name="productModel" [style]="{'width':'100%'}"
-                                    (onChange)="onSelectProduct($event)" placeholder="Select Model" [filter]="true">
-                                </p-dropdown>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Condtion</label><br>
+                                </div>
+                                <div class="form-group mb-3" *ngIf="productBrands.length">
+                                    <label class="control-label fontColor">Brands</label>
 
-                                <label class="control-label p-2">New</label>
-                                <input type="radio" name="isNew" value="new" />
-
-                                <label class="control-label p-2">Used</label>
-                                <input type="radio" name="isNew" value="used" />
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Accessories</label>
-
-                                <p-multiSelect [options]="accessories" [(ngModel)]="selectedAccessories"
-                                    [style]="{'width':'100%'}" placeholder="Select Accessories">
-                                </p-multiSelect>
-
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">PTA</label><br>
-
-                                <label class="control-label p-2">approved</label>
-                                <input type="radio" name="isAapproved" value="approved" />
-
-                                <label class="control-label p-2">non approved</label>
-                                <input type="radio" name="isAapproved" value="nonapproved" />
-                            </div>
+                                    <p-dropdown [options]="productBrands" [(ngModel)]="selectedProductBrands"
+                                        optionLabel="name" name="productBrands" [style]="{'width':'100%'}"
+                                        (onChange)="onSelectBrand($event)" placeholder="Select Brand" [filter]="true">
+                                    </p-dropdown>
 
 
-                            <label class="control-label fontColor">Battery Timing</label><br>
-                            <div class="form-group mb-3 box-container-dotted">
-                                <label class="control-label fw-500">With Wifi</label><br>
+                                </div>
+                                <div class="form-group mb-3" *ngIf="productModel.length">
+                                    <label class="control-label fontColor">Model</label>
 
-                                <span class="form-group mb-3" *ngFor="let battery of batteryWifi">
-                                    <label class="ml-1 p-2">{{battery.name}} hours</label>
-                                    <input name="batteryTimingWifi" type="radio" value="{{battery.id}}">
-                                </span>
+                                    <p-dropdown [options]="productModel" [(ngModel)]="selectedProductModel"
+                                        optionLabel="name" name="productModel" [style]="{'width':'100%'}"
+                                        (onChange)="onSelectProduct($event)" placeholder="Select Model" [filter]="true">
+                                    </p-dropdown>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Accessories</label>
+
+                                    <p-multiSelect [options]="accessories" [(ngModel)]="selectedAccessories"
+                                        [style]="{'width':'100%'}" (onChange)="onSelectAccessories($event)"
+                                        placeholder="Select Accessories" optionLabel="name" name="selectedAccessories">
+                                    </p-multiSelect>
 
 
-                                <br>
-                                <label class="control-label fw-500">With Gaming</label><br>
-                                <span class="form-group mb-3" *ngFor="let battery of batteryGaming">
-                                    <label class="ml-1 p-2">{{battery.name}} hours</label>
-                                    <input name="batteryTimingWifi" type="radio" value="{{battery.id}}">
-                                </span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Condtion</label><br>
+                                    <span class="form-group mb-3" *ngFor="let cond of condition">
+                                        <label class="control-label p-2">{{cond.name}}</label>
+                                        <input name="condition" type="radio" value="{{cond.id}}" [(ngModel)]="isNew"
+                                            name="isNew">
+                                    </span>
 
-                                <br>
-                                <label class="control-label fw-500">With 3G / 4G</label><br>
-                                <span class="form-group mb-3" *ngFor="let battery of batteryMobileData">
-                                    <label class="ml-1 p-2">{{battery.name}} hours</label>
-                                    <input name="batteryTimingWifi" type="radio" value="{{battery.id}}">
-                                </span>
-                            </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Exchange</label><br>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" value="{{bool.id}}" name="isExchange"
+                                            [(ngModel)]="isExchange">
+                                    </span>
 
-                            <div class="form-group md-3">
-                                <section id="editor">
-                                    <div id="summernote">
-                                    </div>
-                                </section>
-                            </div>
-                        </div>
-                    </div>
+                                </div>
 
-                    <div class="inner-box mt-3 mb-3">
-                        <div class="dashboard-box">
-                            <h2 class="dashbord-title">Image Upload</h2>
-                        </div>
-                        <div class="dashboard-wrapper">
-                            <p-fileUpload #pfileUpload class="file-upload-section" multiple="multiple"
-                                name="pfileUpload" [url]="uploadUrl" accept=".png" maxFileSize="10000000"
-                                (onBeforeUpload)="onBeforeUpload($event)" (onUpload)="onUpload($event)"
-                                (onSelect)="onSelect($event)" (onRemove)="onRemove($event)" chooseLabel="Browse"
-                                [auto]="true" (onError)="onError($event)" [showUploadButton]="false"
-                                [showCancelButton]="false">
-                                <ng-template pTemplate="content">
-                                    <ul *ngIf="uploadedFiles.length">
-                                        <li *ngFor="let file of uploadedFiles">
-                                            <span>
-                                                <input type="radio" name="fileName" value="{{file.name}}">
-                                                {{file.name}}
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </ng-template>
-                            </p-fileUpload>
-                        </div>
-                    </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">PTA</label><br>
+                                    <span class="form-group mb-3" *ngFor="let status of ptaStatus">
+                                        <label class="control-label p-2">{{status.name}}</label>
+                                        <input name="status" type="radio" value="{{status.id}}"
+                                            [(ngModel)]="isPtaApproved" name="isPtaApproved">
+                                    </span>
 
-                    <div class="inner-box mt-3 mb-3">
-                        <div class="dashboard-box">
-                            <h2 class="dashbord-title">Price</h2>
-                        </div>
-                        <div class="dashboard-wrapper">
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Price Title</label>
-                                <input class="form-control input-md" name="price" placeholder="Ad your Price"
-                                    type="text">
-                                <div class="tg-checkbox mt-3">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="tg-priceoncall">
-                                        <label class="custom-control-label fontColor" for="tg-priceoncall">Price On
-                                            Call</label>
-                                    </div>
+                                </div>
+
+
+                                <label class="control-label fontColor">Battery Timing</label><br>
+                                <div class="form-group mb-3 box-container-dotted">
+                                    <label class="control-label fw-500">With Wifi</label><br>
+
+                                    <span class="form-group mb-3" *ngFor="let battery of batteryWifi">
+                                        <input type="radio" value="{{battery.id}}" name="batteryWifi"
+                                            [(ngModel)]="selectedBatteryWifi">
+                                        <label class="ml-1 p-2">{{battery.name}} hours</label>
+                                    </span>
+
+
+                                    <br>
+                                    <label class="control-label fw-500">With Gaming</label><br>
+                                    <span class="form-group mb-3" *ngFor="let battery of batteryGaming">
+                                        <input type="radio" value="{{battery.id}}" name="batteryGaming"
+                                            [(ngModel)]="selectedBatteryGaming">
+                                        <label class="ml-1 p-2">{{battery.name}} hours</label>
+                                    </span>
+
+                                    <br>
+                                    <label class="control-label fw-500">With 3G / 4G</label><br>
+                                    <span class="form-group mb-3" *ngFor="let battery of batteryMobileData">
+                                        <input name="batteryMobileData" type="radio" value="{{battery.id}}"
+                                            [(ngModel)]="selectedBatteryMobileData">
+                                        <label class="ml-1 p-2">{{battery.name}} hours</label>
+                                    </span>
+                                </div>
+
+                                <div class="form-group mb-3" *ngIf="selectedProductBrands['name'] == 'Apple'">
+                                    <label class="control-label fontColor">Battery health</label><br>
+                                    <input class="form-control input-md" name="name" type="text" placeholder="0%"
+                                        [(ngModel)]="batteryHealth">
+
                                 </div>
                             </div>
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Price Bargaining</label><br>
-                                <span class="form-group mb-3" *ngFor="let price of pricesBargaining">
-                                    <label class="ml-1 p-2">{{price.name}}</label>
-                                    <input name="selectRole" type="radio" (change)="onSelectNegotiable($event)"
-                                        value="{{price.id}}">
-                                </span>
-                            </div>
-                            <div class="form-group mb-5 mt-4" *ngIf="isNegotiable == true">
-
-                                <p-slider [(ngModel)]="rangeValues" [range]="true" [style]="{'width':'50%'}" [min]="0"
-                                    [max]="5000" (onChange)="handleChange($event)"></p-slider>
-                                <br> <label style="margin-top: 5px;">
-                                    {{rangeValues[0] + ' Rs  - ' + rangeValues[1] + ' Rs'}}</label>
-                            </div>
 
                         </div>
-                    </div>
 
-                    <div class="inner-box mt-3 mb-3">
-                        <div class="dashboard-box">
-                            <h2 class="dashbord-title">Mobile Condition</h2>
-                        </div>
-                        <div class="dashboard-wrapper">
-
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Spot</label>
-                                <input class="form-control input-md" name="Title" placeholder="0%" type="text">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Damage</label>
-                                <input class="form-control input-md" name="Damage" placeholder="0%" type="text">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Scratch</label>
-                                <input class="form-control input-md" name="Scratch" placeholder="0%" type="text">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Finger working</label><br>
-
-                                <label class="control-label p-2">Yes</label>
-                                <input type="radio" name="isFingerWorking" value="new" />
-
-                                <label class="control-label p-2">No</label>
-                                <input type="radio" name="isFingerWorking" value="used" />
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Face working</label><br>
-
-                                <label class="control-label p-2">Yes</label>
-                                <input type="radio" name="isFaceWorking" value="new" />
-
-                                <label class="control-label p-2">No</label>
-                                <input type="radio" name="isFaceWorking" value="used" />
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="inner-box mt-3 mb-3">
-                        <div class="dashboard-box">
-                            <h2 class="dashbord-title">Mobile Specification</h2>
-                        </div>
-                        <div class="dashboard-wrapper">
-
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Ram</label>
-
-                                <p-dropdown [options]="ram" optionLabel="name" name="Ram" [style]="{'width':'100%'}"
-                                    placeholder="Select Ram">
-                                </p-dropdown>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="control-label fontColor">Storage</label>
-
-                                <p-dropdown [options]="storage" optionLabel="name" name="Storage"
-                                    [style]="{'width':'100%'}" placeholder="Select Storage">
-                                </p-dropdown>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="inner-box mt-3 mb-3">
-                        <div class="tg-contactdetail">
+                        <div class="inner-box mt-3 mb-3">
                             <div class="dashboard-box">
-                                <h2 class="dashbord-title">Contact Detail</h2>
+                                <h2 class="dashbord-title">Image Upload</h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+                                <p-fileUpload #pfileUpload class="file-upload-section" multiple="multiple"
+                                    name="pfileUpload" [url]="uploadUrl" accept=".png" maxFileSize="10000000"
+                                    (onBeforeUpload)="onBeforeUpload($event)" (onUpload)="onUpload($event)"
+                                    (onSelect)="onSelect($event)" (onRemove)="onRemove($event)" chooseLabel="Browse"
+                                    [auto]="true" (onError)="onError($event)" [showUploadButton]="false"
+                                    [showCancelButton]="false">
+                                    <ng-template pTemplate="content">
+                                        <ul *ngIf="uploadedFiles.length">
+                                            <li *ngFor="let file of uploadedFiles">
+                                                <span>
+                                                    <input type="radio" name="fileName" value="{{file.name}}">
+                                                    {{file.name}}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </ng-template>
+                                </p-fileUpload>
+                            </div>
+                        </div>
+
+                        <div class="inner-box mt-3 mb-3">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Price</h2>
                             </div>
                             <div class="dashboard-wrapper">
                                 <div class="form-group mb-3">
-                                    <label class="control-label fontColor">First Name*</label>
-                                    <input class="form-control input-md" name="name" type="text"
-                                        [(ngModel)]="appSession.user.name">
+                                    <label class="control-label fontColor">Price</label>
+                                    <input class="form-control input-md" name="price" placeholder="Ad your Price"
+                                        [(ngModel)]="price" type="text">
+
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label class="control-label fontColor">Last Name*</label>
-                                    <input class="form-control input-md" name="name" type="text"
-                                        [(ngModel)]="appSession.user.surname">
+                                    <label class="control-label fontColor">Price Bargaining</label><br>
+                                    <span class="form-group mb-3" *ngFor="let price of pricesBargaining">
+                                        <label class="ml-1 p-2">{{price.name}}</label>
+                                        <input name="selectRole" type="radio" [(ngModel)]="isNegotiable"
+                                            value="{{price.id}}">
+                                    </span>
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label class="control-label fontColor">Phone*</label>
-                                    <input class="form-control input-md" name="phone" type="text">
+                                <div class="form-group mb-5 mt-4" *ngIf="isNegotiable == 1">
+
+                                    <p-slider [(ngModel)]="rangeValues" [range]="true" [style]="{'width':'50%'}"
+                                        [min]="0" [max]="5000" (onChange)="handleChange($event)" name="rangeSlider">
+                                    </p-slider>
+                                    <br> <label style="margin-top: 5px;">
+                                        {{rangeValues[0] + ' Rs  - ' + rangeValues[1] + ' Rs'}}</label>
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label class="control-label fontColor">Enter Address</label>
-                                    <input class="form-control input-md" name="address" type="text">
-                                </div>
-                                <div>
-                                    <app-create-user-location (onSelectAllDropdownEvents)="onSelectDropdown($event)">
-                                    </app-create-user-location>
-                                </div>
-                                <!-- <div class="form-group mb-3 tg-inputwithicon">
-                                <label class="control-label fontColor">Country</label>
-                                <div class="tg-select form-control">
-                                    <select>
-                                        <option value="none">Select Country</option>
-                                        <option value="none">Country 1</option>
-                                        <option value="none">Country 2</option>
-                                        <option value="none">Country 3</option>
-                                        <option value="none">Country 4</option>
-                                        <option value="none">Country 5</option>
-                                        <option value="none">Country 6</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 tg-inputwithicon">
-                                <label class="control-label fontColor">State</label>
-                                <div class="tg-select form-control">
-                                    <select>
-                                        <option value="none">Select State</option>
-                                        <option value="none">Select State</option>
-                                        <option value="none">Select State</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group mb-3 tg-inputwithicon">
-                                <label class="control-label fontColor">City</label>
-                                <div class="tg-select form-control">
-                                    <select>
-                                        <option value="none">Select City</option>
-                                        <option value="none">Select City</option>
-                                        <option value="none">Select City</option>
-                                    </select>
-                                </div>
-                            </div> -->
-                                <div class="tg-checkbox">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="tg-agreetermsandrules">
-                                        <label class="custom-control-label fontColor" for="tg-agreetermsandrules">I
-                                            agree to
-                                            all <a href="javascript:void(0);">Terms of Use &amp; Posting
-                                                Rules</a></label>
-                                    </div>
-                                </div>
-                                <button class="btn btn-common" type="button">Post Ad</button>
+
                             </div>
                         </div>
+
+                        <div class="inner-box mt-3 mb-3">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Mobile Condition</h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Spot</label><br>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" value="{{bool.id}}" name="isSpot" [(ngModel)]="isSpot">
+                                    </span>
+
+                                    <span *ngIf="isSpot == 1">
+                                        <input class="form-control input-md" name="Title" placeholder="0%" type="text">
+                                    </span>
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Damage</label>
+                                    <input class="form-control input-md" name="Damage" placeholder="0%" type="text">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Scratch</label>
+                                    <input class="form-control input-md" name="Scratch" placeholder="0%" type="text">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Finger working</label><br>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" value="{{bool.id}}" [(ngModel)]="isFingerWorking"
+                                            name="isFingerWorking">
+                                    </span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Face working</label><br>
+
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" value="{{bool.id}}" [(ngModel)]="isFaceSensorWorking"
+                                            name="isFaceSensorWorking">
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="inner-box mt-3 mb-3">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Mobile Specification</h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Ram</label>
+
+                                    <p-dropdown [options]="ram" optionLabel="name" name="Ram" [style]="{'width':'100%'}"
+                                        placeholder="Select Ram" [(ngModel)]="selectedRam">
+                                    </p-dropdown>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Storage</label>
+
+                                    <p-dropdown [options]="storage" optionLabel="name" name="Storage"
+                                        [style]="{'width':'100%'}" placeholder="Select Storage"
+                                        [(ngModel)]="selectedStorage">
+                                    </p-dropdown>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Kit</label><br>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" value="{{bool.id}}" [(ngModel)]="isKit" name="isKit">
+                                    </span>
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Warranty</label><br>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" value="{{bool.id}}" [(ngModel)]="isWarranty"
+                                            name="isWarranty">
+                                    </span>
+                                    <br>
+                                    <br>
+
+                                    <span *ngIf="isWarranty == 1">
+                                        <input class="form-control input-md" name="Title" placeholder="Warranty months"
+                                            type="text" [(ngModel)]="warrantyMonths">
+                                    </span>
+
+                                </div>
+                                <button class="btn btn-common" type="submit" [disabled]="isValid()">Post
+                                    Ad</button>
+                            </div>
+                        </div>
+
+                        <!-- <div class="inner-box mt-3 mb-3">
+                            <div class="tg-contactdetail">
+                                <div class="dashboard-box">
+                                    <h2 class="dashbord-title">Contact Detail</h2>
+                                </div>
+                                <div class="dashboard-wrapper">
+                                    <div class="form-group mb-3">
+                                        <label class="control-label fontColor">First Name*</label>
+                                        <input class="form-control input-md" name="name" type="text"
+                                            [(ngModel)]="appSession.user.name">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label class="control-label fontColor">Last Name*</label>
+                                        <input class="form-control input-md" name="name" type="text"
+                                            [(ngModel)]="appSession.user.surname">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label class="control-label fontColor">Phone*</label>
+                                        <input class="form-control input-md" name="phone" type="text">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label class="control-label fontColor">Enter Address</label>
+                                        <input class="form-control input-md" name="address" type="text">
+                                    </div>
+                                    <div>
+                                        <app-create-user-location
+                                            (onSelectAllDropdownEvents)="onSelectDropdown($event)">
+                                        </app-create-user-location>
+                                    </div>
+
+                                    <div class="tg-checkbox">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="tg-agreetermsandrules">
+                                            <label class="custom-control-label fontColor" for="tg-agreetermsandrules">I
+                                                agree to
+                                                all <a href="javascript:void(0);">Terms of Use &amp; Posting
+                                                    Rules</a></label>
+                                        </div>
+                                    </div>
+
+                                   
+                                    <button class="btn btn-common" type="submit"  [disabled]="isValid()">Post
+                                        Ad</button>
+                                </div>
+                            </div>
+                        </div> -->
+
+
                     </div>
-
-
                 </div>
             </div>
         </div>
     </div>
-</div>
+</form>

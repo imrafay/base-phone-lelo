@@ -3886,12 +3886,12 @@ export class ProductAdvertInputDto implements IProductAdvertInputDto {
         if (Array.isArray(this.productAdvertBatteryUsages)) {
             data["productAdvertBatteryUsages"] = [];
             for (let item of this.productAdvertBatteryUsages)
-                data["productAdvertBatteryUsages"].push(item.toJSON());
+                data["productAdvertBatteryUsages"].push(item);
         }
         if (Array.isArray(this.productAdvertAccessories)) {
             data["productAdvertAccessories"] = [];
             for (let item of this.productAdvertAccessories)
-                data["productAdvertAccessories"].push(item.toJSON());
+                data["productAdvertAccessories"].push(item);
         }
         return data; 
     }
