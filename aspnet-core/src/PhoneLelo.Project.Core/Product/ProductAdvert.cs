@@ -1,5 +1,8 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using Abp.Organizations;
+using PhoneLelo.Project.Authorization.Users;
+using PhoneLelo.Project.Location;
 using PhoneLelo.Project.Product.Enum;
 using System;
 using System.Collections.Generic;
@@ -13,6 +16,26 @@ namespace PhoneLelo.Project
         public long ProductModelId { get; set; }
         [ForeignKey("ProductModelId")]
         public ProductModel ProductModelFk { get; set; }
+        
+        public long? UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User UserFk { get; set; }
+
+        public long? ProductStoreId { get; set; }
+        [ForeignKey("ProductStoreId")]
+        public ProductStore ProductStoreFk { get; set; }
+
+        public long? StateId { get; set; }
+        [ForeignKey("StateId")]
+        public State StateFk { get; set; }        
+        
+        public long? CityId { get; set; }
+        [ForeignKey("CityId")]
+        public City CityFk { get; set; }        
+        
+        public long? NeighbourhoodId { get; set; }
+        [ForeignKey("NeighbourhoodId")]
+        public Neighbourhood NeighbourhoodFk { get; set; }      
 
         public int Storage { get; set; }
         public int Ram { get; set; }
@@ -33,6 +56,7 @@ namespace PhoneLelo.Project
 
         public bool? IsKit { get; set; }
         public bool? IsInWarranty { get; set; }
+        public bool IsActive { get; set; }
         public int? RemaingWarrantyInMonths { get; set; }
 
         public ICollection<ProductAdvertBatteryUsage> ProductAdvertBatteryUsages { get; set; }
