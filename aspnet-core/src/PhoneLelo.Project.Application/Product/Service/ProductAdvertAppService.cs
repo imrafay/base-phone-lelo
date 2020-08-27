@@ -23,14 +23,17 @@ namespace PhoneLelo.Project.Import.MobilePhone
     {
         private readonly IAbpSession _abpSession;
         private readonly ProductAdvertManager _productAdvertManager;
+        private readonly ProductAdvertViewLogManager _productAdvertViewLogManager;
 
         public ProductAdvertAppService(
 
             IAbpSession abpSession,
-            ProductAdvertManager productAdvertManager)
+            ProductAdvertManager productAdvertManager,
+            ProductAdvertViewLogManager productAdvertViewLogManager)
         {
             _abpSession = abpSession;
             _productAdvertManager = productAdvertManager;
+            _productAdvertViewLogManager = productAdvertViewLogManager;
         }
 
         public async Task Create(ProductAdvertInputDto input)
@@ -233,11 +236,12 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 var productAdvertAccessoryList = (ObjectMapper.Map<List<ProductAdvertAccessoryDto>>
                     (productAdvertAccessories));
 
+                var viewsCount = await GetProductAdverViews(id);
                 return new ProductAdvertDetailViewDto
                 {
                     ProductCompanyName = productAdvert.ProductModelFk.Brand,
                     ProductModelName = productAdvert.ProductModelFk.Model,
-                    Views = GetProductAdverViews(id),
+                    Views = viewsCount,
                     ProductAdvert = productAdvertOutput,
                     ProductAdvertBatteryUsages = productAdvertBatteryUsageList,
                     Images = productAdvertImageList,
@@ -251,49 +255,60 @@ namespace PhoneLelo.Project.Import.MobilePhone
             }
         }
 
+        public async Task<ProductAdvertDetailViewDto> GetProductAdverForDetailView(
+            long advertId)
+        {
+            await _productAdvertViewLogManager.CreateAsync(
+                advertId: advertId,
+                userId: AbpSession.UserId);
+
+            return await GetProductAdverForEdit(advertId);
+        }
+
         public List<DropdownOutputDto> GetRamDropDown()
         {
             var ramEnums = Enum.GetValues(typeof(RamEnum)).Cast<RamEnum>();
 
-           return ramEnums
-                    .Select(
-                        x => new DropdownOutputDto()
-                        {
-                            Id = (long)x,
-                            Name = x.GetDescription()
-                        }).ToList();
+            return ramEnums
+                     .Select(
+                         x => new DropdownOutputDto()
+                         {
+                             Id = (long)x,
+                             Name = x.GetDescription()
+                         }).ToList();
         }
-        
+
         public List<DropdownOutputDto> GetStorageDropDown()
         {
             var storageEnums = Enum.GetValues(typeof(StorageEnum)).Cast<StorageEnum>();
 
-           return storageEnums
-                    .Select(
-                        x => new DropdownOutputDto()
-                        {
-                            Id = (long)x,
-                            Name = x.GetDescription()
-                        }).ToList();
+            return storageEnums
+                     .Select(
+                         x => new DropdownOutputDto()
+                         {
+                             Id = (long)x,
+                             Name = x.GetDescription()
+                         }).ToList();
         }
-        
+
         public List<DropdownOutputDto> GetAccessoriesDropDown()
         {
             var accessoryEnums = Enum.GetValues(typeof(ProductAccessoryEnum))
                 .Cast<ProductAccessoryEnum>();
 
-           return accessoryEnums
-                    .Select(
-                        x => new DropdownOutputDto()
-                        {
-                            Id = (long)x,
-                            Name = x.GetDescription()
-                        }).ToList();
+            return accessoryEnums
+                     .Select(
+                         x => new DropdownOutputDto()
+                         {
+                             Id = (long)x,
+                             Name = x.GetDescription()
+                         }).ToList();
         }
 
-        private int GetProductAdverViews(long id)
+        private async Task<int> GetProductAdverViews(long id)
         {
-            return 0;
+            return await _productAdvertViewLogManager
+                .GetViewsCountByAdvertId(id);
         }
 
         private void PopulateAdvertImage(
