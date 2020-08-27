@@ -38,5 +38,6 @@ namespace PhoneLelo.Project
         public ICollection<ProductAdvertBatteryUsage> ProductAdvertBatteryUsages { get; set; }
         public ICollection<ProductAdvertImage> ProductAdvertImages { get; set; }
         public ICollection<ProductAdvertAccessory> ProductAdvertAccessories { get; set; }
+        public ICollection<ProductAdvertViewLog> ProductAdvertViewLogs{ get; set; }
     }
 }

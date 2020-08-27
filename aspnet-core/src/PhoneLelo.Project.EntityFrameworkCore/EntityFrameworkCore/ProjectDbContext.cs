@@ -27,7 +27,10 @@ namespace PhoneLelo.Project.EntityFrameworkCore
         public virtual DbSet<ProductAdvertBatteryUsage> ProductAdvertBatteryUsages { get; set; }
         
         public virtual DbSet<ProductAdvertImage> ProductAdvertImages { get; set; }
+       
         public virtual DbSet<ProductAdvertAccessory> ProductAdvertAccessories{ get; set; }
+        
+        public virtual DbSet<ProductAdvertViewLog> ProductAdvertViewLogs{ get; set; }
         #endregion
 
         /* Define a DbSet for each entity of the application */
