@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhoneLelo.Project.EntityFrameworkCore;
 
 namespace PhoneLelo.Project.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    partial class ProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200827110200_CreateProductViewLogTable")]
+    partial class CreateProductViewLogTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1751,9 +1753,6 @@ namespace PhoneLelo.Project.Migrations
                     b.Property<int?>("BatteryHealth")
                         .HasColumnType("int");
 
-                    b.Property<long?>("CityId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -1768,9 +1767,6 @@ namespace PhoneLelo.Project.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<bool?>("IsDamage")
                         .HasColumnType("bit");
@@ -1817,16 +1813,10 @@ namespace PhoneLelo.Project.Migrations
                     b.Property<decimal?>("NegotiableMinValue")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<long?>("NeighbourhoodId")
-                        .HasColumnType("bigint");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<long>("ProductModelId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ProductStoreId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Ram")
@@ -1835,28 +1825,12 @@ namespace PhoneLelo.Project.Migrations
                     b.Property<int?>("RemaingWarrantyInMonths")
                         .HasColumnType("int");
 
-                    b.Property<long?>("StateId")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("Storage")
                         .HasColumnType("int");
 
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("NeighbourhoodId");
-
                     b.HasIndex("ProductModelId");
-
-                    b.HasIndex("ProductStoreId");
-
-                    b.HasIndex("StateId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ProductAdverts");
                 });
@@ -2162,57 +2136,6 @@ namespace PhoneLelo.Project.Migrations
                     b.ToTable("ProductModels");
                 });
 
-            modelBuilder.Entity("PhoneLelo.Project.ProductStore", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Latitude")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Longitude")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StoreCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProductStores");
-                });
-
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
                 {
                     b.HasBaseType("Abp.Application.Features.FeatureSetting");
@@ -2460,31 +2383,11 @@ namespace PhoneLelo.Project.Migrations
 
             modelBuilder.Entity("PhoneLelo.Project.ProductAdvert", b =>
                 {
-                    b.HasOne("PhoneLelo.Project.Location.City", "CityFk")
-                        .WithMany()
-                        .HasForeignKey("CityId");
-
-                    b.HasOne("PhoneLelo.Project.Location.Neighbourhood", "NeighbourhoodFk")
-                        .WithMany()
-                        .HasForeignKey("NeighbourhoodId");
-
                     b.HasOne("PhoneLelo.Project.ProductModel", "ProductModelFk")
                         .WithMany()
                         .HasForeignKey("ProductModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("PhoneLelo.Project.ProductStore", "ProductStoreFk")
-                        .WithMany()
-                        .HasForeignKey("ProductStoreId");
-
-                    b.HasOne("PhoneLelo.Project.Location.State", "StateFk")
-                        .WithMany()
-                        .HasForeignKey("StateId");
-
-                    b.HasOne("PhoneLelo.Project.Authorization.Users.User", "UserFk")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("PhoneLelo.Project.ProductAdvertAccessory", b =>

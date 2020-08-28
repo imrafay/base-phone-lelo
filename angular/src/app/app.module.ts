@@ -46,9 +46,7 @@ import { CategoryComponent } from './category/category.component';
 
 import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/sign-up-register-modal.component';
 
-//primeng
-import { DropdownModule } from 'primeng/dropdown';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
 
 @NgModule({
   declarations: [
@@ -98,8 +96,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     NgxPaginationModule,
 
     //primeng
-    DropdownModule,
-    ProgressSpinnerModule,
+    // DropdownModule,
+    // ProgressSpinnerModule,
   ],
   providers: [],
   entryComponents: [

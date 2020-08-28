@@ -7,6 +7,12 @@ namespace PhoneLelo.Project.Product.Dto
 {
     public class ProductAdvertInputDto
     {
+        public ProductAdvertInputDto() 
+        {
+            ProductAdvertBatteryUsages = new List<ProductAdvertBatteryUsageDto>();
+            Images = new List<ProductAdvertImageDto>();
+            ProductAdvertAccessories = new List<ProductAdvertAccessoryDto>();
+        }
         public ProductAdvertDto ProductAdvertinput{ get; set; }
         public List<ProductAdvertImageDto> Images { get; set; }
         public List<ProductAdvertBatteryUsageDto> ProductAdvertBatteryUsages { get; set; }

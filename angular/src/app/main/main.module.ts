@@ -18,7 +18,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {SliderModule} from 'primeng/slider';
 
-import {TabMenuModule} from 'primeng/tabmenu';
+import {TabMenuModule} from 'primeng/tabmenu';;
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { UserSiderbarComponent } from './user-siderbar/user-siderbar.component'
 // import {MenuItem} from 'primeng/api';
 @NgModule({
 	imports: [
@@ -44,6 +46,8 @@ import {TabMenuModule} from 'primeng/tabmenu';
     SliderModule],
 	declarations: [
 	CreateOrEditAddPostComponent,
+	UserDashboardComponent,
+	UserSiderbarComponent
 ],
 	providers: []
 })

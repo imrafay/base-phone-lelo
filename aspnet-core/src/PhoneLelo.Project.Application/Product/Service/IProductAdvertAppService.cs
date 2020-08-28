@@ -24,5 +24,9 @@ namespace PhoneLelo.Project.Import.MobilePhone
         List<DropdownOutputDto> GetStorageDropDown();
 
         List<DropdownOutputDto> GetRamDropDown();
+
+
+        Task<ProductAdvertDetailViewDto> GetProductAdverForDetailView(
+            long advertId);
     }
 }

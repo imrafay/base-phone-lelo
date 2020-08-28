@@ -200,7 +200,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
     console.log(this.selectedNeighbourhood,
       this.selectedCity,
       this.selectedState)
-    this._UserServiceProxy.updateUserLocation(22, this.selectedState['id'], this.selectedCity['id'],
+    this._UserServiceProxy.updateUserLocation(this.userId, this.selectedState['id'], this.selectedCity['id'],
       this.selectedNeighbourhood['id'] ? this.selectedNeighbourhood['id'] : null).subscribe(res => {
         console.log(res)
         this.notify.success(('Location Updated'));

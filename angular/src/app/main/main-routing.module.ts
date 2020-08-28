@@ -1,6 +1,7 @@
 ﻿import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CreateOrEditAddPostComponent } from './create-or-edit-add-post/create-or-edit-add-post.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 
 
 @NgModule({
@@ -9,7 +10,8 @@ import { CreateOrEditAddPostComponent } from './create-or-edit-add-post/create-o
             {
                 path: '',
                 children: [
-                    { path: 'add-post', component: CreateOrEditAddPostComponent  }
+                    { path: 'add-post', component: CreateOrEditAddPostComponent  },
+                    { path: 'user-dashboard', component: UserDashboardComponent  },
                 ]
             }
         ])
