@@ -493,6 +493,9 @@ export class ProductAdvertServiceProxy {
     }
 
     /**
+     * @param stateId (optional) 
+     * @param cityId (optional) 
+     * @param neighbourhoodId (optional) 
      * @param productModelId (optional) 
      * @param productCompanyId (optional) 
      * @param nameFilter (optional) 
@@ -511,8 +514,14 @@ export class ProductAdvertServiceProxy {
      * @param pagedAndSort_SortBy (optional) 
      * @return Success
      */
-    getAll(productModelId: number | null | undefined, productCompanyId: number | null | undefined, nameFilter: string | null | undefined, ramFilter: number[] | null | undefined, storageFilter: number[] | null | undefined, isNew: boolean | null | undefined, isPtaApproved: boolean | null | undefined, isExchangeable: boolean | null | undefined, minPrice: number | null | undefined, maxPrice: number | null | undefined, isNegotiable: boolean | null | undefined, isSpot: boolean | null | undefined, isDamage: boolean | null | undefined, pagedAndSort_Page: number | undefined, pagedAndSort_PageSize: number | undefined, pagedAndSort_SortBy: SortByEnum | undefined): Observable<ProductAdvertViewDtoListResultDto> {
+    getAll(stateId: number | null | undefined, cityId: number | null | undefined, neighbourhoodId: number | null | undefined, productModelId: number | null | undefined, productCompanyId: number | null | undefined, nameFilter: string | null | undefined, ramFilter: number[] | null | undefined, storageFilter: number[] | null | undefined, isNew: boolean | null | undefined, isPtaApproved: boolean | null | undefined, isExchangeable: boolean | null | undefined, minPrice: number | null | undefined, maxPrice: number | null | undefined, isNegotiable: boolean | null | undefined, isSpot: boolean | null | undefined, isDamage: boolean | null | undefined, pagedAndSort_Page: number | undefined, pagedAndSort_PageSize: number | undefined, pagedAndSort_SortBy: SortByEnum | undefined): Observable<ProductAdvertViewDtoListResultDto> {
         let url_ = this.baseUrl + "/api/services/app/ProductAdvert/GetAll?";
+        if (stateId !== undefined && stateId !== null)
+            url_ += "StateId=" + encodeURIComponent("" + stateId) + "&";
+        if (cityId !== undefined && cityId !== null)
+            url_ += "CityId=" + encodeURIComponent("" + cityId) + "&";
+        if (neighbourhoodId !== undefined && neighbourhoodId !== null)
+            url_ += "NeighbourhoodId=" + encodeURIComponent("" + neighbourhoodId) + "&";
         if (productModelId !== undefined && productModelId !== null)
             url_ += "ProductModelId=" + encodeURIComponent("" + productModelId) + "&";
         if (productCompanyId !== undefined && productCompanyId !== null)
@@ -3937,17 +3946,17 @@ export class ProductAdvertInputDto implements IProductAdvertInputDto {
         if (Array.isArray(this.images)) {
             data["images"] = [];
             for (let item of this.images)
-                data["images"].push(item.toJSON());
+                data["images"].push(item);
         }
         if (Array.isArray(this.productAdvertBatteryUsages)) {
             data["productAdvertBatteryUsages"] = [];
             for (let item of this.productAdvertBatteryUsages)
-                data["productAdvertBatteryUsages"].push(item.toJSON());
+                data["productAdvertBatteryUsages"].push(item);
         }
         if (Array.isArray(this.productAdvertAccessories)) {
             data["productAdvertAccessories"] = [];
             for (let item of this.productAdvertAccessories)
-                data["productAdvertAccessories"].push(item.toJSON());
+                data["productAdvertAccessories"].push(item);
         }
         return data; 
     }
