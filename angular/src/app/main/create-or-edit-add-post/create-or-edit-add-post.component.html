@@ -77,7 +77,7 @@
 
                                     <p-dropdown [options]="productModel" [(ngModel)]="selectedProductModel"
                                         optionLabel="name" name="productModel" [style]="{'width':'100%'}"
-                                        (onChange)="onSelectProduct($event)" placeholder="Select Model" [filter]="true">
+                                       placeholder="Select Model" [filter]="true">
                                     </p-dropdown>
                                 </div>
                                 <div class="form-group mb-3">
@@ -257,6 +257,46 @@
                                             name="isFaceSensorWorking">
                                     </span>
                                 </div>
+                                <div class="form-group mb-3">
+                                    <div class="row">
+                                        <div class="col-6">
+
+                                            <label class="control-label fontColor">Description</label><br>
+                                        </div>
+                                        <div class="col-6 reset-btn">
+                                            <a (click)="reset()" style="cursor:pointer">Reset</a>
+                                        </div>
+
+
+                                    </div>
+                                    <textarea name="description" cols="10" rows="3" class="form-control input-md"
+                                        [(ngModel)]="description">
+
+                                    </textarea>
+                                    <div class="border-color-textArea">
+                                        <div class="mt-2" style="    color: #323743;
+                                        ">you can use these suggestion</div>
+                                        <div class="mt-2">
+                                            <a class="suggestion-a" name="suggestion-1"
+                                                (click)="suggestion('Its new like box pack')">Like New</a>
+                                            <a class="suggestion-a" name="suggestion-2"
+                                                (click)="suggestion('Phone is PTA approved')">Pta Approval</a>
+                                            <a class="suggestion-a" name="suggestion-3"
+                                                (click)="suggestion('Phone with orignal box')">Orignal Box</a>
+                                            <a class="suggestion-a" name="suggestion-4"
+                                                (click)="suggestion('It is sealed')">Sealed</a>
+                                            <a class="suggestion-a" name="suggestion-5"
+                                                (click)="suggestion('Its urgent need buyer')">Urgent Sale</a>
+                                            <a class="suggestion-a" name="suggestion-6"
+                                                (click)="suggestion('Its negotiable')">Negotiable</a>
+                                            <a class="suggestion-a" name="suggestion-7"
+                                                (click)="suggestion('Only contact serious buyer')">Contact Serious
+                                                Buyer</a>
+
+
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -310,56 +350,6 @@
                                     Ad</button>
                             </div>
                         </div>
-
-                        <!-- <div class="inner-box mt-3 mb-3">
-                            <div class="tg-contactdetail">
-                                <div class="dashboard-box">
-                                    <h2 class="dashbord-title">Contact Detail</h2>
-                                </div>
-                                <div class="dashboard-wrapper">
-                                    <div class="form-group mb-3">
-                                        <label class="control-label fontColor">First Name*</label>
-                                        <input class="form-control input-md" name="name" type="text"
-                                            [(ngModel)]="appSession.user.name">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label class="control-label fontColor">Last Name*</label>
-                                        <input class="form-control input-md" name="name" type="text"
-                                            [(ngModel)]="appSession.user.surname">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label class="control-label fontColor">Phone*</label>
-                                        <input class="form-control input-md" name="phone" type="text">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label class="control-label fontColor">Enter Address</label>
-                                        <input class="form-control input-md" name="address" type="text">
-                                    </div>
-                                    <div>
-                                        <app-create-user-location
-                                            (onSelectAllDropdownEvents)="onSelectDropdown($event)">
-                                        </app-create-user-location>
-                                    </div>
-
-                                    <div class="tg-checkbox">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input"
-                                                id="tg-agreetermsandrules">
-                                            <label class="custom-control-label fontColor" for="tg-agreetermsandrules">I
-                                                agree to
-                                                all <a href="javascript:void(0);">Terms of Use &amp; Posting
-                                                    Rules</a></label>
-                                        </div>
-                                    </div>
-
-                                   
-                                    <button class="btn btn-common" type="submit"  [disabled]="isValid()">Post
-                                        Ad</button>
-                                </div>
-                            </div>
-                        </div> -->
-
-
                     </div>
                 </div>
             </div>

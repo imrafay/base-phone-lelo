@@ -52,3 +52,24 @@
     font-size: 23px;
     margin: 10px;
 }
+.suggestion-a{
+    display: inline-block;
+    background-color: #ffffff;
+    color: #518ecb !important;
+    font-size: 14px;
+    line-height: 30px;
+    padding: 0px 16px;
+    margin: 5px 3px;
+    cursor: pointer;
+    border-radius: 20px;
+    border: 2px solid #518ecb;
+}
+.border-color-textArea{
+    border: 1px solid #e5e5e5;
+     padding:7px 12px;
+}
+.reset-btn{
+    display: flex;
+    justify-content: flex-end;
+    color: blue;
+}

@@ -2,10 +2,11 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { AppAuthService } from '@shared/auth/app-auth.service';
 import { AppComponentBase } from '@shared/app-component-base';
-import { DropdownOutputDto, RoleDto, UserLocationServiceProxy, UserServiceProxy, ProductAdvertDto, ProductCompanyServiceProxy, ProductModelServiceProxy, ProductAdvertServiceProxy, ProductAdvertInputDto, ProductAdvertAccessoryDto, ProductAdvertImageDto } from '@shared/service-proxies/service-proxies';
+import { DropdownOutputDto, RoleDto, UserLocationServiceProxy, UserServiceProxy, ProductAdvertDto, ProductCompanyServiceProxy, ProductModelServiceProxy, ProductAdvertServiceProxy, ProductAdvertInputDto, ProductAdvertAccessoryDto, ProductAdvertImageDto, ProductAdvertDetailViewDto } from '@shared/service-proxies/service-proxies';
 import { AppConsts } from '@shared/AppConsts';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SelectItem, MenuItem } from 'primeng/api';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-or-edit-add-post',
@@ -53,24 +54,26 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   selectedBatteryGaming
   selectedBatteryMobileData
   selectedBattery = []
-
+  detailProduct: any;
+  description: string = '';
+  productId: number;
 
   constructor(
     injector: Injector,
-    private _AppSessionService: AppSessionService,
     private _authService: AppAuthService,
-    private _UserServiceProxy: UserServiceProxy,
     private _UserLocationServiceProxy: UserLocationServiceProxy,
     private _ProductCompanyService: ProductCompanyServiceProxy,
     private _ProductModelService: ProductModelServiceProxy,
-    private _ProductAdvertService: ProductAdvertServiceProxy
+    private _ProductAdvertService: ProductAdvertServiceProxy,
+    public route: ActivatedRoute, private router: Router,
 
   ) {
     super(injector);
     this.uploadUrl = this.baseUrl + "api/File/UploadFiles";
-
+    this.detailProduct = this.router.getCurrentNavigation().extras.state;
+    console.log(this.detailProduct);
+    // if()
     console.log(this.appSession)
-
   }
 
 
@@ -114,15 +117,19 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     { name: '12+', id: 4, hours: 12 },
   ]
 
-
   ngOnInit(): void {
     this.getAllRams();
     this.getAllStorages();
     this.getAllAccessories();
     this.getAllBrands();
+    this.detailProduct ? this.getProductById() : null;
+  }
+  getProductById() {
+    this._ProductAdvertService.getProductAdverForEdit(this.detailProduct.productdetails.queryParams.id).subscribe(res => {
+      console.log(res)
+    })
 
   }
-
   onSelectDropdown(valuesArray): void {
     console.log(valuesArray)
     if (valuesArray) {
@@ -190,21 +197,17 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
       this.productBrands = res;
     })
   }
-  getAllProductsById() {
+  getAllProductsDropdownById() {
     this._ProductModelService.getProductModelDropdown(this.selectedProductBrands['id']).subscribe(res => {
       this.productModel = res;
     })
   }
 
 
-  onSelectProduct(e) {
-    console.log(e)
-  }
-
   onSelectBrand(e) {
     console.log(e)
     console.log(this.selectedProductBrands)
-    e.value.id ? this.getAllProductsById() : null
+    e.value.id ? this.getAllProductsDropdownById() : null
     console.log(this.selectedAccessories)
   }
 
@@ -224,6 +227,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this._authService.logout();
   }
   getAllRams() {
+    console.log(this.productId)
     this._ProductAdvertService.getRamDropDown().subscribe(res => {
       this.ram = res;
     })
@@ -282,10 +286,20 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
       res.id = res.id
     })
 
-    this.product.productAdvertBatteryUsages = this.selectedBattery
+    this.product.productAdvertBatteryUsages = this.selectedBattery;
+    // image: string | undefined;
+    // productImagePriority: ProductImagePriorityEnum;
+    // id: number;
+    let selectedImages: any = {
+      image: '',
+      productImagePriority: null,
+      id: null
+    }
+    this.product.images = selectedImages
 
     console.log(this.selectedAccessories)
     this.product.productAdvertinput = new ProductAdvertDto();
+    this.product.productAdvertinput.description = this.description;
     this.product.productAdvertinput.productModelId = this.selectedProductModel['id'];
     this.product.productAdvertinput.storage = this.selectedStorage['id'];
     this.product.productAdvertinput.ram = this.selectedRam['id'];
@@ -303,17 +317,18 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this.product.productAdvertinput.isKit = this.isKit == 1 ? true : false;
     this.product.productAdvertinput.isInWarranty = this.isWarranty == 1 ? true : false;
     this.product.productAdvertinput.remaingWarrantyInMonths = this.isWarranty == 1 ? this.warrantyMonths : null;
-
+    console.log(this.product)
     this._ProductAdvertService.create(this.product).subscribe(res => {
       console.log(res)
     })
 
-    console.log(this.product)
   }
 
 
-  // this._ProductAdvertService.create(this.product.).subscribe(res=>{
-  //       console.log(res)
-  //     })
-  //   }
+  suggestion(text: string) {
+    this.description = this.description + text + '.'
+    console.log(this.description)
+  }
+
+  reset = () => this.description = ''
 }
