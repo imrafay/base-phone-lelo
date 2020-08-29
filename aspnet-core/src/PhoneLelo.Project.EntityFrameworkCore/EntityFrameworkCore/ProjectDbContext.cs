@@ -4,6 +4,7 @@ using PhoneLelo.Project.Authorization.Roles;
 using PhoneLelo.Project.Authorization.Users;
 using PhoneLelo.Project.MultiTenancy;
 using PhoneLelo.Project.Location;
+using PhoneLelo.Project.Storage;
 
 namespace PhoneLelo.Project.EntityFrameworkCore
 {
@@ -25,19 +26,31 @@ namespace PhoneLelo.Project.EntityFrameworkCore
         public virtual DbSet<ProductAdvert> ProductAdverts { get; set; }
 
         public virtual DbSet<ProductAdvertBatteryUsage> ProductAdvertBatteryUsages { get; set; }
-        
+
         public virtual DbSet<ProductAdvertImage> ProductAdvertImages { get; set; }
-       
-        public virtual DbSet<ProductAdvertAccessory> ProductAdvertAccessories{ get; set; }
-        
-        public virtual DbSet<ProductAdvertViewLog> ProductAdvertViewLogs{ get; set; }
+
+        public virtual DbSet<ProductAdvertAccessory> ProductAdvertAccessories { get; set; }
+
+        public virtual DbSet<ProductAdvertViewLog> ProductAdvertViewLogs { get; set; }
         #endregion
+
+        public virtual DbSet<BinaryObject> BinaryObjects { get; set; }
+
 
         /* Define a DbSet for each entity of the application */
 
         public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
             : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<BinaryObject>(b =>
+            {
+                b.HasIndex(e => new { e.TenantId });
+            });
         }
     }
 }
