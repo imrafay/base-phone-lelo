@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Rhithm.Storage.FileManagement
+namespace PhoneLelo.Project.FileManagement
 {
     [AttributeUsage(AttributeTargets.All)]
     public class PhoneLeloDataFileTypeSettings : Attribute
