@@ -24,16 +24,19 @@ namespace PhoneLelo.Project.Import.MobilePhone
         private readonly IAbpSession _abpSession;
         private readonly ProductAdvertManager _productAdvertManager;
         private readonly ProductAdvertViewLogManager _productAdvertViewLogManager;
+        private readonly IFileStorageManager _fileStorageManager;
 
         public ProductAdvertAppService(
 
             IAbpSession abpSession,
             ProductAdvertManager productAdvertManager,
-            ProductAdvertViewLogManager productAdvertViewLogManager)
+            ProductAdvertViewLogManager productAdvertViewLogManager,
+            IFileStorageManager fileStorageManager)
         {
             _abpSession = abpSession;
             _productAdvertManager = productAdvertManager;
             _productAdvertViewLogManager = productAdvertViewLogManager;
+            _fileStorageManager = fileStorageManager;
         }
 
         public async Task Create(ProductAdvertInputDto input)
@@ -317,11 +320,11 @@ namespace PhoneLelo.Project.Import.MobilePhone
             foreach (var productAdvert in productAdverts)
             {
                 //TODO : Resolve _fileStorageManager
-                //productAdvert.PrimaryProductImage = _fileStorageManager
-                //    .GenerateBlobUrl(
-                //    productAdvert.PrimaryProductImage,
-                //    PhoneLeloDataFileType.ProductImages
-                //    );
+                productAdvert.PrimaryProductImage = _fileStorageManager
+                    .GenerateBlobUrl(
+                    productAdvert.PrimaryProductImage,
+                    PhoneLeloDataFileType.ProductImages
+                    );
             }
         }
     }

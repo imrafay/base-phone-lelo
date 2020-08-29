@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Rhithm.Storage.FileManagement;
 
 namespace PhoneLelo.Project.FileManagement
 {
@@ -14,7 +13,7 @@ namespace PhoneLelo.Project.FileManagement
         CsvImport = 0,
 
         [PhoneLeloDataFileTypeSettings(
-            blobFolderName: "AssessmentIcons/",
+            blobFolderName: "ProductImages/",
             allowedFileExtensions: ".png,.PNG,.JPEG,.jpeg,.JPG,.jpg",
             allowedFileSizeInMb: 20)]
         ProductImages = 1,

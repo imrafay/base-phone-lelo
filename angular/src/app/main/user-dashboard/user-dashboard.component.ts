@@ -25,6 +25,7 @@ export class UserDashboardComponent implements OnInit {
   }
   getAllProducts() {
     this._ProductAdvertService.getAll(
+      undefined,undefined,undefined,
       undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
       undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
     ).subscribe(res => {

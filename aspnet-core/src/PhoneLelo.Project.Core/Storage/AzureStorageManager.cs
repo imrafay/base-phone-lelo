@@ -38,16 +38,21 @@ namespace PhoneLelo.Project.Storage
 
     public class AzureStorageManager : DomainService, IAzureStorageManager
     {
-        private readonly IConfigurationRoot _appConfiguration;
-        public string ConnectionString => _appConfiguration["App:AzureStorage:ConnectionString"];
-        public string ContainerName => _appConfiguration["App:AzureStorage:ContainerName"];
-        public string BaseUrl => _appConfiguration["App:AzureStorage:BaseUrl"];
-         
-        public AzureStorageManager(IAppConfigurationAccessor configurationAccessor)
-        {
-            _appConfiguration = configurationAccessor.Configuration;
-            
-        }
+        //private readonly IConfigurationRoot _appConfiguration;
+        //public string ConnectionString => _appConfiguration["App:AzureStorage:ConnectionString"];
+        //public string ContainerName => _appConfiguration["App:AzureStorage:ContainerName"];
+        //public string BaseUrl => _appConfiguration["App:AzureStorage:BaseUrl"];
+
+        //public AzureStorageManager(IAppConfigurationAccessor configurationAccessor)
+        //{
+        //    _appConfiguration = configurationAccessor.Configuration;
+
+        //}
+
+        public string ConnectionString => "DefaultEndpointsProtocol=https;AccountName=phonelelostorage;AccountKey=AtsREnzFotO12TNMoC4MWdRg4cwkWcOdJexowj3ibqq383+Hpvxo1KIG977yjbPJHKxqUoSPHQhq8RkimmS5MQ==;EndpointSuffix=core.windows.net";
+        public string BaseUrl  => "https://phonelelostorage.blob.core.windows.net";
+        public string ContainerName => "phonelelo";
+
 
         public void UploadFromString(string text, string blobName, string contentType)
         {

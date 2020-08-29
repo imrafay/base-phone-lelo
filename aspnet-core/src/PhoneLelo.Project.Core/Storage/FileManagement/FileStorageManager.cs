@@ -5,23 +5,23 @@ using Abp.Domain.Services;
 using Abp.Extensions;
 using PhoneLelo.Project.FileManagement;
 using PhoneLelo.Project.Utils;
-using Rhithm.Storage.FileManagement;
+
 
 namespace PhoneLelo.Project.Storage.FileManagement
 {
     public interface IFileStorageManager : IDomainService
     {
-        string UploadFile(Stream stream, string fileName, PhoneLeloDataFileType rhithmDataFileType, bool autoGenerateName = true);
+        string UploadFile(Stream stream, string fileName, PhoneLeloDataFileType dataFileType, bool autoGenerateName = true);
 
 
-        string UploadFileText(string text, string fileName, PhoneLeloDataFileType rhithmDataFileType, bool autoGenerateName = true);
+        string UploadFileText(string text, string fileName, PhoneLeloDataFileType dataFileType, bool autoGenerateName = true);
 
         Dictionary<string, Stream> GetAllCsvDataBlobsStreams();
 
         void DeleteFiles(List<string> blobNameList);
 
-        string DownloadFileText(string fileName, PhoneLeloDataFileType rhithmDataFileType);
-        string GenerateBlobUrl(string fileName, PhoneLeloDataFileType rhithmDataFileType);
+        string DownloadFileText(string fileName, PhoneLeloDataFileType dataFileType);
+        string GenerateBlobUrl(string fileName, PhoneLeloDataFileType dataFileType);
     }
 
     public class FileStorageManager : DomainService, IFileStorageManager
@@ -35,7 +35,7 @@ namespace PhoneLelo.Project.Storage.FileManagement
             _azureStorageManager = azureStorageManager;
         }
 
-        public string UploadFileText(string text, string fileName, PhoneLeloDataFileType rhithmDataFileType, bool autoGenerateName = true)
+        public string UploadFileText(string text, string fileName, PhoneLeloDataFileType dataFileType, bool autoGenerateName = true)
         {
             var extension = Path.GetExtension(fileName);
             var newFileName = fileName;
@@ -44,7 +44,7 @@ namespace PhoneLelo.Project.Storage.FileManagement
                 newFileName = $"{Guid.NewGuid():N}{extension}";
 
             var mimeType = extension.GetMimeType();
-            var blobFolderName = PhoneLeloDataFileTypeSettings.GetBlobFolderName(rhithmDataFileType);
+            var blobFolderName = PhoneLeloDataFileTypeSettings.GetBlobFolderName(dataFileType);
             var blobName = $"{blobFolderName.EnsureEndsWith('/')}{newFileName}";
 
             _azureStorageManager.UploadFromString(text, blobName, mimeType);
@@ -52,7 +52,7 @@ namespace PhoneLelo.Project.Storage.FileManagement
             return newFileName;
         }
 
-        public string UploadFile(Stream stream, string fileName, PhoneLeloDataFileType rhithmDataFileType, bool autoGenerateName = true)
+        public string UploadFile(Stream stream, string fileName, PhoneLeloDataFileType dataFileType, bool autoGenerateName = true)
         {
             var extension = Path.GetExtension(fileName);
             var newFileName = fileName;
@@ -61,7 +61,7 @@ namespace PhoneLelo.Project.Storage.FileManagement
                 newFileName = $"{Guid.NewGuid():N}{extension}";
 
             var mimeType = extension.GetMimeType();
-            var blobFolderName = PhoneLeloDataFileTypeSettings.GetBlobFolderName(rhithmDataFileType);
+            var blobFolderName = PhoneLeloDataFileTypeSettings.GetBlobFolderName(dataFileType);
             var blobName = $"{blobFolderName.EnsureEndsWith('/')}{newFileName}";
 
             _azureStorageManager.UploadFromStream(stream, blobName, mimeType);
@@ -100,23 +100,23 @@ namespace PhoneLelo.Project.Storage.FileManagement
         }
 
 
-        public string DownloadFileText(string fileName, PhoneLeloDataFileType rhithmDataFileType)
+        public string DownloadFileText(string fileName, PhoneLeloDataFileType dataFileType)
         {
-            var blobFolderName = PhoneLeloDataFileTypeSettings.GetBlobFolderName(rhithmDataFileType);
+            var blobFolderName = PhoneLeloDataFileTypeSettings.GetBlobFolderName(dataFileType);
             var blobName = $"{blobFolderName.EnsureEndsWith('/')}{fileName}";
 
             return _azureStorageManager.DownloadBlobString(blobName);
         }
 
 
-        public string GenerateBlobUrl(string fileName, PhoneLeloDataFileType rhithmDataFileType)
+        public string GenerateBlobUrl(string fileName, PhoneLeloDataFileType dataFileType)
         {
             if (string.IsNullOrEmpty(fileName))
             {
                 return null;
             }
 
-            var blobFolderName = PhoneLeloDataFileTypeSettings.GetBlobFolderName(rhithmDataFileType);
+            var blobFolderName = PhoneLeloDataFileTypeSettings.GetBlobFolderName(dataFileType);
             var blobName = $"{blobFolderName.EnsureEndsWith('/')}{fileName}";
 
             return _azureStorageManager.GenerateBlobUrl(blobName);
