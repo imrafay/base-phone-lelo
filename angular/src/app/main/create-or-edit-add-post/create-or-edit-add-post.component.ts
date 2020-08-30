@@ -44,7 +44,6 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   isPtaApproved: any;
   isDamaged: any;
   product: ProductAdvertInputDto = new ProductAdvertInputDto();
-  phoneTitle: string = ''
   price: number;
   isFingerWorking: any
   isFaceSensorWorking: any;
@@ -60,6 +59,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   detailProduct: any;
   description: string = '';
   productId: number;
+  isInProgress: boolean = false;
 
   constructor(
     injector: Injector,
@@ -74,6 +74,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     super(injector);
     this.uploadUrl = this.baseUrl + "api/File/UploadFiles";
     this.detailProduct = this.router.getCurrentNavigation().extras.state;
+    !this.detailProduct ? this.isInProgress = true : this.isInProgress = false;
     console.log(this.detailProduct);
     // if()
     console.log(this.appSession)
@@ -189,21 +190,8 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
 
   }
 
-  s = (ev) => console.log(this.isNew);
-  onSelectDropdown(valuesArray): void {
-    console.log(valuesArray)
-    if (valuesArray) {
-      // this.selectedState = valuesArray[0];
-      // this.selectedCity = valuesArray[1];
-      // this.selectedNeighbourhood = valuesArray[2];
-      // this.neighbourhood = valuesArray[3];
-    }
 
-    // this.isValid(valuesArray)
-  }
-  handleChange(e) {
-    console.log(e)
-  }
+
   getAllStates() {
 
     this._UserLocationServiceProxy.getStates().subscribe(res => {
@@ -260,6 +248,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   getAllProductsDropdownById() {
     this._ProductModelService.getProductModelDropdown(this.selectedProductBrands['id']).subscribe(res => {
       this.productModel = res;
+      this.isInProgress = true;
     })
   }
 
@@ -305,13 +294,12 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   }
 
   isValid() {
-
+    // this.isWarranty['id'] == 1 ? this.warrantyMonths : this.isWarranty == 2
     return !(
-      this.phoneTitle != '' && this.selectedProductBrands['id'] && this.selectedProductModel['id'] &&
-        this.isWarranty == 1 ? this.warrantyMonths : this.isWarranty == 2 &&
-        this.isNew && this.isExchange && this.isPtaApproved && this.price && this.isSpot &&
-        this.isFaceSensorWorking && this.isFingerWorking && this.selectedRam['id'] && this.selectedStorage['id'] &&
-        this.isWarranty && this.isKit && (this.selectedProductBrands['name'] == 'Apple' ? this.batteryHealth : this.selectedProductBrands['name'])
+      this.selectedProductBrands['id'] && this.selectedProductModel['id'] &&
+      this.isNew['id'] && this.isExchange['id'] && this.isPtaApproved['id'] && this.price && this.isSpot['id'] &&
+      this.isFaceSensorWorking['id'] && this.isFingerWorking['id'] && this.selectedRam['id'] && this.selectedStorage['id'] &&
+      this.isWarranty['id'] && this.isKit['id'] && (this.selectedProductBrands['name'] == 'Apple' ? this.batteryHealth : this.selectedProductBrands['name'])
     )
     // && this.selectedProductBrands['name'] == AppConsts.mobileBrand.Apple ? this.batteryHealth : this.selectedProductBrands[/'']
   }
@@ -320,24 +308,17 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
 
     this.product.productAdvertAccessories = this.selectedAccessories;
 
-
     let selectedBatteryWifi = this.batteryWifi.filter(res => res.id == this.selectedBatteryWifi['id'])[0]
     let selectedBatteryGaming = this.batteryGaming.filter(res => res.id == this.selectedBatteryGaming['id'])[0]
     let selectedBatteryMobileData = this.batteryMobileData.filter(res => res.id == this.selectedBatteryMobileData['id'])[0]
 
-    // this.product.productAdvertAccessories = this.selectedAccessories;
-
-
     this.selectedBattery.push(selectedBatteryWifi,
       selectedBatteryGaming, selectedBatteryMobileData)
-    console.log(this.selectedBattery)
-
 
     this.product.productAdvertBatteryUsages = this.selectedBattery;
-    this.product.productAdvertAccessories = this.selectedBattery;
 
     this.product.images = []
-    console.log(this.selectedAccessories)
+
     this.product.productAdvertinput = new ProductAdvertDto();
     this.product.productAdvertinput.description = this.description;
     this.product.productAdvertinput.productModelId = this.selectedProductModel['id'];
@@ -359,9 +340,6 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this.product.productAdvertinput.remaingWarrantyInMonths = this.isWarranty['id'] == 1 ? this.warrantyMonths : null;
     this.detailProduct ? this.product.productAdvertinput.id = this.detailProduct.productdetails.queryParams.id : null
     console.log(this.product)
-    console.log(this.product.productAdvertAccessories)
-
-
 
     !this.detailProduct ? this._ProductAdvertService.create(this.product).subscribe(res => {
       console.log(res)

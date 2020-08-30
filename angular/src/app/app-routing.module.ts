@@ -29,8 +29,7 @@ import { CategoryComponent } from './category/category.component';
                     {
                         path: 'main',
                         loadChildren: () => import('app/main/main.module').then(m => m.MainModule), //Lazy load main module
-                        data: { preload: true },
-                        canActivate:[AppRouteGuard]
+                        data: { preload: true }
                     },
                 ]
             }

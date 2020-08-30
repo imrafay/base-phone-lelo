@@ -11,9 +11,9 @@ import { AppRouteGuard } from '@shared/auth/auth-route-guard';
             {
                 path: '',
                 children: [
-                    { path: 'add-post', component: CreateOrEditAddPostComponent, canActivate: [AppRouteGuard] },
-                    { path: 'user-dashboard', component: UserDashboardComponent,canActivate: [AppRouteGuard]  },
-                ]
+                    { path: 'add-post', component: CreateOrEditAddPostComponent, },
+                    { path: 'user-dashboard', component: UserDashboardComponent },
+                ],
             }
         ])
     ],
