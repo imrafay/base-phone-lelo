@@ -12,6 +12,7 @@ namespace PhoneLelo.Project.Product.Dto
             StorageFilter = new List<int>();     
         }
 
+        public long? UserId { get; set; }
         public long? StateId { get; set; }
         public long? CityId { get; set; }
         public long? NeighbourhoodId { get; set; }

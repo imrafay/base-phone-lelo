@@ -148,6 +148,8 @@ namespace PhoneLelo.Project.Authorization
                   .Include(x => x.ProductModelFk)
                   .Include(x => x.ProductAdvertAccessories)
                   .Include(x => x.ProductAdvertImages)
+                  .WhereIf(filter.UserId.HasValue, x =>
+                         x.UserId == filter.UserId)
                   .WhereIf(filter.StateId.HasValue, x =>
                          x.StateId == filter.StateId)
                   .WhereIf(filter.CityId.HasValue, x =>

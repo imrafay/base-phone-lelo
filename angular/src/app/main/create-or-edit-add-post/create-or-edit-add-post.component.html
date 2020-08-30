@@ -56,12 +56,12 @@
                             </div>
                             <div class="dashboard-wrapper">
 
-                                <div class="form-group mb-3">
+                                <!-- <div class="form-group mb-3">
                                     <label class="control-label fontColor">Phone Title</label>
                                     <input class="form-control input-md" name="Title" placeholder="Title" type="text"
                                         [(ngModel)]="phoneTitle">
 
-                                </div>
+                                </div> -->
                                 <div class="form-group mb-3" *ngIf="productBrands.length">
                                     <label class="control-label fontColor">Brands</label>
 
@@ -77,7 +77,7 @@
 
                                     <p-dropdown [options]="productModel" [(ngModel)]="selectedProductModel"
                                         optionLabel="name" name="productModel" [style]="{'width':'100%'}"
-                                       placeholder="Select Model" [filter]="true">
+                                        placeholder="Select Model" [filter]="true">
                                     </p-dropdown>
                                 </div>
                                 <div class="form-group mb-3">
@@ -92,10 +92,10 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label class="control-label fontColor">Condtion</label><br>
-                                    <span class="form-group mb-3" *ngFor="let cond of condition">
+                                    <span class="form-group mb-3" *ngFor="let cond of booleanEnum">
                                         <label class="control-label p-2">{{cond.name}}</label>
-                                        <input name="condition" type="radio" value="{{cond.id}}" [(ngModel)]="isNew"
-                                            name="isNew">
+                                        <input name="condition" type="radio" [value]="cond" [(ngModel)]="isNew"
+                                            name="isNew" (change)="s($event)">
                                     </span>
 
                                 </div>
@@ -103,18 +103,17 @@
                                     <label class="control-label fontColor">Exchange</label><br>
                                     <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
                                         <label class="control-label p-2">{{bool.name}}</label>
-                                        <input type="radio" value="{{bool.id}}" name="isExchange"
-                                            [(ngModel)]="isExchange">
+                                        <input type="radio" [value]="bool" name="isExchange" [(ngModel)]="isExchange">
                                     </span>
 
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label class="control-label fontColor">PTA</label><br>
-                                    <span class="form-group mb-3" *ngFor="let status of ptaStatus">
+                                    <span class="form-group mb-3" *ngFor="let status of booleanEnum">
                                         <label class="control-label p-2">{{status.name}}</label>
-                                        <input name="status" type="radio" value="{{status.id}}"
-                                            [(ngModel)]="isPtaApproved" name="isPtaApproved">
+                                        <input name="status" type="radio" [value]="status" [(ngModel)]="isPtaApproved"
+                                            name="isPtaApproved">
                                     </span>
 
                                 </div>
@@ -125,7 +124,7 @@
                                     <label class="control-label fw-500">With Wifi</label><br>
 
                                     <span class="form-group mb-3" *ngFor="let battery of batteryWifi">
-                                        <input type="radio" value="{{battery.id}}" name="batteryWifi"
+                                        <input type="radio" [value]="battery" name="batteryWifi"
                                             [(ngModel)]="selectedBatteryWifi">
                                         <label class="ml-1 p-2">{{battery.name}} hours</label>
                                     </span>
@@ -134,7 +133,7 @@
                                     <br>
                                     <label class="control-label fw-500">With Gaming</label><br>
                                     <span class="form-group mb-3" *ngFor="let battery of batteryGaming">
-                                        <input type="radio" value="{{battery.id}}" name="batteryGaming"
+                                        <input type="radio" [value]="battery" name="batteryGaming"
                                             [(ngModel)]="selectedBatteryGaming">
                                         <label class="ml-1 p-2">{{battery.name}} hours</label>
                                     </span>
@@ -142,13 +141,13 @@
                                     <br>
                                     <label class="control-label fw-500">With 3G / 4G</label><br>
                                     <span class="form-group mb-3" *ngFor="let battery of batteryMobileData">
-                                        <input name="batteryMobileData" type="radio" value="{{battery.id}}"
+                                        <input name="batteryMobileData" type="radio" [value]="battery"
                                             [(ngModel)]="selectedBatteryMobileData">
                                         <label class="ml-1 p-2">{{battery.name}} hours</label>
                                     </span>
                                 </div>
-
-                                <div class="form-group mb-3" *ngIf="selectedProductBrands['name'] == 'Apple'">
+                                <div class="form-group mb-3"
+                                    *ngIf="selectedProductBrands && selectedProductBrands['name'] == 'Apple'">
                                     <label class="control-label fontColor">Battery health</label><br>
                                     <input class="form-control input-md" name="name" type="text" placeholder="0%"
                                         [(ngModel)]="batteryHealth">
@@ -199,10 +198,10 @@
                                     <span class="form-group mb-3" *ngFor="let price of pricesBargaining">
                                         <label class="ml-1 p-2">{{price.name}}</label>
                                         <input name="selectRole" type="radio" [(ngModel)]="isNegotiable"
-                                            value="{{price.id}}">
+                                            [value]="price">
                                     </span>
                                 </div>
-                                <div class="form-group mb-5 mt-4" *ngIf="isNegotiable == 1">
+                                <div class="form-group mb-5 mt-4" *ngIf="isNegotiable && isNegotiable['id'] == 1">
 
                                     <p-slider [(ngModel)]="rangeValues" [range]="true" [style]="{'width':'50%'}"
                                         [min]="0" [max]="5000" (onChange)="handleChange($event)" name="rangeSlider">
@@ -224,7 +223,7 @@
                                     <label class="control-label fontColor">Spot</label><br>
                                     <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
                                         <label class="control-label p-2">{{bool.name}}</label>
-                                        <input type="radio" value="{{bool.id}}" name="isSpot" [(ngModel)]="isSpot">
+                                        <input type="radio" [value]="bool" name="isSpot" [(ngModel)]="isSpot">
                                     </span>
 
                                     <span *ngIf="isSpot == 1">
@@ -234,17 +233,19 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label class="control-label fontColor">Damage</label>
-                                    <input class="form-control input-md" name="Damage" placeholder="0%" type="text">
-                                </div>
-                                <div class="form-group mb-3">
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" [value]="bool" name="isDamaged" [(ngModel)]="isDamaged">
+                                    </span> </div>
+                                <!-- <div class="form-group mb-3">
                                     <label class="control-label fontColor">Scratch</label>
                                     <input class="form-control input-md" name="Scratch" placeholder="0%" type="text">
-                                </div>
+                                </div> -->
                                 <div class="form-group mb-3">
                                     <label class="control-label fontColor">Finger working</label><br>
                                     <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
                                         <label class="control-label p-2">{{bool.name}}</label>
-                                        <input type="radio" value="{{bool.id}}" [(ngModel)]="isFingerWorking"
+                                        <input type="radio" [value]="bool" [(ngModel)]="isFingerWorking"
                                             name="isFingerWorking">
                                     </span>
                                 </div>
@@ -253,7 +254,7 @@
 
                                     <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
                                         <label class="control-label p-2">{{bool.name}}</label>
-                                        <input type="radio" value="{{bool.id}}" [(ngModel)]="isFaceSensorWorking"
+                                        <input type="radio" [value]="bool" [(ngModel)]="isFaceSensorWorking"
                                             name="isFaceSensorWorking">
                                     </span>
                                 </div>
@@ -326,7 +327,7 @@
                                     <label class="control-label fontColor">Kit</label><br>
                                     <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
                                         <label class="control-label p-2">{{bool.name}}</label>
-                                        <input type="radio" value="{{bool.id}}" [(ngModel)]="isKit" name="isKit">
+                                        <input type="radio" [value]="bool" [(ngModel)]="isKit" name="isKit">
                                     </span>
 
                                 </div>
@@ -334,8 +335,7 @@
                                     <label class="control-label fontColor">Warranty</label><br>
                                     <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
                                         <label class="control-label p-2">{{bool.name}}</label>
-                                        <input type="radio" value="{{bool.id}}" [(ngModel)]="isWarranty"
-                                            name="isWarranty">
+                                        <input type="radio" [value]="bool" [(ngModel)]="isWarranty" name="isWarranty">
                                     </span>
                                     <br>
                                     <br>
@@ -346,7 +346,8 @@
                                     </span>
 
                                 </div>
-                                <button class="btn btn-common" type="submit" [disabled]="isValid()">Post
+                                <!-- [disabled]="isValid()" -->
+                                <button class="btn btn-common" type="submit">Post
                                     Ad</button>
                             </div>
                         </div>

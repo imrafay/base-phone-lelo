@@ -493,6 +493,7 @@ export class ProductAdvertServiceProxy {
     }
 
     /**
+     * @param userId (optional) 
      * @param stateId (optional) 
      * @param cityId (optional) 
      * @param neighbourhoodId (optional) 
@@ -514,8 +515,10 @@ export class ProductAdvertServiceProxy {
      * @param pagedAndSort_SortBy (optional) 
      * @return Success
      */
-    getAll(stateId: number | null | undefined, cityId: number | null | undefined, neighbourhoodId: number | null | undefined, productModelId: number | null | undefined, productCompanyId: number | null | undefined, nameFilter: string | null | undefined, ramFilter: number[] | null | undefined, storageFilter: number[] | null | undefined, isNew: boolean | null | undefined, isPtaApproved: boolean | null | undefined, isExchangeable: boolean | null | undefined, minPrice: number | null | undefined, maxPrice: number | null | undefined, isNegotiable: boolean | null | undefined, isSpot: boolean | null | undefined, isDamage: boolean | null | undefined, pagedAndSort_Page: number | undefined, pagedAndSort_PageSize: number | undefined, pagedAndSort_SortBy: SortByEnum | undefined): Observable<ProductAdvertViewDtoListResultDto> {
+    getAll(userId: number | null | undefined, stateId: number | null | undefined, cityId: number | null | undefined, neighbourhoodId: number | null | undefined, productModelId: number | null | undefined, productCompanyId: number | null | undefined, nameFilter: string | null | undefined, ramFilter: number[] | null | undefined, storageFilter: number[] | null | undefined, isNew: boolean | null | undefined, isPtaApproved: boolean | null | undefined, isExchangeable: boolean | null | undefined, minPrice: number | null | undefined, maxPrice: number | null | undefined, isNegotiable: boolean | null | undefined, isSpot: boolean | null | undefined, isDamage: boolean | null | undefined, pagedAndSort_Page: number | undefined, pagedAndSort_PageSize: number | undefined, pagedAndSort_SortBy: SortByEnum | undefined): Observable<ProductAdvertViewDtoListResultDto> {
         let url_ = this.baseUrl + "/api/services/app/ProductAdvert/GetAll?";
+        if (userId !== undefined && userId !== null)
+            url_ += "UserId=" + encodeURIComponent("" + userId) + "&";
         if (stateId !== undefined && stateId !== null)
             url_ += "StateId=" + encodeURIComponent("" + stateId) + "&";
         if (cityId !== undefined && cityId !== null)
@@ -2612,6 +2615,57 @@ export class UserServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getRegistrationRoles(): Observable<RoleDtoListResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/User/GetRegistrationRoles";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRegistrationRoles(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRegistrationRoles(<any>response_);
+                } catch (e) {
+                    return <Observable<RoleDtoListResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RoleDtoListResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRegistrationRoles(response: HttpResponseBase): Observable<RoleDtoListResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = RoleDtoListResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RoleDtoListResultDto>(<any>null);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
@@ -2889,6 +2943,57 @@ export class UserServiceProxy {
             }));
         }
         return _observableOf<boolean>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getUserForView(): Observable<UserDto> {
+        let url_ = this.baseUrl + "/api/services/app/User/GetUserForView";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUserForView(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUserForView(<any>response_);
+                } catch (e) {
+                    return <Observable<UserDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetUserForView(response: HttpResponseBase): Observable<UserDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserDto>(<any>null);
     }
 
     /**

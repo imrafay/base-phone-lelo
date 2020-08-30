@@ -28,6 +28,7 @@ using System.IO;
 using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration.Attributes;
+using Microsoft.AspNetCore.Routing;
 
 namespace PhoneLelo.Project.Users
 {
@@ -135,7 +136,22 @@ namespace PhoneLelo.Project.Users
             {
                 var roles = await _roleRepository.GetAllListAsync();
                 return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
-            }        
+            }
+        }
+
+        [AbpAllowAnonymous]
+        public async Task<ListResultDto<RoleDto>> GetRegistrationRoles()
+        {
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+            {
+                var roles = await _roleRepository.GetAllListAsync();
+                roles = roles
+                    .Where(x => x.Name != StaticRoleNames.Host.Admin)
+                    .ToList();
+
+                return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
+            }
         }
 
         public async Task ChangeLanguage(ChangeUserLanguageDto input)
@@ -319,6 +335,29 @@ namespace PhoneLelo.Project.Users
             return false;
         }
 
+        [AbpAllowAnonymous]
+        public async Task<UserDto> GetUserForView()
+        {
+            using (CurrentUnitOfWork.SetTenantId(AbpSession.TenantId))
+            {
+                var currentUserId = AbpSession.UserId;
+                if (currentUserId.HasValue)
+                {
+                    var dbUser = await _userManager.GetUserByIdAsync(
+                        userId: AbpSession.UserId.Value);
+
+                    if (dbUser == null)
+                    {
+                        return null;
+                    }
+
+                    var output = base.MapToEntityDto(dbUser);
+                    return output;
+                }
+                return null;
+            }
+        }
+
         private string GenerateAndSendVerificationCode(string phoneNumber)
         {
             //TODO : SMS verfication implementation here.
@@ -326,6 +365,6 @@ namespace PhoneLelo.Project.Users
             return code;
         }
     }
-   
+
 }
 

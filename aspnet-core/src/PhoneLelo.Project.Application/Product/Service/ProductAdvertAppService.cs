@@ -50,6 +50,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
             var productAdvert = ObjectMapper
                    .Map<ProductAdvert>(input.ProductAdvertinput);
 
+            productAdvert.UserId = AbpSession.UserId;
             if (productAdvert == null)
             {
                 return;
@@ -120,7 +121,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
             {
                 return;
             }
-
+            productAdvert.UserId = AbpSession.UserId;
             #region Update Product Advert
 
             ObjectMapper.Map(input.ProductAdvertinput, productAdvert);

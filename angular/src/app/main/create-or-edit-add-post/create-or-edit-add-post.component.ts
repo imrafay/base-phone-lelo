@@ -24,30 +24,33 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   baseUrl = AppConsts.remoteServiceBaseUrl;
   fileInQue: boolean = false;
   uploadedFiles: any[] = [];
-  productBrands: DropdownOutputDto[] = [];
+  // productBrands: DropdownOutputDto[] = [];
+  productBrands = [];
   selectedProductBrands: DropdownOutputDto[] = [];
-  productModel: DropdownOutputDto[] = [];
+  productModel = [];
+  // selectedProductModel=[];
   selectedProductModel: DropdownOutputDto[] = [];
   accessories: DropdownOutputDto[] = [];
   selectedAccessories = [];
-  isNegotiable: number;
+  isNegotiable: any
   isFixed: boolean = false;
-  ram: DropdownOutputDto[] = [];
+  ram = [];
   selectedRam: DropdownOutputDto[] = [];
-  storage: DropdownOutputDto[] = [];
-  selectedStorage: DropdownOutputDto[] = [];
+  storage = [];
+  selectedStorage: DropdownOutputDto[] = [];;
   isSpot: any;
   isNew: any;
   isExchange: any;
   isPtaApproved: any;
+  isDamaged: any;
   product: ProductAdvertInputDto = new ProductAdvertInputDto();
   phoneTitle: string = ''
   price: number;
-  isFingerWorking: number
-  isFaceSensorWorking: number;
+  isFingerWorking: any
+  isFaceSensorWorking: any;
   batteryHealth: number;
-  isKit: number;
-  isWarranty: number;
+  isKit: any;
+  isWarranty: any;
   warrantyMonths: number;
   rangeValues: number[] = [0, 5000];
   selectedBatteryWifi
@@ -82,39 +85,35 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     { name: 'Fixed', id: 2 },
   ]
 
-  condition = [
-    { name: 'New', id: 1 },
-    { name: 'Used', id: 2 },
-  ]
+  // condition = [
+  //   { name: 'New', id: 1 },
+  //   { name: 'Used', id: 2 },
+  // ]
   booleanEnum = [
     { name: 'Yes', id: 1 },
     { name: 'No', id: 2 },
   ]
-  ssss = [
-    { name: 'Yes', id: 1 },
-    { name: 'No', id: 2 },
-  ]
-  ptaStatus = [
-    { name: 'approved', id: 1 },
-    { name: 'non-approved', id: 2 },
-  ]
+  // ptaStatus = [
+  //   { name: 'approved', id: 1 },
+  //   { name: 'non-approved', id: 2 },
+  // ]
   batteryWifi = [
-    { name: '5', id: 1, hours: 5 },
-    { name: '7', id: 2, hours: 7 },
-    { name: '10', id: 3, hours: 10 },
-    { name: '12+', id: 4, hours: 12 },
+    { name: '5', id: 1, hours: 5, batteryUsageType: 1 },
+    { name: '7', id: 2, hours: 7, batteryUsageType: 1 },
+    { name: '10', id: 3, hours: 10, batteryUsageType: 1 },
+    { name: '12+', id: 4, hours: 12, batteryUsageType: 1 },
   ]
   batteryGaming = [
-    { name: '5', id: 1, hours: 5 },
-    { name: '7', id: 2, hours: 7 },
-    { name: '10', id: 3, hours: 10 },
-    { name: '12+', id: 4, hours: 12 },
+    { name: '5', id: 1, hours: 5, batteryUsageType: 2 },
+    { name: '7', id: 2, hours: 7, batteryUsageType: 2 },
+    { name: '10', id: 3, hours: 10, batteryUsageType: 2 },
+    { name: '12+', id: 4, hours: 12, batteryUsageType: 2 },
   ]
   batteryMobileData = [
-    { name: '5', id: 1, hours: 5 },
-    { name: '7', id: 2, hours: 7 },
-    { name: '10', id: 3, hours: 10 },
-    { name: '12+', id: 4, hours: 12 },
+    { name: '5', id: 1, hours: 5, batteryUsageType: 3 },
+    { name: '7', id: 2, hours: 7, batteryUsageType: 3 },
+    { name: '10', id: 3, hours: 10, batteryUsageType: 3 },
+    { name: '12+', id: 4, hours: 12, batteryUsageType: 3 },
   ]
 
   ngOnInit(): void {
@@ -122,14 +121,67 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this.getAllStorages();
     this.getAllAccessories();
     this.getAllBrands();
+
     this.detailProduct ? this.getProductById() : null;
+
   }
   getProductById() {
     this._ProductAdvertService.getProductAdverForEdit(this.detailProduct.productdetails.queryParams.id).subscribe(res => {
       console.log(res)
+      this.selectedProductBrands = this.productBrands.filter(response => response.name == res.productCompanyName)[0]
+      this.onSelectBrand(null, this.selectedProductBrands['id']);
+      setTimeout(() => this.selectedProductModel = this.productModel.filter(response => response.name == res.productModelName)[0], 6000);
+
+      //  setTimeout(() => {
+
+      // this.accessories.filter(response => {
+      //    res.productAdvertAccessories.map(acc => {
+      //      acc.id = 3;
+      //     if(response.id == acc.id) this.selectedAccessories = response
+
+      //     })
+      //   })
+
+      // }, 2000);
+
+      this.isNew = res.productAdvert.isNew == true ? this.booleanEnum[0] : this.booleanEnum[1];
+      this.isExchange = res.productAdvert.isExchangeable == true ? this.booleanEnum[0] : this.booleanEnum[1];
+      this.isPtaApproved = res.productAdvert.isPtaApproved == true ? this.booleanEnum[0] : this.booleanEnum[1];
+      this.isNegotiable = res.productAdvert.isNegotiable == true ? this.pricesBargaining[0] : this.pricesBargaining[1];
+      this.price = res.productAdvert.price;
+      this.isSpot = res.productAdvert.isSpot == true ? this.booleanEnum[0] : this.booleanEnum[1];
+      this.description = res.productAdvert.description;
+      this.isFingerWorking = res.productAdvert.isFingerSensorWorking == true ? this.booleanEnum[0] : this.booleanEnum[1];
+      this.isFaceSensorWorking = res.productAdvert.isFaceSensorWorking == true ? this.booleanEnum[0] : this.booleanEnum[1];
+      this.isKit = res.productAdvert.isKit == true ? this.booleanEnum[0] : this.booleanEnum[1];
+      this.isWarranty = res.productAdvert.isInWarranty == true ? this.booleanEnum[0] : this.booleanEnum[1];
+      this.isDamaged = res.productAdvert.isDamage == true ? this.booleanEnum[0] : (res.productAdvert.isDamage == false ? this.booleanEnum[1] : null);
+      this.selectedRam = this.ram.filter(response => response.id == res.productAdvert.ram)[0];
+      this.selectedStorage = this.storage.filter(response => response.id == res.productAdvert.storage)[0];
+      this.rangeValues[0] = res.productAdvert.negotiableMinValue
+      this.rangeValues[1] = res.productAdvert.negotiableMaxValue
+
+      this.batteryWifi.filter(bat =>
+        res.productAdvertBatteryUsages.map(x => {
+          if (bat.hours == x.hours && bat.batteryUsageType == x.batteryUsageType) this.selectedBatteryWifi = bat;
+        }))
+
+
+      this.batteryGaming.filter(bat =>
+        res.productAdvertBatteryUsages.map(x => {
+          if (bat.hours == x.hours && bat.batteryUsageType == x.batteryUsageType) this.selectedBatteryGaming = bat;
+        }))
+
+      this.batteryMobileData.filter(bat =>
+        res.productAdvertBatteryUsages.map(x => {
+          if (bat.hours == x.hours && bat.batteryUsageType == x.batteryUsageType) this.selectedBatteryMobileData = bat;
+        }))
+
     })
 
   }
+
+  s = (ev) => console.log(this.isNew);
   onSelectDropdown(valuesArray): void {
     console.log(valuesArray)
     if (valuesArray) {
@@ -204,10 +256,11 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   }
 
 
-  onSelectBrand(e) {
+  onSelectBrand(e, id?) {
     console.log(e)
     console.log(this.selectedProductBrands)
-    e.value.id ? this.getAllProductsDropdownById() : null
+    // e.value.id || id ? this.getAllProductsDropdownById() : null
+    this.getAllProductsDropdownById()
     console.log(this.selectedAccessories)
   }
 
@@ -271,31 +324,26 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this.product.productAdvertAccessories = this.selectedAccessories
     console.log(this.product.productAdvertAccessories)
 
-    let selectedBatteryWifi = this.batteryWifi.filter(res => res.id == this.selectedBatteryWifi)[0]
-    let selectedBatteryGaming = this.batteryGaming.filter(res => res.id == this.selectedBatteryGaming)[0]
-    let selectedBatteryMobileData = this.batteryMobileData.filter(res => res.id == this.selectedBatteryMobileData)[0]
+    let selectedBatteryWifi = this.batteryWifi.filter(res => res.id == this.selectedBatteryWifi['id'])[0]
+    let selectedBatteryGaming = this.batteryGaming.filter(res => res.id == this.selectedBatteryGaming['id'])[0]
+    let selectedBatteryMobileData = this.batteryMobileData.filter(res => res.id == this.selectedBatteryMobileData['id'])[0]
 
 
     this.selectedBattery.push(selectedBatteryWifi,
       selectedBatteryGaming, selectedBatteryMobileData)
-
+    console.log(this.selectedBattery)
     this.selectedBattery.map((res: any) => {
       console.log(res)
       res.hours = res.hours,
-        res.batteryUsageType = 1
+      res.batteryUsageType = res.batteryUsageType
       res.id = res.id
     })
+    console.log(this.selectedBattery)
 
     this.product.productAdvertBatteryUsages = this.selectedBattery;
-    // image: string | undefined;
-    // productImagePriority: ProductImagePriorityEnum;
-    // id: number;
-    let selectedImages: any = {
-      image: '',
-      productImagePriority: null,
-      id: null
-    }
-    this.product.images = selectedImages
+
+
+    this.product.images = []
 
     console.log(this.selectedAccessories)
     this.product.productAdvertinput = new ProductAdvertDto();
@@ -303,23 +351,34 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this.product.productAdvertinput.productModelId = this.selectedProductModel['id'];
     this.product.productAdvertinput.storage = this.selectedStorage['id'];
     this.product.productAdvertinput.ram = this.selectedRam['id'];
-    this.product.productAdvertinput.isNew = this.isNew == 1 ? true : false
-    this.product.productAdvertinput.isPtaApproved = this.isPtaApproved == 1 ? true : false
-    this.product.productAdvertinput.isExchangeable = this.isExchange == 1 ? true : false
+    this.product.productAdvertinput.isNew = this.isNew['id'] == 1 ? true : false
+    this.product.productAdvertinput.isPtaApproved = this.isPtaApproved['id'] == 1 ? true : false
+    this.product.productAdvertinput.isExchangeable = this.isExchange['id'] == 1 ? true : false
     this.product.productAdvertinput.price = this.price
-    this.product.productAdvertinput.isNegotiable = this.isNegotiable == 1 ? true : false
-    this.product.productAdvertinput.negotiableMaxValue = this.isNegotiable == 1 ? this.rangeValues[0] : null;
-    this.product.productAdvertinput.negotiableMinValue = this.isNegotiable == 1 ? this.rangeValues[1] : null;
+    this.product.productAdvertinput.isNegotiable = this.isNegotiable['id'] == 1 ? true : false
+    this.product.productAdvertinput.negotiableMaxValue = this.isNegotiable['id'] == 1 ? this.rangeValues[0] : null;
+    this.product.productAdvertinput.negotiableMinValue = this.isNegotiable['id'] == 1 ? this.rangeValues[1] : null;
     this.product.productAdvertinput.isSpot = this.isSpot == 1 ? true : false;
-    this.product.productAdvertinput.isFingerSensorWorking = this.isFingerWorking == 1 ? true : false;
-    this.product.productAdvertinput.isFaceSensorWorking = this.isFaceSensorWorking == 1 ? true : false;
+    this.product.productAdvertinput.isFingerSensorWorking = this.isFingerWorking['id'] == 1 ? true : false;
+    this.product.productAdvertinput.isFaceSensorWorking = this.isFaceSensorWorking['id'] == 1 ? true : false;
     this.product.productAdvertinput.batteryHealth = this.selectedProductBrands['name'] == AppConsts.mobileBrand.Apple ? this.batteryHealth : null
-    this.product.productAdvertinput.isKit = this.isKit == 1 ? true : false;
-    this.product.productAdvertinput.isInWarranty = this.isWarranty == 1 ? true : false;
-    this.product.productAdvertinput.remaingWarrantyInMonths = this.isWarranty == 1 ? this.warrantyMonths : null;
+    this.product.productAdvertinput.isKit = this.isKit['id'] == 1 ? true : false;
+    this.product.productAdvertinput.isInWarranty = this.isWarranty['id'] == 1 ? true : false;
+    this.product.productAdvertinput.remaingWarrantyInMonths = this.isWarranty['id'] == 1 ? this.warrantyMonths : null;
+    this.detailProduct ? this.product.productAdvertinput.id = this.detailProduct.productdetails.queryParams.id : null
     console.log(this.product)
-    this._ProductAdvertService.create(this.product).subscribe(res => {
+    console.log(this.detailProduct)
+
+
+    !this.detailProduct ? this._ProductAdvertService.create(this.product).subscribe(res => {
       console.log(res)
+      this.notify.success(this.l('Successfully Created'));
+
+    }) : this._ProductAdvertService.update(this.product).subscribe(res => {
+      console.log(res)
+      this.notify.success(this.l('Successfully Updated'));
+      this.router.navigate(['/app/main/user-dashboard']);
+
     })
 
   }

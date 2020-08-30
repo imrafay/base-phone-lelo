@@ -24,5 +24,9 @@ namespace PhoneLelo.Project.Users
             string verificationCode);
 
         Task UpdateUserProfile(UserDto input);
+
+        Task<ListResultDto<RoleDto>> GetRegistrationRoles();
+
+        Task<UserDto> GetUserForView();
     }
 }
