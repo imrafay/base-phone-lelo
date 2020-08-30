@@ -46,16 +46,16 @@
                     <span class="lni-menu"></span>
                     <span class="lni-menu"></span>
                 </button>
-                <a href="index-2.html" class="navbar-brand"><img src="assets/img/logo.png" alt=""></a>
+                <a routerLink="/" class="navbar-brand"><img src="assets/img/logo.png" alt=""></a>
             </div>
             <div class="collapse navbar-collapse" id="main-navbar">
                 <ul class="navbar-nav mr-auto w-100 justify-content-center">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link" routerLink="/"  aria-haspopup="true" aria-expanded="false">
                             Home
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="isUserValid">
                         <a class="nav-link" routerLink="/app/main/user-dashboard">
                             Dashboard
                         </a>
@@ -76,8 +76,8 @@
                             <a class="dropdown-item" href="ads-details.html">Listing Detail</a>
                         </div>
                     </li> -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                    <li class="nav-item dropdown" *ngIf="isUserValid">
+                        <a class="nav-link dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                             Services
                         </a>

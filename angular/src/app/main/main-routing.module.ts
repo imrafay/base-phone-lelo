@@ -2,6 +2,7 @@
 import { RouterModule } from '@angular/router';
 import { CreateOrEditAddPostComponent } from './create-or-edit-add-post/create-or-edit-add-post.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 
 
 @NgModule({
@@ -10,8 +11,8 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
             {
                 path: '',
                 children: [
-                    { path: 'add-post', component: CreateOrEditAddPostComponent  },
-                    { path: 'user-dashboard', component: UserDashboardComponent  },
+                    { path: 'add-post', component: CreateOrEditAddPostComponent, canActivate: [AppRouteGuard] },
+                    { path: 'user-dashboard', component: UserDashboardComponent,canActivate: [AppRouteGuard]  },
                 ]
             }
         ])

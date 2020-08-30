@@ -84,10 +84,9 @@
                                     <label class="control-label fontColor">Accessories</label>
 
                                     <p-multiSelect [options]="accessories" [(ngModel)]="selectedAccessories"
-                                        [style]="{'width':'100%'}" (onChange)="onSelectAccessories($event)"
-                                        placeholder="Select Accessories" optionLabel="name" name="selectedAccessories">
+                                        [style]="{'width':'100%'}" placeholder="Select Accessories"
+                                        optionLabel="accessoryName" name="selectedAccessories">
                                     </p-multiSelect>
-
 
                                 </div>
                                 <div class="form-group mb-3">
@@ -346,8 +345,7 @@
                                     </span>
 
                                 </div>
-                                <!-- [disabled]="isValid()" -->
-                                <button class="btn btn-common" type="submit">Post
+                                <button class="btn btn-common" type="submit" [disabled]="isValid()">Post
                                     Ad</button>
                             </div>
                         </div>
