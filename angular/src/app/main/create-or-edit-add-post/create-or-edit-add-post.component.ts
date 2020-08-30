@@ -335,7 +335,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this.selectedBattery.map((res: any) => {
       console.log(res)
       res.hours = res.hours,
-        res.batteryUsageType = res.batteryUsageType
+      res.batteryUsageType = res.batteryUsageType
       res.id = res.id
     })
     console.log(this.selectedBattery)
