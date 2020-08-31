@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CreateOrEditAddPostComponent } from './create-or-edit-add-post/create-or-edit-add-post.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
+import { AuthGuard } from '@shared/auth/auth-guard';
 
 
 @NgModule({
@@ -10,8 +11,9 @@ import { AppRouteGuard } from '@shared/auth/auth-route-guard';
         RouterModule.forChild([
             {
                 path: '',
+                canActivate: [AuthGuard],
                 children: [
-                    { path: 'add-post', component: CreateOrEditAddPostComponent, },
+                    { path: 'add-post', component: CreateOrEditAddPostComponent },
                     { path: 'user-dashboard', component: UserDashboardComponent },
                 ],
             }

@@ -13,23 +13,22 @@ import { CategoryComponent } from './category/category.component';
 
 @NgModule({
     imports: [
-    RouterModule.forChild([
+        RouterModule.forChild([
             {
                 path: '',
                 component: AppComponent,
                 children: [
-                    { path: 'home', component: PublicHomeComponent},
-                    { path: 'adminhome', component: HomeComponent, canActivate: [AppRouteGuard]},
-                    { path: 'users', component: UsersComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
-                    { path: 'roles', component: RolesComponent, data: { permission: 'Pages.Roles' }, canActivate: [AppRouteGuard] },
-                    { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
+                    { path: 'home', component: PublicHomeComponent },
+                    { path: 'adminhome', component: HomeComponent, },
+                    { path: 'users', component: UsersComponent, data: { permission: 'Pages.Users' }, },
+                    { path: 'roles', component: RolesComponent, data: { permission: 'Pages.Roles' }, },
+                    { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, },
                     { path: 'about', component: AboutComponent },
                     { path: 'update-password', component: ChangePasswordComponent },
                     { path: 'category', component: CategoryComponent },
                     {
                         path: 'main',
                         loadChildren: () => import('app/main/main.module').then(m => m.MainModule), //Lazy load main module
-                        data: { preload: true }
                     },
                 ]
             }

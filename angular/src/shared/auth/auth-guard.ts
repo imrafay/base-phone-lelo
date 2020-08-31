@@ -6,7 +6,7 @@ import { PermissionCheckerService } from 'abp-ng2-module';
 // import { AppSessionService } from '@shared/common/session/app-session.service';
 
 @Injectable()
-export class AppRouteGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
 
     constructor(
         private _permissionChecker: PermissionCheckerService,
@@ -15,26 +15,11 @@ export class AppRouteGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-
-        if (route.queryParams['ss'] && route.queryParams['ss'] === 'true') {
-            return true;
-        }
-
-        console.log(this._sessionService.user, route);
-        // debugger
         if (!this._sessionService.user) {
-            if (route['_routerState'].url === '/account/login') {
-                return true;
-            }
-            else {
-                this._router.navigate(['/account/login']);
-                return false;
-            }
+            this._router.navigate([this.selectBestRoute()]);
+            return false;
         }
-
-        this._router.navigate([this.selectBestRoute()]);
-
-        return false;
+        return true;
     }
 
     selectBestRoute(): string {

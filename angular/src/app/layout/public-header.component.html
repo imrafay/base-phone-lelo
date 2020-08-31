@@ -27,7 +27,7 @@
                     </div>
                     <div class="header-top-right float-right">
                         <!-- <a href="login.html" class="header-top-button"><i class="lni-lock"></i> Log In</a> | -->
-                        <a href="register.html" class="header-top-button"><i class="lni-pencil"></i> Register</a>
+                        <!-- <a href="register.html" class="header-top-button"><i class="lni-pencil"></i> Register</a> -->
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             <div class="collapse navbar-collapse" id="main-navbar">
                 <ul class="navbar-nav mr-auto w-100 justify-content-center">
                     <li class="nav-item active">
-                        <a class="nav-link" routerLink="/"  aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link" routerLink="/" aria-haspopup="true" aria-expanded="false">
                             Home
                         </a>
                     </li>
@@ -77,7 +77,7 @@
                         </div>
                     </li> -->
                     <li class="nav-item dropdown" *ngIf="isUserValid">
-                        <a class="nav-link dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true"
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                             Services
                         </a>
@@ -107,7 +107,8 @@
 
                 </ul>
                 <div class="post-btn">
-                    <a class="btn btn-common" (click)="signUpRegisterModal.show()"><i class="lni-pencil-alt"></i>
+                    <a class="btn btn-common" (click)="signUpRegisterModal.show()" style="color:white"><i
+                            class="lni-pencil-alt"></i>
                         Post an Ad</a>
                 </div>
             </div>
