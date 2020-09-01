@@ -235,7 +235,7 @@
 <section class="featured section-padding">
     <div class="container">
         <h1 class="section-title">Latest Products</h1>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4" *ngFor="let product of products">
                 <div class="featured-box">
                     <figure>
@@ -243,10 +243,9 @@
                             <span class="bg-green"><i class="lni-heart"></i></span>
                             <span><i class="lni-bookmark"></i></span>
                         </div>
-                        <!-- <a href="#"><img class="img-fluid" src="../../assets/img/phone-logo/no-image.jpg" alt=""></a> -->
+                        <a href="#"><img class="img-fluid" src="../../assets/img/phone-logo/no-image.jpg" alt=""></a>
 
-                        <!-- <a href="#"><img class="img-fluid" src="assets/img/featured/img-1.jpg" alt=""></a> -->
-                    </figure>
+                   </figure>
                     <div class="feature-content">
                         <div class="product">
                             <a href="#">{{product.ram}} Ram / </a>
@@ -284,11 +283,64 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+        <div class="row" *ngIf="products.length > 0" id="latestCarousel">
+            <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [interval]="false">
+                <slide *ngFor="let product of products">
+                    <span *ngIf="product.primaryProductImage">
+                        <img [src]="product.primaryProductImage" alt="image slide" style="display: block; width: 100%;">
+                    </span>
+                    <span *ngIf="!product.primaryProductImage">
+                        <img src="../../assets/img/featured/img-1.jpg" alt="image slide"
+                            style="display: block; width: 100%;">
+                    </span>
+
+                    <div class="cards-content">
+                        <h3 class="no-margin productModel">
+                            <a> {{product.productModelName}}</a>
+                        </h3>
+                        <div class="generic-green">
+                            {{product.price}}
+                        </div>
+                        <div class="generic-gray">Karachi</div>
+                    </div>
+                </slide>
+            </carousel>
+
         </div>
     </div>
 </section>
 
 
+<section class="featured section-padding">
+    <div class="container">
+        <h1 class="section-title">Used Mobile Phones</h1>
+        <div class="row" *ngIf="usedProducts.length > 0" id="latestCarousel">
+            <carousel [itemsPerSlide]="itemsPerSlide" [singleSlideOffset]="singleSlideOffset" [interval]="false">
+                <slide *ngFor="let product of usedProducts">
+                    <span *ngIf="product.primaryProductImage">
+                        <img [src]="product.primaryProductImage" alt="image slide" style="display: block; width: 100%;">
+                    </span>
+                    <span *ngIf="!product.primaryProductImage">
+                        <img src="../../assets/img/featured/img-1.jpg" alt="image slide"
+                            style="display: block; width: 100%;">
+                    </span>
+
+                    <div class="cards-content">
+                        <h3 class="no-margin productModel">
+                            <a> {{product.productModelName}}</a>
+                        </h3>
+                        <div class="generic-green">
+                            {{product.price}}
+                        </div>
+                        <div class="generic-gray">Karachi</div>
+                    </div>
+                </slide>
+            </carousel>
+
+        </div>
+    </div>
+</section>
 <section class="cities bg-light section-padding">
     <div class="container">
         <h1 class="section-title">Browse By Cities</h1>

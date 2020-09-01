@@ -18,3 +18,29 @@
     color: white !important;
     padding: 5px;
 }
+#latestCarousel .carousel-item {
+  margin: 10px;
+  /* border: 1px solid gray; */
+}
+#latestCarousel .carousel-indicators{
+  display: none;
+}
+ .cards-content {
+  padding: 10px;
+  color: #434343;
+  border: 1px solid #EAEDEF;
+  background-color: #fff;
+}
+.generic-green{
+  color: #3eb549;
+}
+.generic-gray{
+  color: #7b8397;
+}
+.no-margin{
+  margin:0px
+}
+.productModel{
+  color: #233d7b;
+  font-size:15px
+}
