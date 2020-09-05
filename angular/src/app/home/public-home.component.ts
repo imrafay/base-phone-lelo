@@ -15,10 +15,11 @@ export class PublicHomeComponent implements OnInit {
   isInProgress: boolean = false;
   products: ProductAdvertViewDto[] = [];
   usedProducts: ProductAdvertViewDto[] = [];
+  damagedProducts: ProductAdvertViewDto[] = [];
   userName: string;
   itemsPerSlide = 4;
   singleSlideOffset = true;
-  slides = []
+  slides = [];
 
   constructor(
     private _ProductAdvertService: ProductAdvertServiceProxy,
@@ -29,6 +30,7 @@ export class PublicHomeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllProducts();
     this.getAllUsedProducts();
+    this.getAllDamagedProducts();
     console.log(this._sessionService)
 
   }
@@ -52,9 +54,22 @@ export class PublicHomeComponent implements OnInit {
       undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
     ).subscribe(res => {
       console.log(res)
+      this.isInProgress = true;
       this.usedProducts = res.items;
 
     })
   }
 
+  getAllDamagedProducts() {
+    this._ProductAdvertService.getAll(
+      undefined, undefined, undefined, undefined,
+      undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
+      undefined, undefined, undefined, true, true, undefined, undefined, undefined,
+    ).subscribe(res => {
+      console.log(res)
+      this.isInProgress = true;
+      this.damagedProducts = res.items;
+
+    })
+  }
 }
