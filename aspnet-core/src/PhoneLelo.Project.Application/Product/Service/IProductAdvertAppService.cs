@@ -28,5 +28,11 @@ namespace PhoneLelo.Project.Import.MobilePhone
 
         Task<ProductAdvertDetailViewDto> GetProductAdverForDetailView(
             long advertId);
+
+        List<DropdownCountOutputDto> GetStatesAndAdsCount();
+
+        List<DropdownCountOutputDto> GetCitiesAndAdsCount();
+
+        List<DropdownCountOutputDto> GetNeighbourhoodAndAdsCount();
     }
 }

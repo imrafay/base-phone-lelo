@@ -3,8 +3,11 @@ using Abp.Domain.Services;
 using Abp.EntityFrameworkCore.Repositories;
 using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
+using PhoneLelo.Project.Authorization.Users;
+using PhoneLelo.Project.Location;
 using PhoneLelo.Project.Product.Dto;
 using PhoneLelo.Project.Product.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,16 +20,31 @@ namespace PhoneLelo.Project.Authorization
         private readonly IRepository<ProductAdvertBatteryUsage, long> _productAdvertBatteryUsagerepository;
         private readonly IRepository<ProductAdvertImage, long> _productAdvertImageRepository;
         private readonly IRepository<ProductAdvertAccessory, long> _productAdvertAccessoryRepository;
+        private readonly IRepository<City, long> _cityRepository;
+        private readonly IRepository<State, long> _stateRepository;
+        private readonly IRepository<Neighbourhood, long> _neighbourhoodRepository;
+        private readonly IRepository<User, long> _userRepository;
 
         public ProductAdvertManager(
             IRepository<ProductAdvert, long> productAdvertRepository,
-            IRepository<ProductAdvertBatteryUsage, long> productAdvertBatteryUsagerepository, IRepository<ProductAdvertImage, long> productAdvertImageRepository, IRepository<ProductAdvertAccessory, long> productAdvertAccessoryRepository)
+            IRepository<ProductAdvertBatteryUsage, long> productAdvertBatteryUsagerepository,
+            IRepository<ProductAdvertImage, long> productAdvertImageRepository,
+            IRepository<ProductAdvertAccessory, long> productAdvertAccessoryRepository,
+            IRepository<City, long> cityRepository,
+            IRepository<State, long> stateRepository,
+            IRepository<Neighbourhood, long> neighbourhoodRepository,
+            IRepository<User, long> userRepository)
+
 
         {
             _productAdvertRepository = productAdvertRepository;
             _productAdvertBatteryUsagerepository = productAdvertBatteryUsagerepository;
             _productAdvertImageRepository = productAdvertImageRepository;
             _productAdvertAccessoryRepository = productAdvertAccessoryRepository;
+            _cityRepository = cityRepository;
+            _stateRepository = stateRepository;
+            _neighbourhoodRepository = neighbourhoodRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<ProductAdvert> GetByIdAsync(long id)
@@ -34,7 +52,7 @@ namespace PhoneLelo.Project.Authorization
 
             var productAdvert = await _productAdvertRepository
                     .GetAll()
-                    .Include(x=>x.ProductModelFk)
+                    .Include(x => x.ProductModelFk)
                     .FirstOrDefaultAsync(x => x.Id == id);
 
             return productAdvert;
@@ -70,8 +88,8 @@ namespace PhoneLelo.Project.Authorization
 
             await CurrentUnitOfWork
                 .SaveChangesAsync();
-        } 
-        
+        }
+
         public async Task CreateProductAdvertAccessoryAsync(
             List<ProductAdvertAccessory> list)
         {
@@ -101,7 +119,7 @@ namespace PhoneLelo.Project.Authorization
             await DeleteBatteryUsageAsync(productAdvertId);
             await CreateBatteryUsageAsync(list);
         }
-        
+
         public async Task UpdateProductAccessoryAsync(
             List<ProductAdvertAccessory> list,
             long productAdvertId)
@@ -118,7 +136,7 @@ namespace PhoneLelo.Project.Authorization
             await CurrentUnitOfWork
                 .SaveChangesAsync();
         }
-        
+
         public async Task DeleteProductAccessoryAsync(long productAdvertId)
         {
             await _productAdvertAccessoryRepository.HardDeleteAsync(x =>
@@ -181,7 +199,7 @@ namespace PhoneLelo.Project.Authorization
                         x.IsExchangeable == filter.IsExchangeable)
                   .Select(x => new ProductAdvertViewDto()
                   {
-                      Id=x.Id,
+                      Id = x.Id,
                       Views = 0,
                       Ram = x.Ram,
                       Price = x.Price,
@@ -218,14 +236,14 @@ namespace PhoneLelo.Project.Authorization
             long productAdvertId)
         {
 
-            var productAdvertBatteryUsages= await _productAdvertBatteryUsagerepository
+            var productAdvertBatteryUsages = await _productAdvertBatteryUsagerepository
                   .GetAll()
                   .Where(x => x.ProductAdvertId == productAdvertId)
                   .ToListAsync();
 
             return productAdvertBatteryUsages;
-        } 
-        
+        }
+
         public async Task<List<ProductAdvertAccessory>> GetProductAdvertAccessoriesById(
             long productAdvertId)
         {
@@ -237,5 +255,71 @@ namespace PhoneLelo.Project.Authorization
 
             return productAdvertAccessories;
         }
+
+        public IQueryable<DropdownCountOutputDto> GetStatesAndAdsCountQuery ()
+        {
+            var output = (from state in _stateRepository.GetAll()
+
+                          join user in _userRepository.GetAll()
+                          on state.Id equals user.StateId
+
+                          join ad in _productAdvertRepository.GetAll()
+                          on user.Id equals ad.UserId
+
+                          group ad by new { state.Id, state.Name } into stateAds
+
+                          select new DropdownCountOutputDto
+                          {
+                              Id = stateAds.Key.Id,
+                              Name = stateAds.Key.Name,
+                              Count = stateAds.Count()
+                          });
+
+            return output;
+        } 
+        public IQueryable<DropdownCountOutputDto> GetNeighbourhoodAndAdsCountQuery()
+        {
+            var output = (from neighbourhood in _neighbourhoodRepository.GetAll()
+
+                          join user in _userRepository.GetAll()
+                          on neighbourhood.Id equals user.NeighbourhoodId
+
+                          join ad in _productAdvertRepository.GetAll()
+                          on user.Id equals ad.UserId
+
+                          group ad by new { neighbourhood.Id, neighbourhood.Name } into neighbourhoodAds
+
+                          select new DropdownCountOutputDto
+                          {
+                              Id = neighbourhoodAds.Key.Id,
+                              Name = neighbourhoodAds.Key.Name,
+                              Count = neighbourhoodAds.Count()
+                          });
+
+            return output;
+        }
+        
+        public IQueryable<DropdownCountOutputDto> GetCitiesAndAdsCountQuery()
+        {
+            var output = (from city in _cityRepository.GetAll()
+
+                          join user in _userRepository.GetAll()
+                          on city.Id equals user.CityId
+
+                          join ad in _productAdvertRepository.GetAll()
+                          on user.Id equals ad.UserId
+
+                          group ad by new { city.Id, city.Name } into cityAds
+
+                          select new DropdownCountOutputDto
+                          {
+                              Id = cityAds.Key.Id,
+                              Name = cityAds.Key.Name,
+                              Count = cityAds.Count()
+                          });
+
+            return output;
+        }
+
     }
 }
