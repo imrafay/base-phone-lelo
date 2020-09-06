@@ -15,24 +15,33 @@ export class AppRouteGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-      
+
         if (route.queryParams['ss'] && route.queryParams['ss'] === 'true') {
             return true;
         }
 
-        if (this._sessionService.user) {
-            this._router.navigate([this.selectBestRoute()]);
-            return false;
+        console.log(this._sessionService.user, route);
+        // debugger
+        if (!this._sessionService.user) {
+            if (route['_routerState'].url === '/account/login') {
+                return true;
+            }
+            else {
+                this._router.navigate(['/account/login']);
+                return false;
+            }
         }
 
-        return true;
+        this._router.navigate([this.selectBestRoute()]);
+
+        return false;
     }
 
     selectBestRoute(): string {
         if (!this._sessionService.user) {
             return '/account/login';
         }
-        
+
         if (this._permissionChecker.isGranted('Pages.Users')) {
             return '/app/home';
         }

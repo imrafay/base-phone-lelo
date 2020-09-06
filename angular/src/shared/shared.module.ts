@@ -21,6 +21,8 @@ import { CreateUserLocationComponent } from './components/create-user-location/c
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 
+import { AuthGuard } from './auth/auth-guard';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -60,6 +62,7 @@ export class SharedModule {
                 AppUrlService,
                 AppAuthService,
                 AppRouteGuard,
+                AuthGuard,
                 LayoutStoreService
             ]
         };

@@ -43,9 +43,11 @@
             </div>
         </div>
         <div>
-
+            <div class="col-xl-12 col-sm-12 col-12 d-flex justify-content-center" *ngIf="!isInProgress" >
+                <p-progressSpinner></p-progressSpinner>
+            </div>
         </div>
-        <div class="container">
+        <div class="container" *ngIf="isInProgress" >
             <div class="row center">
                 <div class="col-sm-12 col-md-10">
                     <div class=" page-content">
@@ -84,10 +86,9 @@
                                     <label class="control-label fontColor">Accessories</label>
 
                                     <p-multiSelect [options]="accessories" [(ngModel)]="selectedAccessories"
-                                        [style]="{'width':'100%'}" (onChange)="onSelectAccessories($event)"
-                                        placeholder="Select Accessories" optionLabel="name" name="selectedAccessories">
+                                        [style]="{'width':'100%'}" placeholder="Select Accessories"
+                                        optionLabel="accessoryName" name="selectedAccessories">
                                     </p-multiSelect>
-
 
                                 </div>
                                 <div class="form-group mb-3">
@@ -204,7 +205,7 @@
                                 <div class="form-group mb-5 mt-4" *ngIf="isNegotiable && isNegotiable['id'] == 1">
 
                                     <p-slider [(ngModel)]="rangeValues" [range]="true" [style]="{'width':'50%'}"
-                                        [min]="0" [max]="5000" (onChange)="handleChange($event)" name="rangeSlider">
+                                        [min]="0" [max]="5000" name="rangeSlider">
                                     </p-slider>
                                     <br> <label style="margin-top: 5px;">
                                         {{rangeValues[0] + ' Rs  - ' + rangeValues[1] + ' Rs'}}</label>
@@ -346,8 +347,7 @@
                                     </span>
 
                                 </div>
-                                <!-- [disabled]="isValid()" -->
-                                <button class="btn btn-common" type="submit">Post
+                                <button class="btn btn-common" type="submit" [disabled]="isValid()">Post
                                     Ad</button>
                             </div>
                         </div>

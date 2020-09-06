@@ -30,8 +30,8 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   productModel = [];
   // selectedProductModel=[];
   selectedProductModel: DropdownOutputDto[] = [];
-  accessories: DropdownOutputDto[] = [];
-  selectedAccessories = [];
+  // accessories:ProductAdvertAccessoryDto[] = [];;
+  selectedAccessories: ProductAdvertAccessoryDto[] = [];
   isNegotiable: any
   isFixed: boolean = false;
   ram = [];
@@ -44,7 +44,6 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   isPtaApproved: any;
   isDamaged: any;
   product: ProductAdvertInputDto = new ProductAdvertInputDto();
-  phoneTitle: string = ''
   price: number;
   isFingerWorking: any
   isFaceSensorWorking: any;
@@ -60,6 +59,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   detailProduct: any;
   description: string = '';
   productId: number;
+  isInProgress: boolean = false;
 
   constructor(
     injector: Injector,
@@ -74,6 +74,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     super(injector);
     this.uploadUrl = this.baseUrl + "api/File/UploadFiles";
     this.detailProduct = this.router.getCurrentNavigation().extras.state;
+    !this.detailProduct ? this.isInProgress = true : this.isInProgress = false;
     console.log(this.detailProduct);
     // if()
     console.log(this.appSession)
@@ -115,11 +116,19 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     { name: '10', id: 3, hours: 10, batteryUsageType: 3 },
     { name: '12+', id: 4, hours: 12, batteryUsageType: 3 },
   ]
+  accessories = [
+    { id: 0, accessoryName: "Charger", accessoryType: 0 },
+    { id: 1, accessoryName: "Wireless Charger", accessoryType: 1 },
+    { id: 2, accessoryName: "Box", accessoryType: 2 },
+    { id: 3, accessoryName: "HandsFree", accessoryType: 3 },
+    { id: 4, accessoryName: "AirPods", accessoryType: 4 },
+  ]
+
 
   ngOnInit(): void {
     this.getAllRams();
     this.getAllStorages();
-    this.getAllAccessories();
+    // this.getAllAccessories();
     this.getAllBrands();
 
     this.detailProduct ? this.getProductById() : null;
@@ -129,7 +138,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this._ProductAdvertService.getProductAdverForEdit(this.detailProduct.productdetails.queryParams.id).subscribe(res => {
       console.log(res)
       this.selectedProductBrands = this.productBrands.filter(response => response.name == res.productCompanyName)[0]
-      this.onSelectBrand(null, this.selectedProductBrands['id']);
+      setTimeout(() => this.onSelectBrand(null, this.selectedProductBrands['id']), 1000);
       setTimeout(() => this.selectedProductModel = this.productModel.filter(response => response.name == res.productModelName)[0], 6000);
 
       //  setTimeout(() => {
@@ -181,21 +190,8 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
 
   }
 
-  s = (ev) => console.log(this.isNew);
-  onSelectDropdown(valuesArray): void {
-    console.log(valuesArray)
-    if (valuesArray) {
-      // this.selectedState = valuesArray[0];
-      // this.selectedCity = valuesArray[1];
-      // this.selectedNeighbourhood = valuesArray[2];
-      // this.neighbourhood = valuesArray[3];
-    }
 
-    // this.isValid(valuesArray)
-  }
-  handleChange(e) {
-    console.log(e)
-  }
+
   getAllStates() {
 
     this._UserLocationServiceProxy.getStates().subscribe(res => {
@@ -252,6 +248,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   getAllProductsDropdownById() {
     this._ProductModelService.getProductModelDropdown(this.selectedProductBrands['id']).subscribe(res => {
       this.productModel = res;
+      this.isInProgress = true;
     })
   }
 
@@ -285,11 +282,11 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
       this.ram = res;
     })
   }
-  getAllAccessories() {
-    this._ProductAdvertService.getAccessoriesDropDown().subscribe(res => {
-      this.accessories = res;
-    })
-  }
+  // getAllAccessories() {
+  //   this._ProductAdvertService.getAccessoriesDropDown().subscribe((res:DropdownOutputDto[]) => {
+  //     this.accessories = res;
+  //   })
+  // }
   getAllStorages() {
     this._ProductAdvertService.getStorageDropDown().subscribe(res => {
       this.storage = res;
@@ -297,55 +294,31 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   }
 
   isValid() {
-
+    // this.isWarranty['id'] == 1 ? this.warrantyMonths : this.isWarranty == 2
     return !(
-      this.phoneTitle != '' && this.selectedProductBrands['id'] && this.selectedProductModel['id'] &&
-        this.isWarranty == 1 ? this.warrantyMonths : this.isWarranty == 2 &&
-        this.isNew && this.isExchange && this.isPtaApproved && this.price && this.isSpot &&
-        this.isFaceSensorWorking && this.isFingerWorking && this.selectedRam['id'] && this.selectedStorage['id'] &&
-        this.isWarranty && this.isKit && (this.selectedProductBrands['name'] == 'Apple' ? this.batteryHealth : this.selectedProductBrands['name'])
+      this.selectedProductBrands['id'] && this.selectedProductModel['id'] &&
+      this.isNew['id'] && this.isExchange['id'] && this.isPtaApproved['id'] && this.price && this.isSpot['id'] &&
+      this.isFaceSensorWorking['id'] && this.isFingerWorking['id'] && this.selectedRam['id'] && this.selectedStorage['id'] &&
+      this.isWarranty['id'] && this.isKit['id'] && (this.selectedProductBrands['name'] == 'Apple' ? this.batteryHealth : this.selectedProductBrands['name'])
     )
     // && this.selectedProductBrands['name'] == AppConsts.mobileBrand.Apple ? this.batteryHealth : this.selectedProductBrands[/'']
   }
-  onSelectAccessories(ev) {
-    console.log(ev)
-    this.selectedAccessories = ev.value
-    console.log(this.selectedAccessories)
 
-  }
   onPostAd() {
 
-    this.selectedAccessories.map((res: any) => {
-      console.log(res)
-      res.accessoryName = res.name
-      res.accessoryType = 1
-      res.id = res.id
-    })
-    this.product.productAdvertAccessories = this.selectedAccessories
-    console.log(this.product.productAdvertAccessories)
+    this.product.productAdvertAccessories = this.selectedAccessories;
 
     let selectedBatteryWifi = this.batteryWifi.filter(res => res.id == this.selectedBatteryWifi['id'])[0]
     let selectedBatteryGaming = this.batteryGaming.filter(res => res.id == this.selectedBatteryGaming['id'])[0]
     let selectedBatteryMobileData = this.batteryMobileData.filter(res => res.id == this.selectedBatteryMobileData['id'])[0]
 
-
     this.selectedBattery.push(selectedBatteryWifi,
       selectedBatteryGaming, selectedBatteryMobileData)
-    console.log(this.selectedBattery)
-    this.selectedBattery.map((res: any) => {
-      console.log(res)
-      res.hours = res.hours,
-      res.batteryUsageType = res.batteryUsageType
-      res.id = res.id
-    })
-    console.log(this.selectedBattery)
 
     this.product.productAdvertBatteryUsages = this.selectedBattery;
 
-
     this.product.images = []
 
-    console.log(this.selectedAccessories)
     this.product.productAdvertinput = new ProductAdvertDto();
     this.product.productAdvertinput.description = this.description;
     this.product.productAdvertinput.productModelId = this.selectedProductModel['id'];
@@ -367,17 +340,18 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this.product.productAdvertinput.remaingWarrantyInMonths = this.isWarranty['id'] == 1 ? this.warrantyMonths : null;
     this.detailProduct ? this.product.productAdvertinput.id = this.detailProduct.productdetails.queryParams.id : null
     console.log(this.product)
-    console.log(this.detailProduct)
-
 
     !this.detailProduct ? this._ProductAdvertService.create(this.product).subscribe(res => {
       console.log(res)
       this.notify.success(this.l('Successfully Created'));
+      setTimeout(() => this.router.navigate(['/app/main/user-dashboard']), 1000);
+
 
     }) : this._ProductAdvertService.update(this.product).subscribe(res => {
       console.log(res)
       this.notify.success(this.l('Successfully Updated'));
-      this.router.navigate(['/app/main/user-dashboard']);
+      setTimeout(() => this.router.navigate(['/app/main/user-dashboard']), 1000);
+
 
     })
 

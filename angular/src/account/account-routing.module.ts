@@ -11,9 +11,10 @@ import { AppRouteGuard } from '@shared/auth/auth-route-guard';
             {
                 path: '',
                 component: AccountComponent,
+                canActivate: [AppRouteGuard],
                 children: [
-                    { path: 'login', component: LoginComponent ,canActivate: [AppRouteGuard]  },
-                    { path: 'register', component: RegisterComponent }
+                    { path: 'login', component: LoginComponent },
+                    // { path: 'register', component: RegisterComponent }
                 ]
             }
         ])

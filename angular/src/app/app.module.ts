@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { SharedModule } from '@shared/shared.module';
-import { HomeComponent } from '@app/home/home.component';
+// import { HomeComponent } from '@app/home/home.component';
 import { AboutComponent } from '@app/about/about.component';
 // tenants
 import { TenantsComponent } from '@app/tenants/tenants.component';
@@ -40,7 +40,6 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 
 import { AdminHeaderComponent } from './layout/admin-header.component';
 import { PublicHeaderComponent } from './layout/public-header.component';
-import { PublicHomeComponent } from './home/public-home.component';
 import { CategoryComponent } from './category/category.component';
 
 
@@ -51,7 +50,6 @@ import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/si
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     AboutComponent,
     // tenants
     TenantsComponent,
@@ -78,7 +76,6 @@ import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/si
     SidebarMenuComponent,
     AdminHeaderComponent,
     PublicHeaderComponent,
-    PublicHomeComponent,
     CategoryComponent,
     SignUpRegisterModalComponent,
   ],

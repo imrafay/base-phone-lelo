@@ -309,6 +309,33 @@ namespace PhoneLelo.Project.Import.MobilePhone
                          }).ToList();
         }
 
+        [AbpAllowAnonymous]
+        public List<DropdownCountOutputDto> GetStatesAndAdsCount(
+            long? stateId)
+        {
+            return _productAdvertManager.GetStatesAndAdsCountQuery(stateId).ToList();
+        }
+        
+        [AbpAllowAnonymous]
+        public List<DropdownCountOutputDto> GetNeighbourhoodAndAdsCount(
+            long? cityId,
+            long? neighbourhoodId)
+        {
+            return _productAdvertManager.GetNeighbourhoodAndAdsCountQuery(
+                cityId: cityId,
+                neighbourhoodId: neighbourhoodId).ToList();
+        }
+        
+        [AbpAllowAnonymous]
+        public List<DropdownCountOutputDto> GetCitiesAndAdsCount(
+            long? stateId,
+            long? cityId)
+        {
+            return _productAdvertManager.GetCitiesAndAdsCountQuery(
+                stateId: stateId,
+                cityId: cityId).ToList();
+        }
+
         private async Task<int> GetProductAdverViews(long id)
         {
             return await _productAdvertViewLogManager
@@ -328,6 +355,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     );
             }
         }
+
     }
 }
 
