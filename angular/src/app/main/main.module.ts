@@ -21,7 +21,8 @@ import {SliderModule} from 'primeng/slider';
 import {TabMenuModule} from 'primeng/tabmenu';;
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { UserSiderbarComponent } from './user-siderbar/user-siderbar.component'
-// import {MenuItem} from 'primeng/api';
+;
+import { ProductDetailViewComponent } from './product-detail-view/product-detail-view.component'// import {MenuItem} from 'primeng/api';
 @NgModule({
 	imports: [
     CommonModule,
@@ -48,7 +49,8 @@ import { UserSiderbarComponent } from './user-siderbar/user-siderbar.component'
 	CreateOrEditAddPostComponent,
 	UserDashboardComponent,
 	UserSiderbarComponent
-],
+,
+	ProductDetailViewComponent],
 	providers: []
 })
 export class MainModule { } 
