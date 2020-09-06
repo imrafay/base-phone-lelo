@@ -256,9 +256,11 @@ namespace PhoneLelo.Project.Authorization
             return productAdvertAccessories;
         }
 
-        public IQueryable<DropdownCountOutputDto> GetStatesAndAdsCountQuery ()
+        public IQueryable<DropdownCountOutputDto> GetStatesAndAdsCountQuery(
+            long? stateId)
         {
             var output = (from state in _stateRepository.GetAll()
+                          .WhereIf(stateId.HasValue,x=>x.Id==stateId)
 
                           join user in _userRepository.GetAll()
                           on state.Id equals user.StateId
@@ -277,9 +279,13 @@ namespace PhoneLelo.Project.Authorization
 
             return output;
         } 
-        public IQueryable<DropdownCountOutputDto> GetNeighbourhoodAndAdsCountQuery()
+        public IQueryable<DropdownCountOutputDto> GetNeighbourhoodAndAdsCountQuery(
+            long? cityId,
+            long? neighbourhoodId)
         {
             var output = (from neighbourhood in _neighbourhoodRepository.GetAll()
+                          .WhereIf(cityId.HasValue, x => x.CityId == cityId)
+                          .WhereIf(neighbourhoodId.HasValue, x => x.Id == neighbourhoodId)
 
                           join user in _userRepository.GetAll()
                           on neighbourhood.Id equals user.NeighbourhoodId
@@ -298,10 +304,15 @@ namespace PhoneLelo.Project.Authorization
 
             return output;
         }
-        
-        public IQueryable<DropdownCountOutputDto> GetCitiesAndAdsCountQuery()
+      
+        public IQueryable<DropdownCountOutputDto> GetCitiesAndAdsCountQuery(
+            long? stateId,
+            long? cityId
+            )
         {
             var output = (from city in _cityRepository.GetAll()
+                           .WhereIf(stateId.HasValue, x => x.StateId == stateId)
+                           .WhereIf(cityId.HasValue, x => x.Id == cityId)
 
                           join user in _userRepository.GetAll()
                           on city.Id equals user.CityId

@@ -310,21 +310,30 @@ namespace PhoneLelo.Project.Import.MobilePhone
         }
 
         [AbpAllowAnonymous]
-        public List<DropdownCountOutputDto> GetStatesAndAdsCount()
+        public List<DropdownCountOutputDto> GetStatesAndAdsCount(
+            long? stateId)
         {
-            return _productAdvertManager.GetStatesAndAdsCountQuery().ToList();
+            return _productAdvertManager.GetStatesAndAdsCountQuery(stateId).ToList();
         }
         
         [AbpAllowAnonymous]
-        public List<DropdownCountOutputDto> GetNeighbourhoodAndAdsCount()
+        public List<DropdownCountOutputDto> GetNeighbourhoodAndAdsCount(
+            long? cityId,
+            long? neighbourhoodId)
         {
-            return _productAdvertManager.GetNeighbourhoodAndAdsCountQuery().ToList();
+            return _productAdvertManager.GetNeighbourhoodAndAdsCountQuery(
+                cityId: cityId,
+                neighbourhoodId: neighbourhoodId).ToList();
         }
         
         [AbpAllowAnonymous]
-        public List<DropdownCountOutputDto> GetCitiesAndAdsCount()
+        public List<DropdownCountOutputDto> GetCitiesAndAdsCount(
+            long? stateId,
+            long? cityId)
         {
-            return _productAdvertManager.GetCitiesAndAdsCountQuery().ToList();
+            return _productAdvertManager.GetCitiesAndAdsCountQuery(
+                stateId: stateId,
+                cityId: cityId).ToList();
         }
 
         private async Task<int> GetProductAdverViews(long id)
