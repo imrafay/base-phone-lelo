@@ -164,7 +164,7 @@
                             </div>
                             <div class="dashboard-wrapper">
                                 <p-fileUpload #pfileUpload class="file-upload-section" multiple="multiple"
-                                    name="pfileUpload" [url]="uploadUrl" accept=".png" maxFileSize="10000000"
+                                    name="pfileUpload" [url]="uploadUrl" accept="image/*" maxFileSize="10000000"
                                     (onBeforeUpload)="onBeforeUpload($event)" (onUpload)="onUpload($event)"
                                     (onSelect)="onSelect($event)" (onRemove)="onRemove($event)" chooseLabel="Browse"
                                     [auto]="true" (onError)="onError($event)" [showUploadButton]="false"

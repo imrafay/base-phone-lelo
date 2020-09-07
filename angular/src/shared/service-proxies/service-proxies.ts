@@ -885,6 +885,186 @@ export class ProductAdvertServiceProxy {
         }
         return _observableOf<DropdownOutputDto[]>(<any>null);
     }
+
+    /**
+     * @param stateId (optional) 
+     * @return Success
+     */
+    getStatesAndAdsCount(stateId: number | null | undefined): Observable<DropdownCountOutputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ProductAdvert/GetStatesAndAdsCount?";
+        if (stateId !== undefined && stateId !== null)
+            url_ += "stateId=" + encodeURIComponent("" + stateId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetStatesAndAdsCount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStatesAndAdsCount(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownCountOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownCountOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStatesAndAdsCount(response: HttpResponseBase): Observable<DropdownCountOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownCountOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownCountOutputDto[]>(<any>null);
+    }
+
+    /**
+     * @param cityId (optional) 
+     * @param neighbourhoodId (optional) 
+     * @return Success
+     */
+    getNeighbourhoodAndAdsCount(cityId: number | null | undefined, neighbourhoodId: number | null | undefined): Observable<DropdownCountOutputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ProductAdvert/GetNeighbourhoodAndAdsCount?";
+        if (cityId !== undefined && cityId !== null)
+            url_ += "cityId=" + encodeURIComponent("" + cityId) + "&";
+        if (neighbourhoodId !== undefined && neighbourhoodId !== null)
+            url_ += "neighbourhoodId=" + encodeURIComponent("" + neighbourhoodId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNeighbourhoodAndAdsCount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNeighbourhoodAndAdsCount(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownCountOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownCountOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetNeighbourhoodAndAdsCount(response: HttpResponseBase): Observable<DropdownCountOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownCountOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownCountOutputDto[]>(<any>null);
+    }
+
+    /**
+     * @param stateId (optional) 
+     * @param cityId (optional) 
+     * @return Success
+     */
+    getCitiesAndAdsCount(stateId: number | null | undefined, cityId: number | null | undefined): Observable<DropdownCountOutputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ProductAdvert/GetCitiesAndAdsCount?";
+        if (stateId !== undefined && stateId !== null)
+            url_ += "stateId=" + encodeURIComponent("" + stateId) + "&";
+        if (cityId !== undefined && cityId !== null)
+            url_ += "cityId=" + encodeURIComponent("" + cityId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCitiesAndAdsCount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCitiesAndAdsCount(<any>response_);
+                } catch (e) {
+                    return <Observable<DropdownCountOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DropdownCountOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCitiesAndAdsCount(response: HttpResponseBase): Observable<DropdownCountOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DropdownCountOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DropdownCountOutputDto[]>(<any>null);
+    }
 }
 
 @Injectable()
@@ -4051,17 +4231,17 @@ export class ProductAdvertInputDto implements IProductAdvertInputDto {
         if (Array.isArray(this.images)) {
             data["images"] = [];
             for (let item of this.images)
-                data["images"].push(item);
+                data["images"].push(item.toJSON());
         }
         if (Array.isArray(this.productAdvertBatteryUsages)) {
             data["productAdvertBatteryUsages"] = [];
             for (let item of this.productAdvertBatteryUsages)
-                data["productAdvertBatteryUsages"].push(item);
+                data["productAdvertBatteryUsages"].push(item.toJSON());
         }
         if (Array.isArray(this.productAdvertAccessories)) {
             data["productAdvertAccessories"] = [];
             for (let item of this.productAdvertAccessories)
-                data["productAdvertAccessories"].push(item);
+                data["productAdvertAccessories"].push(item.toJSON());
         }
         return data; 
     }
@@ -4363,6 +4543,57 @@ export class DropdownOutputDto implements IDropdownOutputDto {
 export interface IDropdownOutputDto {
     id: number;
     name: string | undefined;
+}
+
+export class DropdownCountOutputDto implements IDropdownCountOutputDto {
+    id: number;
+    name: string | undefined;
+    count: number;
+
+    constructor(data?: IDropdownCountOutputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.count = _data["count"];
+        }
+    }
+
+    static fromJS(data: any): DropdownCountOutputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DropdownCountOutputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["count"] = this.count;
+        return data; 
+    }
+
+    clone(): DropdownCountOutputDto {
+        const json = this.toJSON();
+        let result = new DropdownCountOutputDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDropdownCountOutputDto {
+    id: number;
+    name: string | undefined;
+    count: number;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
