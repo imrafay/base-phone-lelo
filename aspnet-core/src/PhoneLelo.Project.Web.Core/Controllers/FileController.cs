@@ -87,8 +87,11 @@ namespace PhoneLelo.Project.Controllers
                     filesOutput.Add(new UploadFileOutput
                     {
                         Id = Guid.Empty,
-                        FileName = newFileName
-                    });
+                        FileName = newFileName,
+                        Url = _fileStorageManager.GenerateBlobUrl(
+                            newFileName,
+                            PhoneLeloDataFileType.ProductImages)
+                    }); ;
                 }
 
                 return Json(new AjaxResponse(filesOutput));
