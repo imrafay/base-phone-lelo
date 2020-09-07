@@ -2,15 +2,19 @@
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { PublicHomeComponent } from './public-home.component';
+import { ProductDetailViewComponent } from './product-detail-view/product-detail-view.component';
+
 
 @NgModule({
     imports: [
         RouterModule.forChild([
             {
-                path: '',
+                path: 'home',
                 children: [
-                    { path: 'home', component: PublicHomeComponent },
+                    { path: '', component: PublicHomeComponent },
                     { path: 'adminhome', component: HomeComponent, },
+                    { path: 'category/:id', component: ProductDetailViewComponent }
+
                 ],
             }
         ])

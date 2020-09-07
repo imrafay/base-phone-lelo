@@ -19,10 +19,10 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import {SliderModule} from 'primeng/slider';
 
 import {TabMenuModule} from 'primeng/tabmenu';;
-import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component'
+;
 import { UserSiderbarComponent } from './user-siderbar/user-siderbar.component'
 ;
-import { ProductDetailViewComponent } from './product-detail-view/product-detail-view.component'// import {MenuItem} from 'primeng/api';
 @NgModule({
 	imports: [
     CommonModule,
@@ -47,10 +47,11 @@ import { ProductDetailViewComponent } from './product-detail-view/product-detail
     SliderModule],
 	declarations: [
 	CreateOrEditAddPostComponent,
-	UserDashboardComponent,
+	UserDashboardComponent
+,
 	UserSiderbarComponent
 ,
-	ProductDetailViewComponent],
+	],
 	providers: []
 })
 export class MainModule { } 

@@ -1,0 +1,36 @@
+.search-input{
+    background-color: #FFFFFF;
+    height: 44px;
+    border-width: 1px;
+    font-size: 13px;
+    width: 100%;
+    font-weight: 400;
+    border: 1px solid #eee;
+    text-transform: uppercase;
+    padding: 0 44px 0 20px!important;
+    margin-right: 2px;
+  
+  }
+  .search-btn-home{
+    height: 44px !important;
+    background-color: rgba(62,181,73,1);
+    border-color: rgba(62,181,73,1);
+    border-width: 1px;
+    border-radius: 0px;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 400;
+    border-style: solid;
+    height: 44px;
+    min-height: 44px;
+    line-height: 13px;
+    padding: 0px 50px;
+  
+  }
+.show-btn-brands{
+    text-decoration: none;
+    list-style: none;
+    margin-left: 20px;
+    cursor: pointer;
+    color: blue;
+}
