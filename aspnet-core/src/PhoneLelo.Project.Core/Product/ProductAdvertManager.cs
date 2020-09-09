@@ -1,5 +1,6 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.Domain.Services;
+using Abp.Domain.Uow;
 using Abp.EntityFrameworkCore.Repositories;
 using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -163,60 +164,75 @@ namespace PhoneLelo.Project.Authorization
             ProductAdvertFilterInputDto filter)
         {
             var productAdvertQuery = _productAdvertRepository.GetAll()
-                  .Include(x => x.ProductModelFk)
-                  .Include(x => x.ProductAdvertAccessories)
-                  .Include(x => x.ProductAdvertImages)
-                  .WhereIf(filter.UserId.HasValue, x =>
-                         x.UserId == filter.UserId)
-                  .WhereIf(filter.StateId.HasValue, x =>
-                         x.StateId == filter.StateId)
-                  .WhereIf(filter.CityId.HasValue, x =>
-                         x.CityId == filter.CityId)
-                  .WhereIf(filter.NeighbourhoodId.HasValue, x =>
-                         x.NeighbourhoodId == filter.NeighbourhoodId)
-                  .WhereIf(filter.ProductCompanyId.HasValue, x =>
-                         x.ProductModelId == filter.ProductModelId)
-                  .WhereIf(filter.ProductCompanyId.HasValue, x =>
-                         x.ProductModelFk.ProductCompanyId == filter.ProductCompanyId)
-                  .WhereIf(string.IsNullOrEmpty(filter.NameFilter) == false, x =>
-                         x.ProductModelFk.Model.ToLower().Contains(filter.NameFilter) ||
-                         x.ProductModelFk.Brand.ToLower().Contains(filter.NameFilter))
-                  .WhereIf(filter.RamFilter.Any(), x =>
-                         filter.RamFilter.Contains(x.Ram))
-                  .WhereIf(filter.StorageFilter.Any(), x =>
-                         filter.StorageFilter.Contains(x.Storage))
-                  .WhereIf(filter.IsNew.HasValue, x =>
-                        x.IsNew == filter.IsNew)
-                  .WhereIf(filter.IsPtaApproved.HasValue, x =>
-                        x.IsPtaApproved == filter.IsPtaApproved)
-                  .WhereIf(filter.IsSpot.HasValue, x =>
-                        x.IsSpot == filter.IsSpot)
-                  .WhereIf(filter.IsDamage.HasValue, x =>
-                        x.IsDamage == filter.IsDamage)
-                  .WhereIf(filter.IsNegotiable.HasValue, x =>
-                        x.IsNegotiable == filter.IsNegotiable)
-                  .WhereIf(filter.IsExchangeable.HasValue, x =>
-                        x.IsExchangeable == filter.IsExchangeable)
-                  .Select(x => new ProductAdvertViewDto()
-                  {
-                      Id = x.Id,
-                      Views = 0,
-                      Ram = x.Ram,
-                      Price = x.Price,
-                      IsNew = x.IsNew,
-                      Storage = x.Storage,
-                      IsPtaApproved = x.IsPtaApproved,
-                      AdvertPostedDate = x.CreationTime,
-                      ProductModelId = x.ProductModelId,
-                      ProductModelName = x.ProductModelFk.Model,
-                      ProductCompanyName = x.ProductModelFk.Brand,
-                      PrimaryProductImage = x.ProductAdvertImages
-                                    .Where(i => i.ImagePriority == ProductImagePriorityEnum.Primary)
-                                    .Select(n => n.Image)
-                                    .FirstOrDefault()
-                  });
+              .Include(x => x.UserFk)
+              .Include(x => x.ProductModelFk)
+              .Include(x => x.ProductAdvertAccessories)
+              .Include(x => x.ProductAdvertImages)
+              .Include(x => x.UserFk)
+              .ThenInclude(x => x.StateFk)
+              .Include(x => x.UserFk)
+              .ThenInclude(x => x.CityFk)
+              .Include(x => x.UserFk)
+              .ThenInclude(x => x.NeighbourhoodFk)
+              .Where(x => x.UserFk != null);
 
-            return productAdvertQuery;
+            var output = productAdvertQuery
+              .WhereIf(filter.UserId.HasValue, x =>
+                     x.UserId == filter.UserId)
+              .WhereIf(filter.StateId.HasValue, x =>
+                     x.UserFk.StateId == filter.StateId)
+              .WhereIf(filter.CityId.HasValue, x =>
+                     x.UserFk.CityId == filter.CityId)
+              .WhereIf(filter.NeighbourhoodId.HasValue, x =>
+                     x.UserFk.NeighbourhoodId == filter.NeighbourhoodId)
+              .WhereIf(filter.ProductModelId.HasValue, x =>
+                     x.ProductModelId == filter.ProductModelId)
+              .WhereIf(filter.ProductCompanyId.HasValue, x =>
+                     x.ProductModelFk.ProductCompanyId == filter.ProductCompanyId)
+              .WhereIf(string.IsNullOrEmpty(filter.NameFilter) == false, x =>
+                     x.ProductModelFk.Model.ToLower().Contains(filter.NameFilter) ||
+                     x.ProductModelFk.Brand.ToLower().Contains(filter.NameFilter))
+              .WhereIf(filter.RamFilter.Any(), x =>
+                     filter.RamFilter.Contains(x.Ram))
+              .WhereIf(filter.StorageFilter.Any(), x =>
+                     filter.StorageFilter.Contains(x.Storage))
+              .WhereIf(filter.IsNew.HasValue, x =>
+                    x.IsNew == filter.IsNew)
+              .WhereIf(filter.IsPtaApproved.HasValue, x =>
+                    x.IsPtaApproved == filter.IsPtaApproved)
+              .WhereIf(filter.IsSpot.HasValue, x =>
+                    x.IsSpot == filter.IsSpot)
+              .WhereIf(filter.IsDamage.HasValue, x =>
+                    x.IsDamage == filter.IsDamage)
+              .WhereIf(filter.IsNegotiable.HasValue, x =>
+                    x.IsNegotiable == filter.IsNegotiable)
+              .WhereIf(filter.IsExchangeable.HasValue, x =>
+                    x.IsExchangeable == filter.IsExchangeable)
+              .Select(x => new ProductAdvertViewDto()
+              {
+                  Id = x.Id,
+                  Views = 0,
+                  Ram = x.Ram,
+                  Price = x.Price,
+                  IsNew = x.IsNew,
+                  Storage = x.Storage,
+                  IsPtaApproved = x.IsPtaApproved,
+                  AdvertPostedDate = x.CreationTime,
+                  ProductModelId = x.ProductModelId,
+                  ProductModelName = x.ProductModelFk.Model,
+                  ProductCompanyName = x.ProductModelFk.Brand,
+                  PrimaryProductImage = x.ProductAdvertImages
+                                .Where(i => i.ImagePriority == ProductImagePriorityEnum.Primary)
+                                .Select(n => n.Image)
+                                .FirstOrDefault(),
+                  UserFullName = x.UserFk.FullName,
+                  State = (x.UserFk.StateFk != null) ? x.UserFk.StateFk.Name : string.Empty,
+                  City = (x.UserFk.CityFk != null) ? x.UserFk.CityFk.Name : string.Empty,
+                  Neighbourhood = (x.UserFk.NeighbourhoodFk != null) ? x.UserFk.NeighbourhoodFk.Name : string.Empty
+              });
+
+            return output;
+            
         }
 
 
@@ -260,7 +276,7 @@ namespace PhoneLelo.Project.Authorization
             long? stateId)
         {
             var output = (from state in _stateRepository.GetAll()
-                          .WhereIf(stateId.HasValue,x=>x.Id==stateId)
+                          .WhereIf(stateId.HasValue, x => x.Id == stateId)
 
                           join user in _userRepository.GetAll()
                           on state.Id equals user.StateId
@@ -278,7 +294,7 @@ namespace PhoneLelo.Project.Authorization
                           });
 
             return output;
-        } 
+        }
         public IQueryable<DropdownCountOutputDto> GetNeighbourhoodAndAdsCountQuery(
             long? cityId,
             long? neighbourhoodId)
@@ -304,7 +320,7 @@ namespace PhoneLelo.Project.Authorization
 
             return output;
         }
-      
+
         public IQueryable<DropdownCountOutputDto> GetCitiesAndAdsCountQuery(
             long? stateId,
             long? cityId

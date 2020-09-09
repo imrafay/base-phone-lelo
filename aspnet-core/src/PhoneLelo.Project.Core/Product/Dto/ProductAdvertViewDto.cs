@@ -24,7 +24,13 @@ namespace PhoneLelo.Project.Product.Dto
         public decimal Price { get; set; }
         public string PrimaryProductImage { get; set; }
         public DateTime AdvertPostedDate { get; set; }
-       }
+
+        public string UserFullName { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public string Neighbourhood { get; set; }
+
+    }
 
     public class ProductAdvertDetailViewDto : IProductAdvertViewDto
     {
