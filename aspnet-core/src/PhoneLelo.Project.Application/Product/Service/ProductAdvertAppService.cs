@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.Domain.Uow;
 using Abp.Extensions;
 using Abp.Runtime.Session;
 using Abp.UI;
@@ -186,24 +187,28 @@ namespace PhoneLelo.Project.Import.MobilePhone
         public async Task<ListResultDto<ProductAdvertViewDto>> GetAll(
             ProductAdvertFilterInputDto filter)
         {
-            var query = _productAdvertManager.GetAllQuery(filter);
-            var totalCount = query.Count();
-
-            if (query.Any() && filter.pagedAndSort != null)
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
             {
-                var pagedAndSort = filter.pagedAndSort;
-                var sortBy = pagedAndSort.SortBy.GetDescription();
-                query = query.OrderBy(sortBy).PageResult(
-                    pagedAndSort.Page,
-                    pagedAndSort.PageSize).Queryable;
+                var query = _productAdvertManager.GetAllQuery(filter);
+                var totalCount = query.Count();
+
+                if (query.Any() && filter.pagedAndSort != null)
+                {
+                    var pagedAndSort = filter.pagedAndSort;
+                    var sortBy = pagedAndSort.SortBy.GetDescription();
+                    query = query.OrderBy(sortBy).PageResult(
+                        pagedAndSort.Page,
+                        pagedAndSort.PageSize).Queryable;
+                }
+                var output = query.ToList();
+
+                PopulateAdvertImage(output);
+
+                return new PagedResultDto<ProductAdvertViewDto>(
+                    totalCount: totalCount,
+                    items: output);
             }
-            var output = query.ToList();
-
-            PopulateAdvertImage(output);
-
-            return new PagedResultDto<ProductAdvertViewDto>(
-                totalCount: totalCount,
-                items: output);
         }
 
         [AbpAllowAnonymous]
@@ -315,7 +320,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
         {
             return _productAdvertManager.GetStatesAndAdsCountQuery(stateId).ToList();
         }
-        
+
         [AbpAllowAnonymous]
         public List<DropdownCountOutputDto> GetNeighbourhoodAndAdsCount(
             long? cityId,
@@ -325,7 +330,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 cityId: cityId,
                 neighbourhoodId: neighbourhoodId).ToList();
         }
-        
+
         [AbpAllowAnonymous]
         public List<DropdownCountOutputDto> GetCitiesAndAdsCount(
             long? stateId,
