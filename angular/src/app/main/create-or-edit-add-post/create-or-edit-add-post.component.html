@@ -43,11 +43,11 @@
             </div>
         </div>
         <div>
-            <div class="col-xl-12 col-sm-12 col-12 d-flex justify-content-center" *ngIf="!isInProgress" >
+            <div class="col-xl-12 col-sm-12 col-12 d-flex justify-content-center" *ngIf="!isInProgress">
                 <p-progressSpinner></p-progressSpinner>
             </div>
         </div>
-        <div class="container" *ngIf="isInProgress" >
+        <div class="container" *ngIf="isInProgress">
             <div class="row center">
                 <div class="col-sm-12 col-md-10">
                     <div class=" page-content">
@@ -96,7 +96,7 @@
                                     <span class="form-group mb-3" *ngFor="let cond of booleanEnum">
                                         <label class="control-label p-2">{{cond.name}}</label>
                                         <input name="condition" type="radio" [value]="cond" [(ngModel)]="isNew"
-                                            name="isNew" (change)="s($event)">
+                                            name="isNew">
                                     </span>
 
                                 </div>

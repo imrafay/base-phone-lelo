@@ -20,6 +20,7 @@ export class PublicHomeComponent implements OnInit {
   itemsPerSlide = 4;
   singleSlideOffset = true;
   slides = [];
+  searchFilter=''
 
   constructor(
     private _ProductAdvertService: ProductAdvertServiceProxy,
