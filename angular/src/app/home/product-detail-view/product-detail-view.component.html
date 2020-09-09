@@ -1,10 +1,10 @@
-<div class="main-container section-padding" style="margin-top:50px">
+<div class="main-container section-padding" style="margin-top:20px">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-md-12 col-xs-12 page-sidebar">
                 <aside>
 
-                    <div class="widget categories" *ngIf="productBrandsLength && productBrandsLength > 0">
+                    <!-- <div class="widget categories" *ngIf="productBrandsLength && productBrandsLength > 0">
                         <h4 class="widget-title">Brands</h4>
                         <ul class="categories-list" *ngFor="let products of productBrands">
 
@@ -30,7 +30,37 @@
                                 Show less
                             </a>
                         </li>
+                    </div> -->
+
+                    <div class="widget categories">
+                        <h4 class="widget-title">All Categories</h4>
+                        <div class="form-group" style="padding: 0px 10px;">
+                            <label class="control-label fontColor">Spot</label><br>
+                            <span class="form-group" *ngFor="let bool of booleanEnum">
+                                <label class="control-label p-2">{{bool.name}}</label>
+                                <input type="radio" [value]="bool" name="isSpot" [(ngModel)]="isSpot">
+                            </span>
+
+                            <span *ngIf="isSpot && isSpot['value'] == 1">
+                                <input class="form-control input-md" name="Title" placeholder="0%" type="text">
+                            </span>
+
+                        </div>
+                        <div class="form-group" style="padding: 0px 10px;">
+                            <label class="control-label fontColor">Damage</label><br>
+                            <span class="form-group" *ngFor="let bool of booleanEnum">
+                                <label class="control-label p-2">{{bool.name}}</label>
+                                <input type="radio" [value]="bool" name="isSpot" [(ngModel)]="isSpot">
+                            </span>
+
+                            <span *ngIf="isSpot && isSpot['value'] == 1">
+                                <input class="form-control input-md" name="Title" placeholder="0%" type="text">
+                            </span>
+
+                        </div>
+
                     </div>
+
                     <div class="widget">
                         <h4 class="widget-title">Advertisement</h4>
                         <div class="add-box">
@@ -47,9 +77,35 @@
                         <button type="submit" id="search-submit" class="search-btn"><i class="lni-search"></i></button>
                     </form>
                 </div>
+                <div class="product-filter section-filter-bg" style="margin-bottom:0px"
+                    *ngIf="productBrandsLength && productBrandsLength > 0">
+
+                    <div class="row ">
+                        <div class="flex-center search-by-filter" style="margin:auto">
+                            Search By Filter
+                        </div>
+                        <div class="flex-center" style="float:right;color: black;cursor: pointer;"
+                            (click)="resetFilters()">
+                            Reset Filters <i class="far fa-trash-alt" style="padding-left: 7px;
+                            padding-top: 2px;"></i></div>
+                    </div>
+
+
+                    <div class="row flex-center">
+                        <div class="col-1 brand-box" (click)="onSelectBrand(products.id)"
+                            *ngFor="let products of productBrands" [ngClass]="
+                        highlightedRows[0] ===
+                        products.id
+                            ? 'selected'
+                            : ''
+                    ">
+                            {{products.name}}
+                        </div>
+                    </div>
+                </div>
                 <div class="product-filter">
                     <div class="short-name">
-                        <span>Showing (1 - 12 products of 7371 products)</span>
+                        <span>Showing (1 - 12 products of {{productsLength}} products)</span>
                     </div>
 
                     <ul class="nav nav-tabs">
@@ -66,9 +122,14 @@
                 <div class="adds-wrapper">
                     <div class="tab-content">
                         <div id="grid-view" class="tab-pane fade active show">
+
+                            <div class="row flex-center mt-5" *ngIf="!isProgress">
+                                <p-progressSpinner></p-progressSpinner>
+
+                            </div>
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                    <div class="featured-box">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let product of products">
+                                    <div class="featured-box" *ngIf="isProgress">
                                         <figure>
                                             <span class="price-save">
                                                 30% Save
@@ -85,7 +146,7 @@
                                                 <a href="#">Electronic > </a>
                                                 <a href="#">Apple</a>
                                             </div>
-                                            <h4><a href="ads-details.html">Canon SX Powershot ...</a></h4>
+                                            <h4><a href="ads-details.html">{{product.productModelName}}</a></h4>
                                             <div class="meta-tag">
                                                 <span>
                                                     <a href="#"><i class="lni-user"></i> John Smith</a>
@@ -100,87 +161,14 @@
                                             <p class="dsc">Lorem Ipsum is simply dummy text of the printing and
                                                 typesetting industry. Lorem Ipsum has been the industry.</p>
                                             <div class="listing-bottom">
-                                                <h3 class="price float-left">$249.00</h3>
-                                                <a href="ads-details.html" class="btn btn-common float-right">View
+                                                <h3 class="price float-left">Rs.{{product.price}}</h3>
+                                                <a href="" class="btn btn-common float-right">View
                                                     Details</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                    <div class="featured-box">
-                                        <figure>
-                                            <div class="icon">
-                                                <span class="bg-green"><i class="lni-heart"></i></span>
-                                                <span><i class="lni-bookmark"></i></span>
-                                            </div>
-                                            <a href="#"><img class="img-fluid" src="assets/img/featured/img-2.jpg"
-                                                    alt=""></a>
-                                        </figure>
-                                        <div class="feature-content">
-                                            <div class="product">
-                                                <a href="#">Electronic > </a>
-                                                <a href="#">Apple</a>
-                                            </div>
-                                            <h4><a href="ads-details.html">Apple Macbook Pro ...</a></h4>
-                                            <div class="meta-tag">
-                                                <span>
-                                                    <a href="#"><i class="lni-user"></i> John Smith</a>
-                                                </span>
-                                                <span>
-                                                    <a href="#"><i class="lni-map-marker"></i> New York, US</a>
-                                                </span>
-                                                <span>
-                                                    <a href="#"><i class="lni-tag"></i> Apple</a>
-                                                </span>
-                                            </div>
-                                            <p class="dsc">Lorem Ipsum is simply dummy text of the printing and
-                                                typesetting industry. Lorem Ipsum has been the industry.</p>
-                                            <div class="listing-bottom">
-                                                <h3 class="price float-left">$289.00</h3>
-                                                <a href="ads-details.html" class="btn btn-common float-right">View
-                                                    Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                    <div class="featured-box">
-                                        <figure>
-                                            <div class="icon">
-                                                <span class="bg-green"><i class="lni-heart"></i></span>
-                                                <span><i class="lni-bookmark"></i></span>
-                                            </div>
-                                            <a href="#"><img class="img-fluid" src="assets/img/featured/img-3.jpg"
-                                                    alt=""></a>
-                                        </figure>
-                                        <div class="feature-content">
-                                            <div class="product">
-                                                <a href="#">Electronic > </a>
-                                                <a href="#">Apple</a>
-                                            </div>
-                                            <h4><a href="ads-details.html">Mercedes Benz E200 ...</a></h4>
-                                            <div class="meta-tag">
-                                                <span>
-                                                    <a href="#"><i class="lni-user"></i> John Smith</a>
-                                                </span>
-                                                <span>
-                                                    <a href="#"><i class="lni-map-marker"></i> New York, US</a>
-                                                </span>
-                                                <span>
-                                                    <a href="#"><i class="lni-tag"></i> Apple</a>
-                                                </span>
-                                            </div>
-                                            <p class="dsc">Lorem Ipsum is simply dummy text of the printing and
-                                                typesetting industry. Lorem Ipsum has been the industry.</p>
-                                            <div class="listing-bottom">
-                                                <h3 class="price float-left">$199.80</h3>
-                                                <a href="ads-details.html" class="btn btn-common float-right">View
-                                                    Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
 
                             </div>
                         </div>
@@ -340,6 +328,13 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="no-record-section" *ngIf="productsLength == 0 && isProgress">
+
+                            <div class="no-record-found ">
+                                No product related to this search
+
                             </div>
                         </div>
                     </div>
