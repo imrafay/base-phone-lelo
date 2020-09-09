@@ -4282,6 +4282,10 @@ export class ProductAdvertViewDto implements IProductAdvertViewDto {
     price: number;
     primaryProductImage: string | undefined;
     advertPostedDate: moment.Moment;
+    userFullName: string | undefined;
+    state: string | undefined;
+    city: string | undefined;
+    neighbourhood: string | undefined;
 
     constructor(data?: IProductAdvertViewDto) {
         if (data) {
@@ -4306,6 +4310,10 @@ export class ProductAdvertViewDto implements IProductAdvertViewDto {
             this.price = _data["price"];
             this.primaryProductImage = _data["primaryProductImage"];
             this.advertPostedDate = _data["advertPostedDate"] ? moment(_data["advertPostedDate"].toString()) : <any>undefined;
+            this.userFullName = _data["userFullName"];
+            this.state = _data["state"];
+            this.city = _data["city"];
+            this.neighbourhood = _data["neighbourhood"];
         }
     }
 
@@ -4330,6 +4338,10 @@ export class ProductAdvertViewDto implements IProductAdvertViewDto {
         data["price"] = this.price;
         data["primaryProductImage"] = this.primaryProductImage;
         data["advertPostedDate"] = this.advertPostedDate ? this.advertPostedDate.toISOString() : <any>undefined;
+        data["userFullName"] = this.userFullName;
+        data["state"] = this.state;
+        data["city"] = this.city;
+        data["neighbourhood"] = this.neighbourhood;
         return data; 
     }
 
@@ -4354,6 +4366,10 @@ export interface IProductAdvertViewDto {
     price: number;
     primaryProductImage: string | undefined;
     advertPostedDate: moment.Moment;
+    userFullName: string | undefined;
+    state: string | undefined;
+    city: string | undefined;
+    neighbourhood: string | undefined;
 }
 
 export class ProductAdvertViewDtoListResultDto implements IProductAdvertViewDtoListResultDto {
