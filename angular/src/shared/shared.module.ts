@@ -12,6 +12,7 @@ import { LocalizePipe } from '@shared/pipes/localize.pipe';
 import { AbpPaginationControlsComponent } from './components/pagination/abp-pagination-controls.component';
 import { AbpValidationSummaryComponent } from './components/validation/abp-validation.summary.component';
 import { AbpModalHeaderComponent } from './components/modal/abp-modal-header.component';
+
 import { AbpModalFooterComponent } from './components/modal/abp-modal-footer.component';
 import { LayoutStoreService } from './layout/layout-store.service';
 
@@ -22,6 +23,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 
 import { AuthGuard } from './auth/auth-guard';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 
 @NgModule({
     imports: [
@@ -40,7 +42,8 @@ import { AuthGuard } from './auth/auth-guard';
         LocalizePipe,
         BusyDirective,
         EqualValidator,
-        CreateUserLocationComponent
+        CreateUserLocationComponent,
+        ProductCardComponent
     ],
     exports: [
         AbpPaginationControlsComponent,
@@ -51,6 +54,7 @@ import { AuthGuard } from './auth/auth-guard';
         BusyDirective,
         EqualValidator,
         CreateUserLocationComponent,
+        ProductCardComponent,
     ]
 })
 export class SharedModule {

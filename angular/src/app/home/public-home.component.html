@@ -219,7 +219,7 @@
         <div class="row center" *ngIf="!isInProgress">
             <p-progressSpinner></p-progressSpinner>
         </div>
-        <div class="row justify-content-center" *ngIf="products.length > 0" id="latestCarousel">
+        <!-- <div class="row justify-content-center" *ngIf="products.length > 0" id="latestCarousel">
             <carousel [itemsPerSlide]="itemsPerSlide" [isAnimated]="true" [singleSlideOffset]="singleSlideOffset"
                 [interval]="false">
                 <slide *ngFor="let product of products">
@@ -243,7 +243,9 @@
                 </slide>
             </carousel>
 
-        </div>
+        </div> -->
+    <product-card [products]="products" *ngIf="products.length > 0"> </product-card>
+  
     </div>
 </section>
 

@@ -20,7 +20,7 @@ import { SliderModule } from 'primeng/slider';
 import { TabMenuModule } from 'primeng/tabmenu'; import { HomeComponent } from './home.component';
 import { PublicHomeComponent } from './public-home.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-import { ProductDetailViewComponent } from './product-detail-view/product-detail-view.component';
+import { ProductCategoriesViewComponent } from './product-categories-view/product-categories-view.component';
 
 
 // import {MenuItem} from 'primeng/api';
@@ -50,7 +50,7 @@ import { ProductDetailViewComponent } from './product-detail-view/product-detail
     declarations: [
         HomeComponent,
         PublicHomeComponent,
-        ProductDetailViewComponent,
+        ProductCategoriesViewComponent,
     ],
     providers: []
 })

@@ -96,11 +96,6 @@
                         </div>
                         <div style="padding: 0px 10px;">
                             <label class="control-label fontColor">Storage</label>
-                            <ul class="pl-2">
-                                <li *ngFor="let store of storage">
-                                    <span><input type="checkbox" [value]="store"></span> {{store.name}}
-                                </li>
-                            </ul>
                             <span class="" *ngFor="let store of storage">
                                 <label class="control-label p-2">{{store.name}}</label>
                                 <input type="radio" [value]="store" name="isStore" (change)="onSelectFilter($event)"

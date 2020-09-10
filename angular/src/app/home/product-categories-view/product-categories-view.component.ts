@@ -3,11 +3,11 @@ import { ProductCompanyServiceProxy, DropdownOutputDto, ProductAdvertServiceProx
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-product-detail-view',
-  templateUrl: './product-detail-view.component.html',
-  styleUrls: ['./product-detail-view.component.css']
+  selector: 'product-categories-view',
+  templateUrl: './product-categories-view.component.html',
+  styleUrls: ['./product-categories-view.component.css']
 })
-export class ProductDetailViewComponent implements OnInit {
+export class ProductCategoriesViewComponent implements OnInit {
   productBrands: DropdownOutputDto[] = [];
   productBrandsLength;
   isShow = false;
