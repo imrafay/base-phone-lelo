@@ -1,5 +1,5 @@
 {
-  "remoteServiceBaseUrl": "http://phonelelo-api.azurewebsites.net",
+  "remoteServiceBaseUrl": "https://dev-api.onboardlink.com",
   "appBaseUrl": "http://localhost:4200",
   "localeMappings": [
     {

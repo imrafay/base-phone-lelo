@@ -133,7 +133,7 @@ export class ProductCategoriesViewComponent implements OnInit {
     this.products = [];
     this.getAllProducts();
   }
-
+  
   onSelectFilter(event) {
     console.log(this.rangeValues)
     this.isProgress = false;

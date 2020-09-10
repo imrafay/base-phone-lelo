@@ -86,3 +86,7 @@
   color: gray;
   font-weight: bold;
 }
+.ml-2-mr-2{
+  margin-right: 2px;
+  margin-left: 2px;
+}
