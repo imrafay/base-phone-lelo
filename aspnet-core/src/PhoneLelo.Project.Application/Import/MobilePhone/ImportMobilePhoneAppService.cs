@@ -57,9 +57,20 @@ namespace PhoneLelo.Project.Import.MobilePhone
             var models = ImportMobilePhones();
             var productModels = new List<ProductModel>();
 
+            var productCompanies = _productCompanyManager.GetAll()
+                            .Select(x => new
+                            {
+                                Id = x.Id,
+                                Name = x.Name
+                            }).ToList();
+
             foreach (var model in models)
             {
-                var productCompanyId = _productCompanyManager.GetIdByName(model.Brand);
+                var productCompanyId = productCompanies
+                    .Where(x => x.Name == model.Brand)
+                    .Select(x => x.Id)
+                    .FirstOrDefault();
+
                 if (productCompanyId==0)
                 {
                     continue;
