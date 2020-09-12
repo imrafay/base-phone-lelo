@@ -71,7 +71,7 @@ namespace PhoneLelo.Project.Controllers
         public async Task<long> SignUpUser(
             string phoneNumber,
             string roleName)
-        {
+        {   
             var userId = await _userAppService.SignUpUserByPhoneNumberAsync(
                  phoneNumber: phoneNumber,
                  roleName: roleName
@@ -81,8 +81,7 @@ namespace PhoneLelo.Project.Controllers
 
         [HttpPost]
         public async Task CompleteUserProfile(
-            UserDto input,
-            StoreInputDto storeInput=null)
+            UserDto input)
         {
 
             using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
@@ -90,10 +89,10 @@ namespace PhoneLelo.Project.Controllers
             {
                 await _userAppService.UpdateUserProfile(input);
 
-                if (storeInput != null)
+                if (input.storeInput != null)
                 {
-                    storeInput.UserId = input.Id;
-                    await _productStoreAppService.CreateUserStore(storeInput);
+                    input.storeInput.UserId = input.Id;
+                    await _productStoreAppService.CreateUserStore(input.storeInput);
                 }
             }
         }

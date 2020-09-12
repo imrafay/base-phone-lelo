@@ -30,6 +30,7 @@ using CsvHelper;
 using CsvHelper.Configuration.Attributes;
 using PhoneLelo.Project.Import.MobilePhone.Dto;
 using PhoneLelo.Project.Product.Dto;
+using PhoneLelo.Project.Product;
 
 namespace PhoneLelo.Project.Import.MobilePhone
 {

@@ -4,6 +4,7 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization.Users;
 using Abp.AutoMapper;
 using PhoneLelo.Project.Authorization.Users;
+using PhoneLelo.Project.Store.Dto;
 
 namespace PhoneLelo.Project.Users.Dto
 {
@@ -36,6 +37,10 @@ namespace PhoneLelo.Project.Users.Dto
         public DateTime CreationTime { get; set; }
 
         public string[] RoleNames { get; set; }
+
+        public StoreInputDto storeInput{ get; set; }
+
+
     }
 
 

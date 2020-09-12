@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PhoneLelo.Project.Authorization
+namespace PhoneLelo.Project.Product
 {
     public class ProductAdvertManager : DomainService
     {
@@ -226,13 +226,13 @@ namespace PhoneLelo.Project.Authorization
                                 .Select(n => n.Image)
                                 .FirstOrDefault(),
                   UserFullName = x.UserFk.FullName,
-                  State = (x.UserFk.StateFk != null) ? x.UserFk.StateFk.Name : string.Empty,
-                  City = (x.UserFk.CityFk != null) ? x.UserFk.CityFk.Name : string.Empty,
-                  Neighbourhood = (x.UserFk.NeighbourhoodFk != null) ? x.UserFk.NeighbourhoodFk.Name : string.Empty
+                  State = x.UserFk.StateFk != null ? x.UserFk.StateFk.Name : string.Empty,
+                  City = x.UserFk.CityFk != null ? x.UserFk.CityFk.Name : string.Empty,
+                  Neighbourhood = x.UserFk.NeighbourhoodFk != null ? x.UserFk.NeighbourhoodFk.Name : string.Empty
               });
 
             return output;
-            
+
         }
 
 
@@ -275,23 +275,23 @@ namespace PhoneLelo.Project.Authorization
         public IQueryable<DropdownCountOutputDto> GetStatesAndAdsCountQuery(
             long? stateId)
         {
-            var output = (from state in _stateRepository.GetAll()
+            var output = from state in _stateRepository.GetAll()
                           .WhereIf(stateId.HasValue, x => x.Id == stateId)
 
-                          join user in _userRepository.GetAll()
-                          on state.Id equals user.StateId
+                         join user in _userRepository.GetAll()
+                         on state.Id equals user.StateId
 
-                          join ad in _productAdvertRepository.GetAll()
-                          on user.Id equals ad.UserId
+                         join ad in _productAdvertRepository.GetAll()
+                         on user.Id equals ad.UserId
 
-                          group ad by new { state.Id, state.Name } into stateAds
+                         group ad by new { state.Id, state.Name } into stateAds
 
-                          select new DropdownCountOutputDto
-                          {
-                              Id = stateAds.Key.Id,
-                              Name = stateAds.Key.Name,
-                              Count = stateAds.Count()
-                          });
+                         select new DropdownCountOutputDto
+                         {
+                             Id = stateAds.Key.Id,
+                             Name = stateAds.Key.Name,
+                             Count = stateAds.Count()
+                         };
 
             return output;
         }
@@ -299,24 +299,24 @@ namespace PhoneLelo.Project.Authorization
             long? cityId,
             long? neighbourhoodId)
         {
-            var output = (from neighbourhood in _neighbourhoodRepository.GetAll()
+            var output = from neighbourhood in _neighbourhoodRepository.GetAll()
                           .WhereIf(cityId.HasValue, x => x.CityId == cityId)
                           .WhereIf(neighbourhoodId.HasValue, x => x.Id == neighbourhoodId)
 
-                          join user in _userRepository.GetAll()
-                          on neighbourhood.Id equals user.NeighbourhoodId
+                         join user in _userRepository.GetAll()
+                         on neighbourhood.Id equals user.NeighbourhoodId
 
-                          join ad in _productAdvertRepository.GetAll()
-                          on user.Id equals ad.UserId
+                         join ad in _productAdvertRepository.GetAll()
+                         on user.Id equals ad.UserId
 
-                          group ad by new { neighbourhood.Id, neighbourhood.Name } into neighbourhoodAds
+                         group ad by new { neighbourhood.Id, neighbourhood.Name } into neighbourhoodAds
 
-                          select new DropdownCountOutputDto
-                          {
-                              Id = neighbourhoodAds.Key.Id,
-                              Name = neighbourhoodAds.Key.Name,
-                              Count = neighbourhoodAds.Count()
-                          });
+                         select new DropdownCountOutputDto
+                         {
+                             Id = neighbourhoodAds.Key.Id,
+                             Name = neighbourhoodAds.Key.Name,
+                             Count = neighbourhoodAds.Count()
+                         };
 
             return output;
         }
@@ -326,24 +326,24 @@ namespace PhoneLelo.Project.Authorization
             long? cityId
             )
         {
-            var output = (from city in _cityRepository.GetAll()
+            var output = from city in _cityRepository.GetAll()
                            .WhereIf(stateId.HasValue, x => x.StateId == stateId)
                            .WhereIf(cityId.HasValue, x => x.Id == cityId)
 
-                          join user in _userRepository.GetAll()
-                          on city.Id equals user.CityId
+                         join user in _userRepository.GetAll()
+                         on city.Id equals user.CityId
 
-                          join ad in _productAdvertRepository.GetAll()
-                          on user.Id equals ad.UserId
+                         join ad in _productAdvertRepository.GetAll()
+                         on user.Id equals ad.UserId
 
-                          group ad by new { city.Id, city.Name } into cityAds
+                         group ad by new { city.Id, city.Name } into cityAds
 
-                          select new DropdownCountOutputDto
-                          {
-                              Id = cityAds.Key.Id,
-                              Name = cityAds.Key.Name,
-                              Count = cityAds.Count()
-                          });
+                         select new DropdownCountOutputDto
+                         {
+                             Id = cityAds.Key.Id,
+                             Name = cityAds.Key.Name,
+                             Count = cityAds.Count()
+                         };
 
             return output;
         }

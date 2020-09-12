@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using PhoneLelo.Project.Location;
 using System.Collections.Generic;
 using PhoneLelo.Project.Import.Locations;
+using PhoneLelo.Project.Product;
 
 namespace PhoneLelo.Project.Import.MobilePhone
 {

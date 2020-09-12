@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PhoneLelo.Project.Authorization
+namespace PhoneLelo.Project.Product
 {
     public class ProductAdvertViewLogManager : DomainService
     {

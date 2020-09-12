@@ -303,7 +303,12 @@ namespace PhoneLelo.Project.Users
             {
                 if (!phoneNumber.IsNullOrEmpty())
                 {
-                    var roleNames = new List<string>() { StaticRoleNames.Tenants.Seller };
+                    var userRoleName = StaticRoleNames.Tenants.Seller;
+                    if (roleName.IsNullOrEmpty()==false)
+                    {
+                        userRoleName = roleName;
+                    }
+                    var roleNames = new List<string>() { userRoleName };
                     using (AbpSession.Use(_tenantId, user.Id))
                     {
                         await _userManager.SetRolesAsync(user, roleNames.ToArray());

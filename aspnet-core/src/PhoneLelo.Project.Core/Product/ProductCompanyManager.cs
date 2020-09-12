@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PhoneLelo.Project.Authorization
+namespace PhoneLelo.Project.Product
 {
     public class ProductCompanyManager : DomainService
     {
-        private readonly IRepository<ProductCompany,long> _productCompanyRepository;
+        private readonly IRepository<ProductCompany, long> _productCompanyRepository;
 
         public ProductCompanyManager(
             IRepository<ProductCompany, long> productCompanyRepository)
@@ -35,7 +35,7 @@ namespace PhoneLelo.Project.Authorization
 
             return productCompanyQuery;
         }
-        
+
         public async Task<List<ProductCompany>> GetAllListAsync()
         {
             var productCompanies = await _productCompanyRepository
@@ -47,33 +47,33 @@ namespace PhoneLelo.Project.Authorization
         public ProductCompany GetByName(string companyName)
         {
             var productCompany = _productCompanyRepository
-                .FirstOrDefault(x =>x.Name == companyName);
+                .FirstOrDefault(x => x.Name == companyName);
 
-            if (productCompany!=null)
+            if (productCompany != null)
             {
                 return productCompany;
             }
             else
             {
-                return null;  
+                return null;
             }
         }
-        
+
         public long GetIdByName(string companyName)
         {
             var productCompany = _productCompanyRepository
-                .FirstOrDefault(x =>x.Name == companyName);
+                .FirstOrDefault(x => x.Name == companyName);
 
-            if (productCompany!=null)
+            if (productCompany != null)
             {
                 return productCompany.Id;
             }
             else
             {
-                return 0;  
+                return 0;
             }
         }
-        
+
         public async Task<ProductCompany> GetByNameAsync(string companyName)
         {
             var productCompany = await _productCompanyRepository
@@ -88,7 +88,7 @@ namespace PhoneLelo.Project.Authorization
                 return null;
             }
         }
-        
+
         public async Task<long> GetIdByNameAsync(string companyName)
         {
             var productCompany = await _productCompanyRepository

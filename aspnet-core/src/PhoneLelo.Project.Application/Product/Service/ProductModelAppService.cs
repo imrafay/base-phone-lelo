@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Runtime.Session;
 using PhoneLelo.Project.Authorization;
+using PhoneLelo.Project.Product;
 using PhoneLelo.Project.Product.Dto;
 
 namespace PhoneLelo.Project.Import.MobilePhone

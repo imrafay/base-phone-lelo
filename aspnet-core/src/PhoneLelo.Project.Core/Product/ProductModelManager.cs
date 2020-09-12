@@ -17,12 +17,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Abp.EntityFrameworkCore.Repositories;
 
-namespace PhoneLelo.Project.Authorization
+namespace PhoneLelo.Project.Product
 {
     public class ProductModelManager : DomainService
     {
-        private readonly IRepository<ProductCompany,long> _productCompanyRepository;
-        private readonly IRepository<ProductModel,long> _productModelRepository;
+        private readonly IRepository<ProductCompany, long> _productCompanyRepository;
+        private readonly IRepository<ProductModel, long> _productModelRepository;
 
         public ProductModelManager(
             IRepository<ProductCompany, long> productCompanyRepository,
@@ -41,8 +41,8 @@ namespace PhoneLelo.Project.Authorization
 
             return productModels;
         }
-        
-        
+
+
         public IQueryable<ProductModel> GetAllByCompanyId(long companyId)
         {
             var productModelQuery = _productModelRepository
@@ -50,16 +50,16 @@ namespace PhoneLelo.Project.Authorization
                 .Where(x => x.ProductCompanyId == companyId);
 
             return productModelQuery;
-        } 
-        
-        
+        }
+
+
         public ProductModel GetByName(
             string modelName,
             long companyId)
         {
             var productModel = _productModelRepository
                 .FirstOrDefault(x =>
-                x.Model == modelName && 
+                x.Model == modelName &&
                 x.ProductCompanyId == companyId);
 
             if (productModel != null)
@@ -68,17 +68,17 @@ namespace PhoneLelo.Project.Authorization
             }
             else
             {
-                return null;  
+                return null;
             }
-        } 
-        
+        }
+
         public async Task<ProductModel> GetByNameAsync(
             string modelName,
             long companyId)
         {
             var productModel = await _productModelRepository
                 .FirstOrDefaultAsync(x =>
-                x.Model == modelName && 
+                x.Model == modelName &&
                 x.ProductCompanyId == companyId);
 
             if (productModel != null)
@@ -87,10 +87,10 @@ namespace PhoneLelo.Project.Authorization
             }
             else
             {
-                return null;  
+                return null;
             }
-        }         
-        
+        }
+
         public bool IsProductModelExist(
             string modelName,
             long companyId)
@@ -98,13 +98,13 @@ namespace PhoneLelo.Project.Authorization
             var isProductModelExist = _productModelRepository
                 .GetAll()
                 .Any(x =>
-                x.Model == modelName && 
+                x.Model == modelName &&
                 x.ProductCompanyId == companyId);
 
             return isProductModelExist;
-        }   
-        
-        
+        }
+
+
         public async Task<bool> IsProductModelExistAsync(
             string modelName,
             long companyId)
@@ -112,22 +112,22 @@ namespace PhoneLelo.Project.Authorization
             var isProductModelExist = await _productModelRepository
                 .GetAll()
                 .AnyAsync(x =>
-                x.Model == modelName && 
+                x.Model == modelName &&
                 x.ProductCompanyId == companyId);
 
             return isProductModelExist;
-        }  
-        
-        
+        }
+
+
         public void InsertPhoneModelList(List<ProductModel> productModels)
         {
-             _productModelRepository
-                .GetDbContext()
-                .AddRange(productModels);
+            _productModelRepository
+               .GetDbContext()
+               .AddRange(productModels);
 
-             CurrentUnitOfWork.SaveChanges();
-        } 
-        
+            CurrentUnitOfWork.SaveChanges();
+        }
+
         public async Task InsertPhoneModelListAsync(List<ProductModel> productModels)
         {
             await _productModelRepository
@@ -135,6 +135,6 @@ namespace PhoneLelo.Project.Authorization
                 .AddRangeAsync(productModels);
 
             await CurrentUnitOfWork.SaveChangesAsync();
-        }   
+        }
     }
 }

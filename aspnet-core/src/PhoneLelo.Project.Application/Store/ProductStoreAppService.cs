@@ -12,10 +12,12 @@ using Abp.Runtime.Session;
 using Abp.UI;
 using PhoneLelo.Project.Authorization;
 using PhoneLelo.Project.FileManagement;
+using PhoneLelo.Project.Product;
 using PhoneLelo.Project.Product.Dto;
 using PhoneLelo.Project.Product.Enum;
 using PhoneLelo.Project.Roles.Dto;
 using PhoneLelo.Project.Storage.FileManagement;
+using PhoneLelo.Project.Store;
 using PhoneLelo.Project.Store.Dto;
 using PhoneLelo.Project.Utils;
 
@@ -44,9 +46,10 @@ namespace PhoneLelo.Project.Import.MobilePhone
             _productStoreManager = productStoreManager;
         }
 
+        [AbpAllowAnonymous]
         public async Task CreateUserStore(StoreInputDto storeInput)
         {
-            if (storeInput.Name.IsNullOrEmpty() &&
+            if (storeInput.Name.IsNullOrEmpty() ||
                 storeInput.Address.IsNullOrEmpty())
             {
                 throw new UserFriendlyException(AppConsts.ErrorMessage.MissingFieldMessage);
