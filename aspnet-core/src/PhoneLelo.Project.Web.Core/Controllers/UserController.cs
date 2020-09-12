@@ -24,6 +24,7 @@ using PhoneLelo.Project.Product.Dto;
 using PhoneLelo.Project.Import.MobilePhone;
 using Abp.Application.Services.Dto;
 using PhoneLelo.Project.Roles.Dto;
+using PhoneLelo.Project.Store.Dto;
 
 namespace PhoneLelo.Project.Controllers
 {
@@ -39,6 +40,7 @@ namespace PhoneLelo.Project.Controllers
         private readonly UserRegistrationManager _userRegistrationManager;
         private readonly IUserAppService _userAppService;
         private readonly IUserLocationAppService _userLocationAppService;
+        private readonly IProductStoreAppService _productStoreAppService;
 
         public UserController(
             LogInManager logInManager,
@@ -47,8 +49,12 @@ namespace PhoneLelo.Project.Controllers
             TokenAuthConfiguration configuration,
             IExternalAuthConfiguration externalAuthConfiguration,
             IExternalAuthManager externalAuthManager,
-            UserRegistrationManager userRegistrationManager, IUserAppService userAppService, IUserLocationAppService userLocationAppService)
+            UserRegistrationManager userRegistrationManager,
+            IUserAppService userAppService,
+            IUserLocationAppService userLocationAppService,
+            IProductStoreAppService productStoreAppService)
         {
+
             _logInManager = logInManager;
             _tenantCache = tenantCache;
             _abpLoginResultTypeHelper = abpLoginResultTypeHelper;
@@ -58,6 +64,7 @@ namespace PhoneLelo.Project.Controllers
             _userRegistrationManager = userRegistrationManager;
             _userAppService = userAppService;
             _userLocationAppService = userLocationAppService;
+            _productStoreAppService = productStoreAppService;
         }
 
         [HttpPost]
@@ -65,21 +72,29 @@ namespace PhoneLelo.Project.Controllers
             string phoneNumber,
             string roleName)
         {
-           var userId = await _userAppService.SignUpUserByPhoneNumberAsync(
-                phoneNumber: phoneNumber,
-                roleName: roleName
-                );
+            var userId = await _userAppService.SignUpUserByPhoneNumberAsync(
+                 phoneNumber: phoneNumber,
+                 roleName: roleName
+                 );
             return userId;
         }
 
         [HttpPost]
         public async Task CompleteUserProfile(
-            UserDto input)
+            UserDto input,
+            StoreInputDto storeInput=null)
         {
+
             using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
             using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
             {
                 await _userAppService.UpdateUserProfile(input);
+
+                if (storeInput != null)
+                {
+                    storeInput.UserId = input.Id;
+                    await _productStoreAppService.CreateUserStore(storeInput);
+                }
             }
         }
 

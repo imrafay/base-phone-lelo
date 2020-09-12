@@ -29,6 +29,7 @@ using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration.Attributes;
 using Microsoft.AspNetCore.Routing;
+using PhoneLelo.Project.Store.Dto;
 
 namespace PhoneLelo.Project.Users
 {
@@ -105,7 +106,8 @@ namespace PhoneLelo.Project.Users
         }
 
         [AbpAllowAnonymous]
-        public async Task UpdateUserProfile(UserDto input)
+        public async Task UpdateUserProfile(
+            UserDto input)
         {
             CheckUpdatePermission();
 

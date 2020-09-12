@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using PhoneLelo.Project.Roles.Dto;
+using PhoneLelo.Project.Store.Dto;
 using PhoneLelo.Project.Users.Dto;
 
 namespace PhoneLelo.Project.Users
@@ -23,7 +24,8 @@ namespace PhoneLelo.Project.Users
             long userId,
             string verificationCode);
 
-        Task UpdateUserProfile(UserDto input);
+        Task UpdateUserProfile(
+            UserDto input);
 
         Task<ListResultDto<RoleDto>> GetRegistrationRoles();
 
