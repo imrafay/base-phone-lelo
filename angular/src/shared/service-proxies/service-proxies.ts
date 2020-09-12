@@ -1207,6 +1207,127 @@ export class ProductModelServiceProxy {
 }
 
 @Injectable()
+export class ProductStoreServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createUserStore(body: StoreInputDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ProductStore/CreateUserStore";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateUserStore(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateUserStore(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateUserStore(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param storeId (optional) 
+     * @param activeStatus (optional) 
+     * @return Success
+     */
+    toggleStorActivation(storeId: number | undefined, activeStatus: boolean | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ProductStore/ToggleStorActivation?";
+        if (storeId === null)
+            throw new Error("The parameter 'storeId' cannot be null.");
+        else if (storeId !== undefined)
+            url_ += "storeId=" + encodeURIComponent("" + storeId) + "&";
+        if (activeStatus === null)
+            throw new Error("The parameter 'activeStatus' cannot be null.");
+        else if (activeStatus !== undefined)
+            url_ += "activeStatus=" + encodeURIComponent("" + activeStatus) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processToggleStorActivation(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processToggleStorActivation(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processToggleStorActivation(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -2385,18 +2506,21 @@ export class UserServiceProxy {
      * @param creationTime (optional) 
      * @param roleNames (optional) 
      * @param id (optional) 
+     * @param userId (optional) 
+     * @param address (optional) 
+     * @param imageIconUrl (optional) 
      * @return Success
      */
-    completeUserProfile(userName: string, name: string, surname: string, emailAddress: string, isActive: boolean | undefined, fullName: string | null | undefined, lastLoginTime: moment.Moment | null | undefined, creationTime: moment.Moment | undefined, roleNames: string[] | null | undefined, id: number | undefined): Observable<void> {
+    completeUserProfile(userName: string, nameQuery: string, surname: string, emailAddress: string, isActive: boolean | undefined, fullName: string | null | undefined, lastLoginTime: moment.Moment | null | undefined, creationTime: moment.Moment | undefined, roleNames: string[] | null | undefined, id: number | undefined, userId: number | undefined, address: string | null | undefined, imageIconUrl: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/User/CompleteUserProfile?";
         if (userName === undefined || userName === null)
             throw new Error("The parameter 'userName' must be defined and cannot be null.");
         else
             url_ += "UserName=" + encodeURIComponent("" + userName) + "&";
-        if (name === undefined || name === null)
-            throw new Error("The parameter 'name' must be defined and cannot be null.");
+        if (nameQuery === undefined || nameQuery === null)
+            throw new Error("The parameter 'nameQuery' must be defined and cannot be null.");
         else
-            url_ += "Name=" + encodeURIComponent("" + name) + "&";
+            url_ += "Name=" + encodeURIComponent("" + nameQuery) + "&";
         if (surname === undefined || surname === null)
             throw new Error("The parameter 'surname' must be defined and cannot be null.");
         else
@@ -2423,6 +2547,14 @@ export class UserServiceProxy {
             throw new Error("The parameter 'id' cannot be null.");
         else if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "UserId=" + encodeURIComponent("" + userId) + "&";
+        if (address !== undefined && address !== null)
+            url_ += "Address=" + encodeURIComponent("" + address) + "&";
+        if (imageIconUrl !== undefined && imageIconUrl !== null)
+            url_ += "ImageIconUrl=" + encodeURIComponent("" + imageIconUrl) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4610,6 +4742,61 @@ export interface IDropdownCountOutputDto {
     id: number;
     name: string | undefined;
     count: number;
+}
+
+export class StoreInputDto implements IStoreInputDto {
+    userId: number;
+    name: string | undefined;
+    address: string | undefined;
+    imageIconUrl: string | undefined;
+
+    constructor(data?: IStoreInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userId = _data["userId"];
+            this.name = _data["name"];
+            this.address = _data["address"];
+            this.imageIconUrl = _data["imageIconUrl"];
+        }
+    }
+
+    static fromJS(data: any): StoreInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new StoreInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
+        data["name"] = this.name;
+        data["address"] = this.address;
+        data["imageIconUrl"] = this.imageIconUrl;
+        return data; 
+    }
+
+    clone(): StoreInputDto {
+        const json = this.toJSON();
+        let result = new StoreInputDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IStoreInputDto {
+    userId: number;
+    name: string | undefined;
+    address: string | undefined;
+    imageIconUrl: string | undefined;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
