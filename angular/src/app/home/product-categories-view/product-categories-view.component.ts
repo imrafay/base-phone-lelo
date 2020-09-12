@@ -35,8 +35,11 @@ export class ProductCategoriesViewComponent implements OnInit {
   storage = [];
   selectedStorage: DropdownOutputDto[] = [];
   searchFilter = '';
-  isDamage
-  isNegotiable
+  isDamage;
+  isNegotiable;
+  ramSelected = [];
+  storageSelected = [];
+
   constructor(
     private _ProductCompanyService: ProductCompanyServiceProxy,
     private _ProductAdvertService: ProductAdvertServiceProxy,
@@ -72,13 +75,13 @@ export class ProductCategoriesViewComponent implements OnInit {
     this._ProductAdvertService.getAll(
       undefined, undefined, undefined, undefined, undefined,
       this.productCompanyId, this.searchFilter,
-      this.selectedRam ? this.selectedRam['id'] : null,
+      this.selectedRam ? this.ramSelected : null,
       this.selectedStorage ? this.selectedStorage['id'] : null,
       this.isNew ? (this.isNew['id'] == 1 ? true : (this.isNew['id'] == 2 ? false : null)) : null,
       this.isPTAapproved ? (this.isPTAapproved['id'] == 1 ? true : (this.isPTAapproved['id'] == 2 ? false : null)) : null,
       this.isExchangeable ? (this.isExchangeable['id'] == 1 ? true : (this.isExchangeable['id'] == 2 ? false : null)) : null,
       this.rangeValues ? this.rangeValues[0] : null,
-      this.rangeValues ? this.rangeValues[0] : null,
+      this.rangeValues ? this.rangeValues[1] : null,
       this.isNegotiable ? (this.isNegotiable['id'] == 1 ? true : (this.isNegotiable['id'] == 2 ? false : null)) : null,
       this.isSpot ? (this.isSpot['id'] == 1 ? true : (this.isSpot['id'] == 2 ? false : null)) : null,
       this.isDamage ? (this.isDamage['id'] == 1 ? true : (this.isDamage['id'] == 2 ? false : null)) : null,
@@ -133,9 +136,21 @@ export class ProductCategoriesViewComponent implements OnInit {
     this.products = [];
     this.getAllProducts();
   }
-  
+
   onSelectFilter(event) {
+
+    if (this.selectedRam) {
+      this.ramSelected=[];
+      this.ramSelected.push(this.selectedRam['id'])
+    }
+    if (this.selectedStorage) {
+      this.storageSelected=[];
+      this.storageSelected.push(this.selectedStorage['id'])
+    }
+    
     console.log(this.rangeValues)
+    console.log(this.selectedRam)
+    console.log(this.selectedStorage)
     this.isProgress = false;
     this.getAllProducts();
   }
@@ -157,6 +172,8 @@ export class ProductCategoriesViewComponent implements OnInit {
     this.selectedStorage = null;
     this.selectedRam = null;
     this.isProgress = false;
+    this.isNegotiable=false;
+    this.rangeValues=null;
     this.getAllProducts();
 
   }

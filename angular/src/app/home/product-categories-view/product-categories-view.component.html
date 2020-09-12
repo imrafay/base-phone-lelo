@@ -23,10 +23,6 @@
                                 <input type="radio" [value]="bool" name="isSpot" [(ngModel)]="isSpot"
                                     (change)="onSelectFilter($event)">
                             </span>
-
-                            <span *ngIf="isSpot && isSpot['value'] == 1">
-                                <input class="form-control input-md" name="Title" placeholder="0%" type="text">
-                            </span>
                             <div>
                                 <hr>
                             </div>
@@ -49,17 +45,15 @@
 
                         <div style="padding: 0px 10px;">
                             <label class="control-label fontColor">Rom</label>
-                            <!-- <ul class="pl-2">
-                                <li id="product-{{rom.id}}" *ngFor="let rom of ram">
-                                    <span>
-                                        <input type="checkbox" [value]="rom"></span> {{rom.name}}
-                                </li>
-                            </ul> -->
-                            <span class="" *ngFor="let rom of ram">
-                                <label class="control-label p-2">{{rom.name}}</label>
-                                <input type="radio" [value]="rom" name="isRam" (change)="onSelectFilter($event)"
-                                    [(ngModel)]="selectedRam">
-                            </span>
+                            <div class="row" *ngFor="let rom of ram">
+                                <div class="col-4">
+                                    <label class="control-label p-2">{{rom.name}}</label>
+                                </div>
+                                <div class="col-3 margin-left-neg-45">
+                                    <input type="radio" [value]="rom" name="isRam" (change)="onSelectFilter($event)"
+                                        [(ngModel)]="selectedRam"></div>
+
+                            </div>
 
                             <div>
                                 <hr>
@@ -67,11 +61,15 @@
                         </div>
                         <div style="padding: 0px 10px;">
                             <label class="control-label fontColor">Storage</label>
-                            <span class="" *ngFor="let store of storage">
-                                <label class="control-label p-2">{{store.name}}</label>
-                                <input type="radio" [value]="store" name="isStore" (change)="onSelectFilter($event)"
-                                    [(ngModel)]="selectedStorage">
-                            </span>
+                            <div class="row" *ngFor="let store of storage">
+                                <div class="col-4">
+                                    <label class="control-label p-2">{{store.name}}</label>
+                                </div>
+                                <div class="col-3 margin-left-neg-45">
+                                    <input type="radio" [value]="store" name="isRam" (change)="onSelectFilter($event)"
+                                        [(ngModel)]="selectedStorage"></div>
+
+                            </div>
                             <div>
                                 <hr>
                             </div>
@@ -103,8 +101,8 @@
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">Price</label><br>
                             <p-slider [(ngModel)]="rangeValues" [range]="true"
-                                [style]="{'width':'90%','margin':'10px auto'}" [min]="0" [max]="5000"
-                                name="rangeSlider">
+                                [style]="{'width':'90%','margin':'10px auto'}" [min]="0" [max]="5000" name="rangeSlider"
+                                (onChange)="onSelectFilter($event)">
                             </p-slider>
                             <div class="pl-2">
                                 <label style="margin-top: 5px;">
@@ -140,13 +138,6 @@
                             </div>
                         </div>
 
-                    </div>
-
-                    <div class="widget">
-                        <h4 class="widget-title">Advertisement</h4>
-                        <div class="add-box">
-                            <img class="img-fluid" src="assets/img/img1.jpg" alt="">
-                        </div>
                     </div>
                 </aside>
             </div>
@@ -188,15 +179,18 @@
 
                     <div class="row" style="margin:auto">
                         <div class="short-name col-4 pt-2">
-                            <span>Showing (1 - 12 of {{productsLength}} products)</span>
+                            <span>Showing {{productsLength}} products</span>
                         </div>
                         <div class="short-name col-6">
 
                             <label class="control-label fontColor ml-2-mr-2">Sort by</label>
                             <!-- <br> -->
-                            <button class="btn bt-primary ml-2-mr-2">Price</button>
-                            <button class="btn bt-primary ml-2-mr-2">Number</button>
-                            <button class="btn bt-primary ml-2-mr-2">Recent</button>
+                            Price
+                            <input type="text" placeholder="min" class="width-70">
+                            -
+                            <input type="text" placeholder="max" class="width-70">
+                            <a class="ml-2-mr-2 sort-btn">Oldest</a>
+                            <a class="ml-2-mr-2 sort-btn">Recent</a>
                         </div>
                         <div class="col-2 pt-2">
 
@@ -233,23 +227,22 @@
                                                 <a href="#"><img class="img-fluid" style="width:100%;height:200px"
                                                         src="../../../assets/img/phone-img/demo.jpg_.webp" alt=""></a>
                                             </figure>
-                                            <div class="feature-content">
-                                                <div class="product">
-                                                    <a href="#">Electronic > </a>
-                                                    <a href="#">Apple</a>
-                                                </div>
-                                                <h4><a href="ads-details.html">{{product.productModelName}}</a></h4>
+                                            <div class="feature-content" style="width: 100%;">
                                                 <div class="meta-tag">
                                                     <span>
-                                                        <a href="#"><i class="lni-user"></i> John Smith</a>
+                                                        <a href="#"><i class="lni-user"></i>
+                                                            {{product.userFullName}}</a>
                                                     </span>
-                                                    <span>
+                                                    <!-- <span>
                                                         <a href="#"><i class="lni-map-marker"></i> New York, US</a>
-                                                    </span>
+                                                    </span> -->
                                                     <span>
-                                                        <a href="#"><i class="lni-tag"></i> Apple</a>
+                                                        <a href="#"><i
+                                                                class="lni-tag"></i>{{product.productCompanyName}}</a>
                                                     </span>
                                                 </div>
+                                                <h4><a href="ads-details.html">{{product.productModelName}}</a></h4>
+
                                                 <!-- <p class="dsc">Lorem Ipsum is simply dummy text of the printing and
                                                 typesetting industry. Lorem Ipsum has been the industry.</p> -->
                                                 <div class="listing-bottom">
