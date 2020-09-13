@@ -38,6 +38,20 @@ namespace PhoneLelo.Project.Authorization.Roles
                     MultiTenancySides.Tenant
                 )
             );
+
+            roleManagementConfig.StaticRoles.Add(
+                new StaticRoleDefinition(
+                    StaticRoleNames.Tenants.ShopEmployee,
+                    MultiTenancySides.Tenant
+                )
+            );
+
+            roleManagementConfig.StaticRoles.Add(
+                new StaticRoleDefinition(
+                    StaticRoleNames.Tenants.Technician,
+                    MultiTenancySides.Tenant
+                )
+            );
         }
     }
 }

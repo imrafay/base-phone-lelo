@@ -32,18 +32,21 @@ namespace PhoneLelo.Project.EntityFrameworkCore.Seed.Tenants
         {
             // Admin role
 
+            #region Tenant Admin
             var adminRole = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == _tenantId && r.Name == StaticRoleNames.Tenants.Admin);
             if (adminRole == null)
             {
                 adminRole = _context.Roles.Add(new Role(_tenantId, StaticRoleNames.Tenants.Admin, StaticRoleNames.Tenants.Admin) { IsStatic = true }).Entity;
                 _context.SaveChanges();
-            }
-            
+            } 
+            #endregion
+
+            #region Seller
             var sellerRole = _context.Roles
-                .IgnoreQueryFilters()
-                .FirstOrDefault(r => 
-                    r.TenantId == _tenantId && 
-                    r.Name == StaticRoleNames.Tenants.Seller);
+            .IgnoreQueryFilters()
+            .FirstOrDefault(r =>
+            r.TenantId == _tenantId &&
+            r.Name == StaticRoleNames.Tenants.Seller);
 
             if (sellerRole == null)
             {
@@ -51,18 +54,20 @@ namespace PhoneLelo.Project.EntityFrameworkCore.Seed.Tenants
                     _tenantId,
                     StaticRoleNames.Tenants.Seller,
                     StaticRoleNames.Tenants.SellerDisplayName
-                    ) 
-                    { 
-                        IsStatic = true
-                    }).Entity;
+                    )
+                {
+                    IsStatic = true
+                }).Entity;
                 _context.SaveChanges();
             }
-            
+            #endregion
+
+            #region Shop Owner
             var shopOwnerRole = _context.Roles.
-                IgnoreQueryFilters()
-                .FirstOrDefault(r => 
-                r.TenantId == _tenantId && 
-                r.Name == StaticRoleNames.Tenants.ShopOwner);
+                   IgnoreQueryFilters()
+                   .FirstOrDefault(r =>
+                   r.TenantId == _tenantId &&
+                   r.Name == StaticRoleNames.Tenants.ShopOwner);
 
             if (shopOwnerRole == null)
             {
@@ -70,13 +75,58 @@ namespace PhoneLelo.Project.EntityFrameworkCore.Seed.Tenants
                     .Add(new Role(
                         _tenantId,
                         StaticRoleNames.Tenants.ShopOwner,
-                        StaticRoleNames.Tenants.ShopOwnerDisplayName) 
-                    { 
+                        StaticRoleNames.Tenants.ShopOwnerDisplayName)
+                    {
                         IsStatic = true
                     }).Entity;
 
                 _context.SaveChanges();
             }
+            #endregion
+
+            #region Shop Employee
+            var shopEmployeeRole = _context.Roles.
+                   IgnoreQueryFilters()
+                   .FirstOrDefault(r =>
+                   r.TenantId == _tenantId &&
+                   r.Name == StaticRoleNames.Tenants.ShopEmployee);
+
+            if (shopEmployeeRole == null)
+            {
+                shopEmployeeRole = _context.Roles
+                    .Add(new Role(
+                        _tenantId,
+                        StaticRoleNames.Tenants.ShopEmployee,
+                        StaticRoleNames.Tenants.ShopEmployeeDisplayName)
+                    {
+                        IsStatic = true
+                    }).Entity;
+
+                _context.SaveChanges();
+            }
+            #endregion   
+                    
+            #region Technician
+            var technicianRole = _context.Roles.
+                   IgnoreQueryFilters()
+                   .FirstOrDefault(r =>
+                   r.TenantId == _tenantId &&
+                   r.Name == StaticRoleNames.Tenants.Technician);
+
+            if (technicianRole == null)
+            {
+                technicianRole = _context.Roles
+                    .Add(new Role(
+                        _tenantId,
+                        StaticRoleNames.Tenants.Technician,
+                        StaticRoleNames.Tenants.TechnicianDisplayName)
+                    {
+                        IsStatic = true
+                    }).Entity;
+
+                _context.SaveChanges();
+            }
+            #endregion
 
             // Grant all permissions to admin role
 

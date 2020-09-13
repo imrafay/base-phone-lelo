@@ -149,7 +149,8 @@ namespace PhoneLelo.Project.Users
             {
                 var roles = await _roleRepository.GetAllListAsync();
                 roles = roles
-                    .Where(x => x.Name != StaticRoleNames.Host.Admin)
+                    .Where(x => x.Name == StaticRoleNames.Tenants.ShopOwner ||
+                    x.Name== StaticRoleNames.Tenants.Seller)
                     .ToList();
 
                 return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
