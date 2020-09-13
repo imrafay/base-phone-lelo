@@ -2,7 +2,7 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { AppAuthService } from '@shared/auth/app-auth.service';
 import { AppComponentBase } from '@shared/app-component-base';
-import { DropdownOutputDto, RoleDto, UserLocationServiceProxy, UserServiceProxy, ProductAdvertDto, ProductCompanyServiceProxy, ProductModelServiceProxy, ProductAdvertServiceProxy, ProductAdvertInputDto, ProductAdvertAccessoryDto, ProductAdvertImageDto, ProductAdvertDetailViewDto } from '@shared/service-proxies/service-proxies';
+import { DropdownOutputDto, RoleDto, UserLocationServiceProxy, UserServiceProxy, ProductAdvertDto, ProductCompanyServiceProxy, ProductModelServiceProxy, ProductAdvertServiceProxy, ProductAdvertInputDto, ProductAdvertAccessoryDto, ProductAdvertImageDto, ProductAdvertDetailViewDto, ProductAdvertBatteryUsageDto } from '@shared/service-proxies/service-proxies';
 import { AppConsts } from '@shared/AppConsts';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SelectItem, MenuItem } from 'primeng/api';
@@ -52,10 +52,10 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   isWarranty: any;
   warrantyMonths: number;
   rangeValues: number[] = [0, 5000];
-  selectedBatteryWifi
+  selectedBatteryWifi: ProductAdvertBatteryUsageDto = new ProductAdvertBatteryUsageDto();
   selectedBatteryGaming
   selectedBatteryMobileData
-  selectedBattery = []
+  selectedBattery: ProductAdvertBatteryUsageDto[] = []
   detailProduct: any;
   description: string = '';
   productId: number;
@@ -72,7 +72,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
 
   ) {
     super(injector);
-    this.uploadUrl = this.baseUrl + "api/File/UploadFiles";
+    this.uploadUrl = this.baseUrl + "/api/File/UploadFiles";
     this.detailProduct = this.router.getCurrentNavigation().extras.state;
     !this.detailProduct ? this.isInProgress = true : this.isInProgress = false;
     console.log(this.detailProduct);
@@ -170,10 +170,10 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
       this.rangeValues[0] = res.productAdvert.negotiableMinValue
       this.rangeValues[1] = res.productAdvert.negotiableMaxValue
 
-      this.batteryWifi.filter(bat =>
-        res.productAdvertBatteryUsages.map(x => {
-          if (bat.hours == x.hours && bat.batteryUsageType == x.batteryUsageType) this.selectedBatteryWifi = bat;
-        }))
+      // this.batteryWifi.filter(bat =>
+      //   res.productAdvertBatteryUsages.map(x => {
+      //     if (bat.hours == x.hours && bat.batteryUsageType == x.batteryUsageType) this.selectedBatteryWifi = bat;
+      //   }))
 
 
       this.batteryGaming.filter(bat =>
@@ -305,17 +305,39 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   }
 
   onPostAd() {
+    let selectedAccessories: ProductAdvertAccessoryDto[] = [];
+    // = new ProductAdvertAccessoryDto();
+    // selectedAccessories=this.selectedAccessories;
+    for (var index = 0; index < this.selectedAccessories.length; index++) {
+      let obj: ProductAdvertAccessoryDto = new ProductAdvertAccessoryDto();
+      obj.id = this.selectedAccessories[index].id;
+      obj.accessoryName = this.selectedAccessories[index].accessoryName;
+      obj.accessoryType = this.selectedAccessories[index].accessoryType;
+      selectedAccessories.push(obj)
+    }
 
-    this.product.productAdvertAccessories = this.selectedAccessories;
+    console.log(this.selectedAccessories)
+    console.log(selectedAccessories)
 
-    let selectedBatteryWifi = this.batteryWifi.filter(res => res.id == this.selectedBatteryWifi['id'])[0]
-    let selectedBatteryGaming = this.batteryGaming.filter(res => res.id == this.selectedBatteryGaming['id'])[0]
-    let selectedBatteryMobileData = this.batteryMobileData.filter(res => res.id == this.selectedBatteryMobileData['id'])[0]
+    let selectedBatteryWifi: ProductAdvertBatteryUsageDto = new ProductAdvertBatteryUsageDto();
+    selectedBatteryWifi.batteryUsageType = this.selectedBatteryWifi.batteryUsageType
+    selectedBatteryWifi.hours = this.selectedBatteryWifi.hours
+    selectedBatteryWifi.id = this.selectedBatteryWifi.id;
+
+    let selectedBatteryGaming: ProductAdvertBatteryUsageDto = new ProductAdvertBatteryUsageDto();
+    selectedBatteryGaming.batteryUsageType = this.selectedBatteryGaming.batteryUsageType
+    selectedBatteryGaming.hours = this.selectedBatteryGaming.hours
+    selectedBatteryGaming.id = this.selectedBatteryGaming.id;
+
+    let selectedBatteryMobileData: ProductAdvertBatteryUsageDto = new ProductAdvertBatteryUsageDto();
+    selectedBatteryMobileData.batteryUsageType = this.selectedBatteryMobileData.batteryUsageType
+    selectedBatteryMobileData.hours = this.selectedBatteryMobileData.hours
+    selectedBatteryMobileData.id = this.selectedBatteryMobileData.id;
 
     this.selectedBattery.push(selectedBatteryWifi,
-      selectedBatteryGaming, selectedBatteryMobileData)
-
+      selectedBatteryGaming, selectedBatteryMobileData);
     this.product.productAdvertBatteryUsages = this.selectedBattery;
+    console.log(this.product)
 
     this.product.images = []
 

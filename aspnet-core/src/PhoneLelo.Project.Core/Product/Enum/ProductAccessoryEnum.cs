@@ -79,10 +79,10 @@ namespace PhoneLelo.Project.Product.Enum
         [Description("128 GB")]
         OneHundredAndTwentyEightGB = 128,
 
-        [Description("256 MB")]
+        [Description("256 GB")]
         TwoHundredAndFiftySixGB = 256,
 
-        [Description("512 MB")]
+        [Description("512 GB")]
         FiveHundredAndTwelveGB = 512,
 
         [Description("1 TB")]
