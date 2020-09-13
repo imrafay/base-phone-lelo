@@ -146,7 +146,8 @@
                     <form role="search" id="search-form">
                         <input type="search" class="form-control" autocomplete="off" name="s" placeholder="Search..."
                             id="search-input" value="" [(ngModel)]="searchFilter">
-                        <button type="submit" id="search-submit" class="search-btn"><i class="lni-search"></i></button>
+                        <button type="submit" id="search-submit" class="search-btn"
+                        (click)="onSelectFilter()"><i class="lni-search"></i></button>
                     </form>
                 </div>
                 <div class="product-filter section-filter-bg" style="margin-bottom:0px"
@@ -185,12 +186,15 @@
 
                             <label class="control-label fontColor ml-2-mr-2">Sort by</label>
                             <!-- <br> -->
-                            Price
+                            <!-- Price
                             <input type="text" placeholder="min" class="width-70">
                             -
-                            <input type="text" placeholder="max" class="width-70">
-                            <a class="ml-2-mr-2 sort-btn">Oldest</a>
-                            <a class="ml-2-mr-2 sort-btn">Recent</a>
+                            <input type="text" placeholder="max" class="width-70"> -->
+                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,5)">min price</a>
+                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,4)">max price</a>
+                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,1)">Name</a>
+                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,3)">Oldest</a>
+                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,2)">Recent</a>
                         </div>
                         <div class="col-2 pt-2">
 

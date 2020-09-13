@@ -1,25 +1,28 @@
- <div class="row justify-content-center" *ngIf="products.length > 0" id="latestCarousel">
-            <carousel [itemsPerSlide]="itemsPerSlide" [isAnimated]="true" [singleSlideOffset]="singleSlideOffset"
-                [interval]="false">
-                <slide *ngFor="let product of products">
-                    <span *ngIf="product.primaryProductImage">
-                        <img [src]="product.primaryProductImage" alt="image slide" style="display: block; width: 100%;">
-                    </span>
-                    <span *ngIf="!product.primaryProductImage">
-                        <img src="assets/img/featured/img-1.jpg" alt="image slide"
-                            style="display: block;width: 265px;">
-                    </span>
+<div class="row justify-content-center" *ngIf="products.length > 0" id="latestCarousel">
+    <carousel [itemsPerSlide]="itemsPerSlide" [isAnimated]="true" [singleSlideOffset]="singleSlideOffset"
+        [interval]="false" id="latestCarousel">
+        <div class="carousel-inner" style="display: flex;">
 
-                    <div class="cards-content">
-                        <h3 class="no-margin productModel">
-                            <a> {{product.productModelName}}</a>
-                        </h3>
-                        <div class="generic-green">
-                            {{product.price}}
-                        </div>
-                        <div class="generic-gray">Karachi</div>
+            <slide *ngFor="let product of products">
+
+                <span *ngIf="product.primaryProductImage">
+                    <img [src]="product.primaryProductImage" alt="image slide" style="display: block; width: 100%;">
+                </span>
+                <span *ngIf="!product.primaryProductImage">
+                    <img src="assets/img/featured/img-1.jpg" alt="image slide" style="display: block;width: 265px;">
+                </span>
+
+                <div class="cards-content">
+                    <h3 class="no-margin productModel">
+                        <a> {{product.productModelName}}</a>
+                    </h3>
+                    <div class="generic-green">
+                        {{product.price}}
                     </div>
-                </slide>
-            </carousel>
-
+                    <div class="generic-gray">Karachi</div>
+                </div>
+            </slide>
         </div>
+    </carousel>
+
+</div>

@@ -13,6 +13,7 @@ export class ProductCardComponent implements OnInit {
   @Input('products') products: ProductAdvertViewDto[] = [];
   itemsPerSlide = 4;
   singleSlideOffset = true;
+  
   ngOnInit(): void {
   }
 
