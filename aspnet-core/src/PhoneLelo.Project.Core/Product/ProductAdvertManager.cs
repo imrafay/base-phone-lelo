@@ -216,6 +216,7 @@ namespace PhoneLelo.Project.Authorization
                   Price = x.Price,
                   IsNew = x.IsNew,
                   Storage = x.Storage,
+                  CreationTime=x.CreationTime,
                   IsPtaApproved = x.IsPtaApproved,
                   AdvertPostedDate = x.CreationTime,
                   ProductModelId = x.ProductModelId,

@@ -212,6 +212,38 @@ namespace PhoneLelo.Project.Import.MobilePhone
         }
 
         [AbpAllowAnonymous]
+        public async Task<ListResultDto<ProductAdvertViewDto>> GetRelatedAdsByAdvertId(
+            long productAdvertId)
+        {
+            var productAdvert = await _productAdvertManager.GetByIdAsync(productAdvertId);
+            if (productAdvert == null)
+            {
+                throw new UserFriendlyException("Ad not found.");
+            }
+
+            var filter = new ProductAdvertFilterInputDto()
+            {
+                ProductModelId = productAdvert.ProductModelId,
+                CityId = productAdvert.CityId,
+                MaxPrice = productAdvert.Price + AppConsts.RelatedProductAdPriceLimit,
+                MinPrice = productAdvert.Price - AppConsts.RelatedProductAdPriceLimit,
+                pagedAndSort = new PagedAndSortDto()
+                {
+                    Page = 1,
+                    PageSize = AppConsts.RelatedProductAdPageSize,
+                    SortBy = SortByEnum.Newest
+                }
+            };
+
+            var result = await GetAll(filter);
+            result.Items = result.Items
+                .Where(x => x.Id != productAdvertId)
+                .ToList();
+
+            return result;
+        }
+
+        [AbpAllowAnonymous]
         public async Task<ProductAdvertDetailViewDto> GetProductAdverForEdit(long id)
         {
             try

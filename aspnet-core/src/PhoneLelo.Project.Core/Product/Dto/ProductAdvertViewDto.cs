@@ -29,6 +29,7 @@ namespace PhoneLelo.Project.Product.Dto
         public string State { get; set; }
         public string City { get; set; }
         public string Neighbourhood { get; set; }
+        public DateTime CreationTime { get; set; }
 
     }
 
