@@ -14,5 +14,9 @@
         public const string OlxBaseUrl = "https://www.olx.com.pk";
         public const string OlxUrlParameters = "/api/locations";
         public const string OlxTownsParameters = "&hideAddressComponents=true";
+
+
+        public const int RelatedProductAdPriceLimit = 10000;
+        public const int RelatedProductAdPageSize = 12;
     }
 }
