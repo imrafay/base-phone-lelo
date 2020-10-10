@@ -610,6 +610,62 @@ export class ProductAdvertServiceProxy {
     }
 
     /**
+     * @param productAdvertId (optional) 
+     * @return Success
+     */
+    getRelatedAdsByAdvertId(productAdvertId: number | undefined): Observable<ProductAdvertViewDtoListResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProductAdvert/GetRelatedAdsByAdvertId?";
+        if (productAdvertId === null)
+            throw new Error("The parameter 'productAdvertId' cannot be null.");
+        else if (productAdvertId !== undefined)
+            url_ += "productAdvertId=" + encodeURIComponent("" + productAdvertId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRelatedAdsByAdvertId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRelatedAdsByAdvertId(<any>response_);
+                } catch (e) {
+                    return <Observable<ProductAdvertViewDtoListResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ProductAdvertViewDtoListResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRelatedAdsByAdvertId(response: HttpResponseBase): Observable<ProductAdvertViewDtoListResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ProductAdvertViewDtoListResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ProductAdvertViewDtoListResultDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -4286,6 +4342,7 @@ export class ProductAdvertViewDto implements IProductAdvertViewDto {
     state: string | undefined;
     city: string | undefined;
     neighbourhood: string | undefined;
+    creationTime: moment.Moment;
 
     constructor(data?: IProductAdvertViewDto) {
         if (data) {
@@ -4314,6 +4371,7 @@ export class ProductAdvertViewDto implements IProductAdvertViewDto {
             this.state = _data["state"];
             this.city = _data["city"];
             this.neighbourhood = _data["neighbourhood"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
         }
     }
 
@@ -4342,6 +4400,7 @@ export class ProductAdvertViewDto implements IProductAdvertViewDto {
         data["state"] = this.state;
         data["city"] = this.city;
         data["neighbourhood"] = this.neighbourhood;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         return data; 
     }
 
@@ -4370,6 +4429,7 @@ export interface IProductAdvertViewDto {
     state: string | undefined;
     city: string | undefined;
     neighbourhood: string | undefined;
+    creationTime: moment.Moment;
 }
 
 export class ProductAdvertViewDtoListResultDto implements IProductAdvertViewDtoListResultDto {
