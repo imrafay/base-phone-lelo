@@ -1,0 +1,46 @@
+h5{
+  color: black;
+  font-weight: 500;
+}
+div{
+  font-size: 12px;
+}
+
+.nav-slider .nav-item {
+  display: inline-block;
+  font-size: 14px;
+  padding: 15px 5px;
+  margin-right: 5px;
+  color: #666;
+  cursor: pointer;
+}
+.nav-slider .nav-item a {
+  color: #666;
+}
+.nav-slider{
+  border-bottom: 2px solid #ddd;
+}
+.nav-slider .nav-item:hover{
+  color:#e91e63;
+  border-bottom: 1px solid #e91e63;
+}
+.nav-slider .nav-item a:hover{
+  color:#e91e63;
+}
+.product-detail-heading{
+  border-bottom-style: solid;
+  border-bottom-style: solid;
+  border-bottom-color: #53647a;
+  font-size: 24px;
+  color: #53647a;
+  border-bottom-width: 2px;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  margin-left: 15px;
+}
+
+.product-detail-text{
+  font-size: 14px;
+  color: #666;
+}
+

@@ -24,3 +24,21 @@
 #main-slide .carousel-item img{
     max-height:500px !important;
 }
+.cursor-pointer{
+    cursor: pointer;
+}
+.p-tag {
+    font-weight: 500 !important;;
+}
+.nav-tabs .nav-link.active {
+    color: #e91e63 !important;
+    font-size: 15px;
+    font-weight: bold;
+}
+.nav-tabs .nav-link {
+    color: #666;
+    font-size: 15px;
+}
+.ngxImageZoomThumbnail{
+    width:350px!important;
+}

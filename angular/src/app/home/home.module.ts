@@ -21,7 +21,8 @@ import { TabMenuModule } from 'primeng/tabmenu'; import { HomeComponent } from '
 import { PublicHomeComponent } from './public-home.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ProductCategoriesViewComponent } from './product-categories-view/product-categories-view.component';
-
+import { ProductDetailViewComponent } from './product-detail-view/product-detail-view.component';
+import { NgxImageZoomModule } from 'ngx-image-zoom';
 
 // import {MenuItem} from 'primeng/api';
 @NgModule({
@@ -46,11 +47,13 @@ import { ProductCategoriesViewComponent } from './product-categories-view/produc
         TabMenuModule,
         FileUploadModule,
         MultiSelectModule,
-        SliderModule],
+        NgxImageZoomModule, 
+               SliderModule],
     declarations: [
         HomeComponent,
         PublicHomeComponent,
         ProductCategoriesViewComponent,
+        ProductDetailViewComponent,
     ],
     providers: []
 })

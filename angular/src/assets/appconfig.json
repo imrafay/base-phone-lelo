@@ -1,5 +1,5 @@
 {
-  "remoteServiceBaseUrl": "http://phone-lelo-api.azurewebsites.net",
+  "remoteServiceBaseUrl": "https://phone-lelo-api.azurewebsites.net",
   "appBaseUrl": "http://localhost:4200",
   "localeMappings": [
     {

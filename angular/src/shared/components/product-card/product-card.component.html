@@ -5,16 +5,17 @@
 
             <slide *ngFor="let product of products">
 
-                <span *ngIf="product.primaryProductImage">
-                    <img [src]="product.primaryProductImage" alt="image slide" style="display: block; width: 100%;">
+                <span *ngIf="product.primaryProductImage"  [routerLink]="['/app/home/detail',product.id]">
+                    <img class="cursor-pointer" [src]="product.primaryProductImage" alt="image slide" style="display: block; width: 100%;">
                 </span>
-                <span *ngIf="!product.primaryProductImage">
-                    <img src="assets/img/featured/img-1.jpg" alt="image slide" style="display: block;width: 265px;">
+                <span *ngIf="!product.primaryProductImage"  [routerLink]="['/app/home/detail',product.id]">
+                    <img class="cursor-pointer" src="assets/img/featured/img-1.jpg" alt="image slide" style="display: block;width: 265px;">
                 </span>
 
                 <div class="cards-content">
-                    <h3 class="no-margin productModel">
-                        <a> {{product.productModelName}}</a>
+                    <h3 class="no-margin productModel" 
+                    [routerLink]="['/app/home/detail',product.id]">
+                        <a class="cursor-pointer"> {{product.productModelName}}</a>
                     </h3>
                     <div class="generic-green">
                         {{product.price}}

@@ -1,0 +1,115 @@
+<!-- <div class="main-container section-padding" style="margin-top:20px">
+    <div class="container-fluid">
+        <div class="row">
+ 
+        </div>
+    </div> -->
+<div class="container" style="margin-top:100px;margin-bottom: 50px;">
+
+    <div class="row container mb-10">
+
+        <div class="col-4">
+
+            <div class="row">
+                <div>
+                    <!-- <a href="#"><img class="img-fluid" style="height:350px;width:350px" [src]="imageShown" alt=""></a> -->
+                    <lib-ngx-image-zoom [thumbImage]=imageShown [fullImage]=imageShown [magnification]="1"
+                        [enableScrollZoom]="true" [enableLens]="true" [lensWidth]="100"></lib-ngx-image-zoom>
+                </div>
+            </div>
+            <div class="row">
+                <div *ngFor="let img of images;let i = index" (click)="mouseEnter(img.id,img.src)" [ngClass]="
+                    highlightedRows[0] ===
+                    img.id
+                        ? 'selectedImg'
+                        : ''
+                " class="cursor-pointer">
+                    <a><img class="img-fluid" style="width:48px;height: 48px;" [src]="img.src" alt=""></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-8" style="padding: 50px 0px 0px 50px;
+        " *ngIf="product && product.productAdvert">
+            <div class="row">
+                <h5>{{product.productModelName}}</h5>
+
+            </div>
+            <div class="row" style="margin-top:-10px;font-size: 12px;">
+                {{product.productCompanyName}}
+            </div>
+            <div class="row">
+                <img src="assets/img/phone-img/rating.png" style="height: 15px;margin-top: 5px;">
+                <img src="assets/img/phone-img/rating.png" style="height: 15px;margin-top: 5px;">
+                <img src="assets/img/phone-img/rating.png" style="height: 15px;margin-top: 5px;">
+                <img src="assets/img/phone-img/rating.png" style="height: 15px;margin-top: 5px;">
+                <img src="assets/img/phone-img/rating.png" style="height: 15px;margin-top: 5px;">
+                <div style="margin-left: 10px;
+                margin-top: 1px;">No ratings</div>
+            </div>
+
+            <div class="row">
+                Brand: {{product.productCompanyName}} | More Mobiles Sale & Purchasing From Phonelelo
+            </div>
+            <div class="row" style="display: inline-block;
+           width: 100%;
+           padding-bottom: 15px;
+           border-bottom: 1px solid #eff0f5;
+           line-height: 20px;"></div>
+
+            <div class="row" style="padding-top: 15px;color:#e91e63;font-size:30px">
+                Rs. {{product.productAdvert.price}}
+
+            </div>
+            <div class="row" style="padding-top: 25px;">
+                <div class="badges">
+                    <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isPtaApproved">PTA
+                        approved</span>
+                    <span class="p-tag p-tag-danger ml-1" *ngIf="!product.productAdvert.isPtaApproved">PTA
+                        non-approved</span>
+                    <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isNew">
+                        New</span>
+                    <span class="p-tag p-tag-danger ml-1" *ngIf="!product.productAdvert.isNew">
+                        Used</span>
+                    <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isNegotiable">
+                        Exchange offer</span>
+                    <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isKit">
+                        Kit only</span>
+                    <span class="p-tag p-tag-danger ml-1" *ngIf="!product.productAdvert.isKit">
+                        Box</span>
+                    <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isInWarranty">
+                        Warranty remaining</span>
+                    <span class="p-tag p-tag-danger ml-1" *ngIf="!product.productAdvert.isInWarranty">
+                        No warranty</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="container details-box" style="margin-bottom: 50px;">
+    <div>
+        <tabset *ngIf="product && product.productAdvert">
+            <tab heading="Product Details" id="tab1">
+
+                <section>
+                    <div class="row" style="margin-top: 15px;" id="AnchorId">
+                        <div class="product-detail-heading">Product Description</div>
+                        <div class="col-12 product-detail-text">{{product.productAdvert.description}}
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="row" style="margin-top: 15px;" id="AnchorId1">
+                        <div class="product-detail-heading">Product Specification</div>
+                        <div class="col-12 product-detail-text">{{product.productAdvert.description}}
+                        </div>
+                    </div>
+                </section>
+
+            </tab>
+            <tab heading="Company Details">Basic content 1</tab>
+        </tabset>
+    </div>
+</div>
