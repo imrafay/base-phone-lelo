@@ -78,3 +78,17 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+.send-reply-btn{
+  border: 1px solid #e91e63;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 12px;
+  color: white;
+  background: #e91e63;
+}
+.page-height{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 200px;
+  margin-top: 200px;
+}

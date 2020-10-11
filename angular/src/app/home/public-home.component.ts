@@ -26,7 +26,8 @@ export class PublicHomeComponent implements OnInit {
     private _ProductAdvertService: ProductAdvertServiceProxy,
     private _sessionService: AbpSessionService,
 
-  ) { }
+  ) { 
+  }
 
   ngOnInit(): void {
     this.getAllProducts();

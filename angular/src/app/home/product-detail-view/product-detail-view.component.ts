@@ -57,9 +57,22 @@ export class ProductDetailViewComponent implements OnInit {
   @ViewChild("aboutus", { static: false }) aboutus;
   @ViewChild("contact", { static: false }) contact;
   products: ProductAdvertViewDto[] = [];
-
-
+  commentUserEmail = '';
+  commentUsername = '';
+  commentText = '';
+  commentsArray = [
+    { id: 0, commentUsername: 'test1', commentUserEmail: 'test1@gmail.com', commentText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, nemo ipsam eum illo minus voluptatibus ipsa nulla, perferendis aliquid aperiam beatae nihil sapiente eaque atque nesciunt perspiciatis ex saepe, quibusdam..' },
+    { id: 0, commentUsername: 'test2', commentUserEmail: 'test2@gmail.com', commentText: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, nemo ipsam eum illo minus voluptatibus ipsa nulla, perferendis aliquid aperiam beatae nihil sapiente eaque atque nesciunt perspiciatis ex saepe, quibusdam..' },
+    {
+      id: 0, commentUsername: 'test3', commentUserEmail: 'test3@gmail.com', commentText: 'Lorem ipsum dolor sit amet, consectetur', commentReplies: [
+        {
+          id: 0, userName: 'test3@gmail.com', userReply: 'Lorem ipsum dolor sit amet, consectetur'
+        }
+      ]
+    },
+  ]
   ngOnInit(): void {
+    console.log(this.commentsArray)
     // this.getAllBrands();
     // this.getAllRams();
     // this.getAllStorages();
@@ -76,15 +89,15 @@ export class ProductDetailViewComponent implements OnInit {
     this.getProductById();
     this.highlightedRows.push(this.images[0].id)
   }
-  myThumbnail="https://wittlock.github.io/ngx-image-zoom/assets/thumb.jpg";
-  myFullresImage="https://wittlock.github.io/ngx-image-zoom/assets/fullres.jpg";
+  myThumbnail = "https://wittlock.github.io/ngx-image-zoom/assets/thumb.jpg";
+  myFullresImage = "https://wittlock.github.io/ngx-image-zoom/assets/fullres.jpg";
 
   mouseEnter(id?, src?) {
     this.highlightedRows = [];
     this.imageShown = src;
     this.highlightedRows.push(id);
   }
-  zoomScroll(s){
+  zoomScroll(s) {
     console.log(s)
   }
 
@@ -94,6 +107,7 @@ export class ProductDetailViewComponent implements OnInit {
       console.log(res)
       // this.isInProgress = true;
       this.product = res;
+      this.isProgress=true;
     })
   }
   getAllProducts() {
@@ -106,5 +120,9 @@ export class ProductDetailViewComponent implements OnInit {
       this.products = res.items;
     })
   }
-
+  replyInput=[];
+  onEnterReply(e,i){
+    this.replyInput=[];
+this.replyInput.push(i);
+  }
 }
