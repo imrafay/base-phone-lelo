@@ -35,10 +35,12 @@ namespace PhoneLelo.Project.Product.Dto
 
     public class ProductAdvertDetailViewDto : IProductAdvertViewDto
     {
+        public long ProductModelId { get; set; }
         public string ProductCompanyName { get; set; }
         public string ProductModelName { get; set; }
         public int Views { get; set; }
         public ProductAdvertDto ProductAdvert { get; set; }
+        public ProductModelDto ProductModelSpecification { get; set; }
         public List<ProductAdvertImageDto> Images { get; set; }
         public List<ProductAdvertBatteryUsageDto> ProductAdvertBatteryUsages { get; set; }
         public List<ProductAdvertAccessoryDto> productAdvertAccessories { get; set; }

@@ -42,4 +42,13 @@ namespace PhoneLelo.Project.Users.Dto
             CreateMap<ProductAdvertImageDto, ProductAdvertImage>();
         }
     }
+
+
+    public class ProductModeleProfile : Profile
+    {
+        public ProductModeleProfile()
+        {
+            CreateMap<ProductModelDto, ProductModel>();
+        }
+    }
 }

@@ -17,7 +17,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
         Task<ListResultDto<ProductAdvertViewDto>> GetAll(
             ProductAdvertFilterInputDto filter);
 
-        Task<ProductAdvertDetailViewDto> GetProductAdverForEdit(long id);
+        Task<ProductAdvertDetailViewDto> GetProductAdvertForEdit(long id);
 
         List<DropdownOutputDto> GetAccessoriesDropDown();
 
@@ -26,7 +26,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
         List<DropdownOutputDto> GetRamDropDown();
 
 
-        Task<ProductAdvertDetailViewDto> GetProductAdverForDetailView(
+        Task<ProductAdvertDetailViewDto> GetProductAdvertForDetailView(
             long advertId);
 
         List<DropdownCountOutputDto> GetStatesAndAdsCount(
@@ -41,6 +41,8 @@ namespace PhoneLelo.Project.Import.MobilePhone
             long? neighbourhoodId);
 
         Task<ListResultDto<ProductAdvertViewDto>> GetRelatedAdsByAdvertId(
-            long productAdvertId);
+           long productAdvertId,
+           int page,
+           int pageSize);
     }
 }

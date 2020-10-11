@@ -25,6 +25,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
         private readonly IAbpSession _abpSession;
         private readonly ProductAdvertManager _productAdvertManager;
         private readonly ProductAdvertViewLogManager _productAdvertViewLogManager;
+        private readonly ProductModelManager _productModelManager;
         private readonly IFileStorageManager _fileStorageManager;
 
         public ProductAdvertAppService(
@@ -32,12 +33,13 @@ namespace PhoneLelo.Project.Import.MobilePhone
             IAbpSession abpSession,
             ProductAdvertManager productAdvertManager,
             ProductAdvertViewLogManager productAdvertViewLogManager,
-            IFileStorageManager fileStorageManager)
+            IFileStorageManager fileStorageManager, ProductModelManager productModelManager)
         {
             _abpSession = abpSession;
             _productAdvertManager = productAdvertManager;
             _productAdvertViewLogManager = productAdvertViewLogManager;
             _fileStorageManager = fileStorageManager;
+            _productModelManager = productModelManager;
         }
 
         public async Task Create(ProductAdvertInputDto input)
@@ -213,7 +215,9 @@ namespace PhoneLelo.Project.Import.MobilePhone
 
         [AbpAllowAnonymous]
         public async Task<ListResultDto<ProductAdvertViewDto>> GetRelatedAdsByAdvertId(
-            long productAdvertId)
+            long productAdvertId,
+            int page,
+            int pageSize)
         {
             var productAdvert = await _productAdvertManager.GetByIdAsync(productAdvertId);
             if (productAdvert == null)
@@ -229,8 +233,8 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 MinPrice = productAdvert.Price - AppConsts.RelatedProductAdPriceLimit,
                 pagedAndSort = new PagedAndSortDto()
                 {
-                    Page = 1,
-                    PageSize = AppConsts.RelatedProductAdPageSize,
+                    Page = page,
+                    PageSize = pageSize,
                     SortBy = SortByEnum.Newest
                 }
             };
@@ -244,7 +248,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
         }
 
         [AbpAllowAnonymous]
-        public async Task<ProductAdvertDetailViewDto> GetProductAdverForEdit(long id)
+        public async Task<ProductAdvertDetailViewDto> GetProductAdvertForEdit(long id)
         {
             try
             {
@@ -280,6 +284,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 var viewsCount = await GetProductAdverViews(id);
                 return new ProductAdvertDetailViewDto
                 {
+                    ProductModelId = productAdvert.ProductModelId,
                     ProductCompanyName = productAdvert.ProductModelFk.Brand,
                     ProductModelName = productAdvert.ProductModelFk.Model,
                     Views = viewsCount,
@@ -296,16 +301,21 @@ namespace PhoneLelo.Project.Import.MobilePhone
             }
         }
 
-        public async Task<ProductAdvertDetailViewDto> GetProductAdverForDetailView(
+        [AbpAllowAnonymous]
+        public async Task<ProductAdvertDetailViewDto> GetProductAdvertForDetailView(
             long advertId)
         {
             await _productAdvertViewLogManager.CreateAsync(
                 advertId: advertId,
                 userId: AbpSession.UserId);
 
-            return await GetProductAdverForEdit(advertId);
+            var detail = await GetProductAdvertForEdit(advertId);
+
+            detail.ProductModelSpecification = await _productModelManager.GetProductModelById(detail.ProductModelId);
+            return detail;
         }
 
+        [AbpAllowAnonymous]
         public List<DropdownOutputDto> GetRamDropDown()
         {
             var ramEnums = Enum.GetValues(typeof(RamEnum)).Cast<RamEnum>();
@@ -319,6 +329,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
                          }).ToList();
         }
 
+        [AbpAllowAnonymous]
         public List<DropdownOutputDto> GetStorageDropDown()
         {
             var storageEnums = Enum.GetValues(typeof(StorageEnum)).Cast<StorageEnum>();
@@ -332,6 +343,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
                          }).ToList();
         }
 
+        [AbpAllowAnonymous]
         public List<DropdownOutputDto> GetAccessoriesDropDown()
         {
             var accessoryEnums = Enum.GetValues(typeof(ProductAccessoryEnum))
@@ -372,6 +384,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 stateId: stateId,
                 cityId: cityId).ToList();
         }
+
 
         private async Task<int> GetProductAdverViews(long id)
         {

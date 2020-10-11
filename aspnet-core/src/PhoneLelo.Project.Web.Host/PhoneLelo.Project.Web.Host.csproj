@@ -34,8 +34,8 @@
     <ProjectReference Include="..\PhoneLelo.Project.Web.Core\PhoneLelo.Project.Web.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Abp.Castle.Log4Net" Version="5.10.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
+    <PackageReference Include="Abp.Castle.Log4Net" Version="5.13.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
