@@ -135,7 +135,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
 
   }
   getProductById() {
-    this._ProductAdvertService.getProductAdverForEdit(this.detailProduct.productdetails.queryParams.id).subscribe(res => {
+    this._ProductAdvertService.getProductAdvertForEdit(this.detailProduct.productdetails.queryParams.id).subscribe(res => {
       console.log(res)
       this.selectedProductBrands = this.productBrands.filter(response => response.name == res.productCompanyName)[0]
       setTimeout(() => this.onSelectBrand(null, this.selectedProductBrands['id']), 1000);

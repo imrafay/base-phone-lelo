@@ -90,7 +90,7 @@ export class ProductDetailViewComponent implements OnInit {
   }
 
   getProductById() {
-    this._ProductAdvertService.getProductAdverForDetailView(parseInt(this.searchId)).subscribe(res => {
+    this._ProductAdvertService.getProductAdvertForDetailView(parseInt(this.searchId)).subscribe(res => {
       this.isProgress = true;
       console.log(res)
       // this.isInProgress = true;
