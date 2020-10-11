@@ -244,6 +244,21 @@ namespace PhoneLelo.Project.Import.MobilePhone
                 .Where(x => x.Id != productAdvertId)
                 .ToList();
 
+            if (result.Items.Any() == false)
+            {
+                var getAllfilter = new ProductAdvertFilterInputDto()
+                {
+                    pagedAndSort = new PagedAndSortDto()
+                    {
+                        Page = page,
+                        PageSize = pageSize,
+                        SortBy = SortByEnum.Newest
+                    }
+                };
+
+               return await GetAll(getAllfilter);
+            }
+
             return result;
         }
 

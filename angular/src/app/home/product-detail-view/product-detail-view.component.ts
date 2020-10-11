@@ -97,10 +97,10 @@ export class ProductDetailViewComponent implements OnInit {
     })
   }
   getAllProducts() {
-    this._ProductAdvertService.getAll(
-      undefined, undefined, undefined, undefined,
-      undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
-      undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
+    this._ProductAdvertService.getRelatedAdsByAdvertId(
+      parseInt(this.searchId),
+      1,
+      3
     ).subscribe(res => {
       console.log(res)
       this.products = res.items;
