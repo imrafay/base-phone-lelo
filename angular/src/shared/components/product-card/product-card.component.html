@@ -1,17 +1,14 @@
-<div class="row justify-content-center" *ngIf="products.length > 0" id="latestCarousel">
+<!-- <div class="row justify-content-center" *ngIf="products.length > 0" id="latestCarousel">
     <carousel [itemsPerSlide]="itemsPerSlide" [isAnimated]="true" [singleSlideOffset]="singleSlideOffset"
         [interval]="false" id="latestCarousel">
         <div class="carousel-inner" style="display: flex;">
-
             <slide *ngFor="let product of products">
-
                 <span *ngIf="product.primaryProductImage"  [routerLink]="['/app/home/detail',product.id]">
                     <img class="cursor-pointer" [src]="product.primaryProductImage" alt="image slide" style="display: block; width: 100%;">
                 </span>
                 <span *ngIf="!product.primaryProductImage"  [routerLink]="['/app/home/detail',product.id]">
                     <img class="cursor-pointer" src="assets/img/featured/img-1.jpg" alt="image slide" style="display: block;width: 265px;">
                 </span>
-
                 <div class="cards-content">
                     <h3 class="no-margin productModel" 
                     [routerLink]="['/app/home/detail',product.id]">
@@ -25,5 +22,57 @@
             </slide>
         </div>
     </carousel>
-
-</div>
+</div> -->
+<section class="featured-lis section-padding" style="background-color: white;" *ngIf="products.length > 0">
+    <div class="container">
+        <div class="row justify-content-center d-flex">
+            <div class="col-md-4 wow fadeIn justify-content-center d-flex" data-wow-delay="0.5s"
+                *ngFor="let product of products">
+                <div class="item">
+                    <div class="product-item">
+                        <div class="carousel-thumb">
+                            <img class="img-fluid" src="assets/img/phone-img/img3.jpg" alt="">
+                            <div class="overlay">
+                                <div>
+                                    <a class="btn btn-common" [routerLink]="['/app/home/detail',product.id]">View
+                                        Details</a>
+                                </div>
+                            </div>
+                            <div class="btn-product bg-sale">
+                                <a href="#">Sale</a>
+                            </div>
+                            <span class="price">Rs.{{product.price}}</span>
+                        </div>
+                        <div class="product-content" style=" box-shadow:0px 2px 7px 7px lightgrey;background: white;">
+                            <h3 class="product-title"><a href="ads-details.html">{{product.productModelName}}</a></h3>
+                            <span>{{product.productCompanyName}}</span>
+                            <!-- <div class="icon">
+                                <span><i class="lni-bookmark"></i></span>
+                                <span><i class="lni-heart"></i></span>
+                            </div> -->
+                            <div class="card-text">
+                                <div class="float-left">
+                                    <span class="icon-wrap">
+                                        <i class="lni-star-filled"></i>
+                                        <i class="lni-star-filled"></i>
+                                        <i class="lni-star-filled"></i>
+                                        <i class="lni-star-filled"></i>
+                                        <i class="lni-star-filled"></i>
+                                        <i class="lni-star"></i>
+                                    </span>
+                                    <span class="count-review">
+                                        (12 Review)
+                                    </span>
+                                </div>
+                                <div class="float-right">
+                                    <a class="address" href="#"><i
+                                            class="lni-map-marker"></i>{{product.city? product.city : 'New York'}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

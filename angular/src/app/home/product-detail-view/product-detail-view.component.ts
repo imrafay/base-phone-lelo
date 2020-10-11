@@ -54,21 +54,17 @@ export class ProductDetailViewComponent implements OnInit {
   }
   images = [];
   imageShown;
-  // @ViewChild("productdescriptionsection", { static: false }) aboutus;
-  // @ViewChild("productspecificationsection", { static: false }) contact;
   @ViewChild("aboutus", { static: false }) aboutus;
   @ViewChild("contact", { static: false }) contact;
+  products: ProductAdvertViewDto[] = [];
 
-  navigateTo(element: string) {
-    this[element].nativeElement.scrollIntoView({ behavior: "smooth" });
-  }
-  // navigateTo(element: string) {
-  //   this[element].nativeElement.scrollIntoView({ behavior: "smooth" });
-  // }
+
   ngOnInit(): void {
     // this.getAllBrands();
     // this.getAllRams();
     // this.getAllStorages();
+    this.getAllProducts();
+
     this.images = [
       { src: 'assets/img/phone-img/phone1.jpg', id: 0 },
       { src: 'assets/img/phone-img/phone2.jpg', id: 1 },
@@ -88,6 +84,9 @@ export class ProductDetailViewComponent implements OnInit {
     this.imageShown = src;
     this.highlightedRows.push(id);
   }
+  zoomScroll(s){
+    console.log(s)
+  }
 
   getProductById() {
     this._ProductAdvertService.getProductAdvertForDetailView(parseInt(this.searchId)).subscribe(res => {
@@ -95,8 +94,16 @@ export class ProductDetailViewComponent implements OnInit {
       console.log(res)
       // this.isInProgress = true;
       this.product = res;
-
-
+    })
+  }
+  getAllProducts() {
+    this._ProductAdvertService.getAll(
+      undefined, undefined, undefined, undefined,
+      undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
+      undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,
+    ).subscribe(res => {
+      console.log(res)
+      this.products = res.items;
     })
   }
 

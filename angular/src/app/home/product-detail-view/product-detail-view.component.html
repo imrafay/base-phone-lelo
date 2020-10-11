@@ -82,34 +82,318 @@
                         No warranty</span>
                 </div>
             </div>
-
+            <div class="row" style="padding-top: 15px">
+                {{product.productAdvert.description}}
+            </div>
+            <div class="row" style="padding-top: 15px">
+                <div class="col-3">
+                    <span style="color: black;font-weight: 600;">Storage: </span>
+                    &nbsp; {{product.productAdvert.ram}}gb/{{product.productAdvert.storage}}gb
+                </div>
+                <div class="col-3">
+                    <span style="color: black;font-weight: 600;">Exhange Policy: </span>
+                    &nbsp; <span *ngIf="product.productAdvert.isExchangeable">Yes</span>
+                    <span *ngIf="!product.productAdvert.isExchangeable">No</span>
+                </div>
+                <div class="col-3">
+                    <span style="color: black;font-weight: 600;">Face Sensor: </span>
+                    <span *ngIf="product.productAdvert.isFaceSensorWorking">Yes</span>
+                    <span *ngIf="!product.productAdvert.isFaceSensorWorking">No</span>
+                </div>
+                <div class="col-3">
+                    <span style="color: black;font-weight: 600;">Finger Sensor: </span>
+                    <span *ngIf="product.productAdvert.isFingerSensorWorking">Yes</span>
+                    <span *ngIf="!product.productAdvert.isFingerSensorWorking">No</span>
+                </div>
+            </div>
         </div>
-
     </div>
 </div>
 <div class="container details-box" style="margin-bottom: 50px;">
     <div>
-        <tabset *ngIf="product && product.productAdvert">
-            <tab heading="Product Details" id="tab1">
-
+        <tabset *ngIf="product && product.productModelSpecification">
+            <tab heading="Product Details">
                 <section>
                     <div class="row" style="margin-top: 15px;" id="AnchorId">
-                        <div class="product-detail-heading">Product Description</div>
-                        <div class="col-12 product-detail-text">{{product.productAdvert.description}}
+                        <div class="product-detail-heading">Overview</div>
+                        <div class="col-12 product-detail-text">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la">Certification:</div>
+                                        <div class="col-9 overviewText-li">Nice</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la">Brand Name:
+                                        </div>
+                                        <div class="col-9 overviewText-li">{{product.productModelSpecification.brand}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la">Place of origin:
+                                        </div>
+                                        <div class="col-9 overviewText-li">Karachi</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la">Model Number:
+                                        </div>
+                                        <div class="col-9 overviewText-li">{{product.productAdvert.productModelId}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la"> Product name:
+                                        </div>
+                                        <div class="col-9 overviewText-li">{{product.productModelSpecification.model}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la"> Features:
+                                        </div>
+                                        <div class="col-9 overviewText-li">
+                                            {{product.productModelSpecification.featuresSensors}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la">Battery:
+                                        </div>
+                                        <div class="col-9 overviewText-li">{{product.productModelSpecification.battery}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la"> Design:
+                                        </div>
+                                        <div class="col-9 overviewText-li">
+                                            {{product.productModelSpecification.displaySize}}</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
-
                 <section>
-                    <div class="row" style="margin-top: 15px;" id="AnchorId1">
-                        <div class="product-detail-heading">Product Specification</div>
-                        <div class="col-12 product-detail-text">{{product.productAdvert.description}}
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="product-detail-heading">Product Description</div>
+                        <div class="col-12 product-detail-text">
+                            <span>{{product.productModelSpecification.body}}.</span>
+                            <span> {{product.productModelSpecification.display}}.</span>
+                            <span> {{product.productModelSpecification.displayResolution}}.</span>
+                            <span> {{product.productModelSpecification.displaySize}}.</span>
+                            <span> {{product.productModelSpecification.features}}.</span>
+                            <span> {{product.productModelSpecification.featuresSensors}}.</span>
                         </div>
                     </div>
                 </section>
-
             </tab>
-            <tab heading="Company Details">Basic content 1</tab>
+            <tab heading="Specification">
+                <section>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="product-detail-heading">Specification</div>
+                        <div class="col-8 col-md-12">
+                            <table>
+                                <tr>
+                                    <td>Product name
+                                    </td>
+                                    <td>{{product.productModelSpecification.model}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Features
+                                    </td>
+                                    <td>{{product.productModelSpecification.features}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Battery</td>
+                                    <td>{{product.productModelSpecification.battery}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Display</td>
+                                    <td>{{product.productModelSpecification.display}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Display resolution</td>
+                                    <td>{{product.productModelSpecification.displayResolution}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Display size</td>
+                                    <td>{{product.productModelSpecification.displaySize}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Features sensors</td>
+                                    <td>{{product.productModelSpecification.featuresSensors}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Internal memory</td>
+                                    <td>{{product.productModelSpecification.memoryInternal}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Brand</td>
+                                    <td>{{product.productModelSpecification.brand}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Network technology</td>
+                                    <td>{{product.productModelSpecification.networkTechnology}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </tab>
+            <tab heading="Features and Display">
+                <section>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="product-detail-heading">Features & Display</div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Battery</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.body}} with
+                                {{product.productModelSpecification.battery}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Display size</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.display}} with
+                                {{product.productModelSpecification.displaySize}} and
+                                {{product.productModelSpecification.displayResolution}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Launch date</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.launchAnnouncedYear}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">features & Sensors</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.features}} and sensors are
+                                {{product.productModelSpecification.featuresSensors}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Platform</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.platformOS}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Memory</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.memoryInternal}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Network</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.networkTechnology}}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </tab>
         </tabset>
     </div>
+</div>
+
+<div class="container" style="margin-bottom: 50px;padding: 0px;">
+    <div id="comments" style="margin-bottom: 50px;">
+        <div class="comment-box">
+            <h3>Comments</h3>
+            <ol class="comments-list">
+                <li>
+                    <div class="media">
+                        <div class="thumb-left">
+                            <a href="#">
+                                <img src="assets/img/phone-img/img3.png" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="info-body">
+                            <div class="media-heading">
+                                <h4 class="name">Larsen Mortin</h4>
+                                <span class="comment-date"><i class="lni-alarm-clock"></i> June 21, 2018</span>
+                                <a href="#" class="reply-link"><i class="lni-reply"></i> Reply</a>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, nemo ipsam eum illo
+                                minus voluptatibus ipsa nulla, perferendis aliquid aperiam beatae nihil sapiente eaque
+                                atque nesciunt perspiciatis ex saepe, quibusdam..</p>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>
+                            <div class="media">
+                                <div class="thumb-left">
+                                    <a href="#">
+                                        <img src="assets/img/phone-img/img3.png" alt="" class="img-fluid">
+                                    </a>
+                                </div>
+                                <div class="info-body">
+                                    <div class="media-heading">
+                                        <h4 class="name">Albert Johnes</h4>
+                                        <span class="comment-date"><i class="lni-alarm-clock"></i> June 21, 2018</span>
+                                        <a href="#" class="reply-link"><i class="lni-reply"></i> Reply</a>
+                                    </div>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, nemo ipsam
+                                        eum illo minus voluptatibus ipsa nulla, perferendis aliquid aperiam beatae nihil
+                                        sapiente eaque atque nesciunt perspiciatis ex saepe, quibusdam..</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="media">
+                        <div class="thumb-left">
+                            <a href="#">
+                                <img src="assets/img/phone-img/img3.png" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="info-body">
+                            <div class="media-heading">
+                                <h4 class="name">Steven Hawkins</h4>
+                                <span class="comment-date"><i class="lni-alarm-clock"></i> June 21, 2018</span>
+                                <a href="#" class="reply-link"><i class="lni-reply"></i> Reply</a>
+                            </div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis, nemo ipsam eum illo
+                                minus voluptatibus ipsa nulla, perferendis aliquid aperiam beatae nihil sapiente eaque
+                                atque nesciunt perspiciatis ex saepe, quibusdam..</p>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+
+            <div id="respond">
+                <h2 class="respond-title">Leave A Comment</h2>
+                <form action="#">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <input id="author" class="form-control" name="author" type="text" value="" size="30"
+                                    placeholder="Your Name">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <input id="email" class="form-control" name="author" type="text" value="" size="30"
+                                    placeholder="Your E-Mail">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12col-xs-12">
+                            <div class="form-group">
+                                <textarea id="comment" class="form-control" name="comment" cols="45" rows="8"
+                                    placeholder="Message..."></textarea>
+                            </div>
+                            <button type="submit" id="submit" class="btn btn-common">Post Comment</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="container" style="margin-bottom: 50px;padding: 0px;">
+    <h1 class="section-title">Related Products</h1>
+    <product-card [products]="products" *ngIf="products.length > 0"> </product-card>
 </div>
