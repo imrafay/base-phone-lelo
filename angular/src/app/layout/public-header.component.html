@@ -1,42 +1,8 @@
 <header id="header-wrap">
-
-    <!-- <div class="top-bar">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7 col-md-5 col-xs-12">
-
-                    <ul class="list-inline">
-                        <li><i class="lni-phone"></i> +0123 456 789</li>
-                        <li><i class="lni-envelope"></i> <a href="http://preview.uideck.com/cdn-cgi/l/email-protection"
-                                class="__cf_email__"
-                                data-cfemail="5e2d2b2e2e312c2a1e39333f3732703d3133">[email&#160;protected]</a></li>
-                    </ul>
-
-                </div>
-                <div class="col-lg-5 col-md-7 col-xs-12">
-                    <div class="roof-social float-right">
-                        <a routerLink="/account/login" class="header-top-button" *ngIf="!isUserValid"><i
-                                class="lni-lock"></i> Log In</a>
-                        <a routerLink="/account/login" class="header-top-button" (click)="logout()" *ngIf="isUserValid">
-                            <i class="lni-lock"></i> Logout</a>
-                        <a class="facebook" href="#"><i class="lni-facebook-filled"></i></a>
-                        <a class="twitter" href="#"><i class="lni-twitter-filled"></i></a>
-                        <a class="instagram" href="#"><i class="lni-instagram-filled"></i></a>
-                        <a class="linkedin" href="#"><i class="lni-linkedin-fill"></i></a>
-                        <a class="google" href="#"><i class="lni-google-plus"></i></a>
-                    </div>
-                    <div class="header-top-right float-right">
-                               </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-
     <nav class="navbar navbar-expand-lg bg-white fixed-top scrolling-navbar" style="box-shadow: 0px 2px 1px 1px #e91e63;
     color: white;
     height: 50px;top:0px">
-        <div class="container">
+        <div class="container-fluid">
 
             <div class="navbar-header">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
@@ -49,20 +15,41 @@
                 <a routerLink="/" class="navbar-brand"><img src="assets/img/logo.png" alt=""></a>
             </div>
             <div class="collapse navbar-collapse" id="main-navbar">
-                <ul class="navbar-nav mr-auto w-100 justify-content-center">
+                <ul class="navbar-nav w-100">
                     <li class="nav-item" (click)="onSelectMenu(1)"
                         [ngClass]=" highlightedRows[0] == 1  ? 'active'  : ''">
                         <a class="nav-link" routerLink="/" aria-haspopup="true" aria-expanded="false">
-                            Home
+                            <!-- Home -->
+                            <i class="fas fa-home" style="font-size: 20px;"></i>
                         </a>
+
                     </li>
-                    <li class="nav-item" *ngIf="isUserValid" (click)="onSelectMenu(2)"
+                    <!-- <li class="nav-item" *ngIf="isUserValid" (click)="onSelectMenu(2)"
                         [ngClass]=" highlightedRows[0] == 2  ? 'active'  : ''">
                         <a class="nav-link" routerLink="/app/main/user-dashboard">
                             Dashboard
                         </a>
+                    </li> -->
+                    <li class="nav-item" style="    width: 100%;
+                    display: flex;
+                    margin-right: 3px;
+                    justify-content: center;">
+                        <!-- <input type="text" placeholder="search"> -->
+
+                        <div class="d-flex" style="width: 70%; margin-top: 15px;">
+                            <input type="text" name="" id="" placeholder="Enter keyword" [(ngModel)]="searchFilter"
+                                class="search-input">
+                            <div>
+                                <!-- <button type="submit" name="submit" class="btn btn-primary ">Search</button> -->
+                                <button type="submit" name="submit" class="btn btn-primary search-btn-home"
+                                    [routerLink]="['/app/home/category',searchFilter]">
+                                    <i class="fas fa-search"></i>
+                                </button>
+
+                            </div>
+                        </div>
                     </li>
-                    <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:55px"
+                    <!-- <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:55px"
                         [ngClass]=" highlightedRows[0] == 3  ? 'active'  : ''">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
@@ -72,20 +59,45 @@
 
                             <a class="dropdown-item" routerLink="/app/main/add-post">Ads Post</a>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
-                <div class="post-btn">
-                    <a class="btn btn-common" (click)="signUpRegisterModal.show()" style="color:white"><i
-                            class="lni-pencil-alt"></i>
-                        Post an Ad</a>
+                <div class="post-btn" style="margin-right: 25px;">
+                    <a class="btn btn-common" (click)="signUpRegisterModalShow()" style="color:white">
+                        Sell
+                        <!-- <i class="fas fa-ad ml-1"></i> -->
+                        <i class="fas fa-plus ml-1 "></i> 
+
+                    </a>
 
 
                 </div>
-                <a routerLink="/account/login" class="btn btn-common ml-1" *ngIf="!isUserValid"
-                ><i class="lni-lock"></i>
-                    Log In</a>
-                <a routerLink="/account/login" class="btn btn-common ml-1" (click)="logout()" *ngIf="isUserValid">
-                    <i class="lni-lock"></i> Logout</a>
+                <a routerLink="/account/login" class="btn btn-common ml-1" *ngIf="!isUserValid">
+                    <!-- <i class="lni-lock"></i>
+                    Log In -->
+                    <i class="fas fa-sign-in-alt icons-header"></i>
+                </a>
+                <!-- <a routerLink="/account/login" class="ml-1" (click)="logout()" *ngIf="isUserValid">
+                    <i class="fas fa-sign-out-alt icons-header"></i>
+                </a> -->
+                <a style="padding-bottom: 30px;">
+                     <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:55px"
+                        [ngClass]=" highlightedRows[0] == 3  ? 'active'  : ''">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="fas fa-cog icons-header"></i>
+                        </a>
+                        <div class="dropdown-menu" style="left: -30px;
+                        min-width: 30px;">
+
+                            <a class="dropdown-item" routerLink="/app/main/user-dashboard">Dashboard</a>
+                            <a class="dropdown-item" (click)="logout()">Sign out</a>
+                        </div>
+                    </li>
+             
+                </a>
+
+
+
             </div>
         </div>
 

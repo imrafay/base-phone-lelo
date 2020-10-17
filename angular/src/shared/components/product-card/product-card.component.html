@@ -26,24 +26,31 @@
 <section class="featured-lis section-padding pt-0" style="background-color: white;" *ngIf="products.length > 0">
     <div class="container">
         <div class="row justify-content-center d-flex">
-            <div class="col-4 wow fadeIn justify-content-center d-flex" data-wow-delay="0.5s"
+            <div class="col-3 wow fadeIn justify-content-center d-flex" data-wow-delay="0.5s"
                 *ngFor="let product of products">
                 <div class="item">
-                    <div class="product-item">
+                    <div class="product-item" style="box-shadow: 0px 2px 7px 7px lightgrey;
+                    ">
                         <div class="carousel-thumb">
-                            <img class="img-fluid" src="assets/img/phone-img/img3.jpg" alt="">
+                            <span *ngIf="!product.primaryProductImage">
+                                <img class="img-fluid" src="assets/img/product/img1.jpg" alt="">
+                            </span>
+                            <span *ngIf="product.primaryProductImage">
+                                <img class="img-fluid" [src]="product.primaryProductImage" alt="">
+                            </span>
                             <div class="overlay">
                                 <div>
                                     <a class="btn btn-common" [routerLink]="['/app/home/detail',product.id]">View
                                         Details</a>
                                 </div>
                             </div>
-                            <div class="btn-product bg-sale">
+                            <!-- <div class="btn-product bg-sale">
                                 <a href="#">Sale</a>
-                            </div>
-                            <span class="price">Rs.{{product.price}}</span>
+                            </div> -->
                         </div>
-                        <div class="product-content" style=" box-shadow:0px 2px 7px 7px lightgrey;background: white;">
+                        <div class="product-content">
+                            <h2 class="fs-20"> Rs.{{product.price | number}}
+                            </h2>
                             <h3 class="product-title"><a href="ads-details.html">{{product.productModelName}}</a></h3>
                             <span>{{product.productCompanyName}}</span>
                             <!-- <div class="icon">
@@ -52,22 +59,25 @@
                             </div> -->
                             <div class="card-text">
                                 <div class="float-left">
-                                    <span class="icon-wrap">
+                                    <!-- <span class="icon-wrap">
                                         <i class="lni-star-filled"></i>
                                         <i class="lni-star-filled"></i>
                                         <i class="lni-star-filled"></i>
                                         <i class="lni-star-filled"></i>
                                         <i class="lni-star-filled"></i>
                                         <i class="lni-star"></i>
-                                    </span>
+                                    </span> -->
                                     <span class="count-review">
-                                        (12 Review)
+                                        ({{product.views}} views)
                                     </span>
                                 </div>
-                                <div class="float-right">
-                                    <a class="address" href="#"><i
-                                            class="lni-map-marker"></i>{{product.city? product.city : 'New York'}}</a>
+                                <div class="float-right" *ngIf="product.city">
+                                    <a class="address" href="#"><i class="lni-map-marker"></i>{{product.city}}</a>
                                 </div>
+
+                            </div>
+                            <div class="col-12 date-end">
+                                {{product.creationTime.fromNow()}}
                             </div>
                         </div>
                     </div>

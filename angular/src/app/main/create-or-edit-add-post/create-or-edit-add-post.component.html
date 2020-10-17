@@ -171,17 +171,21 @@
                                     [showCancelButton]="false">
                                     <ng-template pTemplate="content">
                                         <ul *ngIf="uploadedFiles.length">
-                                            <li *ngFor="let file of uploadedFiles">
-                                                <span>
-                                                    <input type="radio" name="fileName" value="{{file.name}}">
+                                            <li *ngFor="let file of uploadedFiles" class="d-flex mt-1">
+                                                <div style="width: 40px;">
+                                                    <input type="radio" name="fileName" [value]="file.name"
+                                                    [(ngModel)]="isPriorty">
+                                                </div>
+                                                <div>
                                                     {{file.name}}
-                                                </span>
+                                                </div>
                                             </li>
                                         </ul>
                                     </ng-template>
                                 </p-fileUpload>
                             </div>
                         </div>
+                        <button (click)="onPriorty()">test</button>
 
                         <div class="inner-box mt-3 mb-3">
                             <div class="dashboard-box">

@@ -77,8 +77,16 @@
                                 <tbody>
                                     <tr *ngFor="let products of product">
 
-                                        <td class="photo"><img class="img-fluid"
-                                                src="../../../assets/img/product/img1.jpg" alt=""></td>
+                                        <td class="photo">
+                                            <span  *ngIf="!products.primaryProductImage">
+                                                <img class="img-fluid"
+                                                src="assets/img/product/img1.jpg" alt="">
+                                            </span>
+                                            <span *ngIf="products.primaryProductImage">
+                                                <img class="img-fluid"
+                                                [src]="products.primaryProductImage" alt="">
+                                            </span>
+                                            </td>
                                         <td data-title="Title">
                                             <h3>{{products.productCompanyName}}</h3>
                                             <span>{{products.productModelName}}</span>
@@ -87,7 +95,7 @@
                                         <td data-title="Ad Status"><span class="adstatus adstatusactive">active</span>
                                         </td>
                                         <td data-title="Price">
-                                            <h3>{{products.price}}</h3>
+                                            <h3>{{products.price | number}}</h3>
                                         </td>
                                         <td data-title="Action">
                                             <div class="btns-actions">

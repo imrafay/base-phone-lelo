@@ -92,3 +92,6 @@ tr:nth-child(even) {
   margin-bottom: 200px;
   margin-top: 200px;
 }
+.selectedImg{
+  border: 1px solid #e91e63;
+}

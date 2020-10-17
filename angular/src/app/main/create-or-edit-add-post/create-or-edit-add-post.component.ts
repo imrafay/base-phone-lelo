@@ -2,7 +2,7 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { AppAuthService } from '@shared/auth/app-auth.service';
 import { AppComponentBase } from '@shared/app-component-base';
-import { DropdownOutputDto, RoleDto, UserLocationServiceProxy, UserServiceProxy, ProductAdvertDto, ProductCompanyServiceProxy, ProductModelServiceProxy, ProductAdvertServiceProxy, ProductAdvertInputDto, ProductAdvertAccessoryDto, ProductAdvertImageDto, ProductAdvertDetailViewDto, ProductAdvertBatteryUsageDto } from '@shared/service-proxies/service-proxies';
+import { DropdownOutputDto, RoleDto, UserLocationServiceProxy, UserServiceProxy, ProductAdvertDto, ProductCompanyServiceProxy, ProductModelServiceProxy, ProductAdvertServiceProxy, ProductAdvertInputDto, ProductAdvertAccessoryDto, ProductAdvertImageDto, ProductAdvertDetailViewDto, ProductAdvertBatteryUsageDto, ProductImagePriorityEnum } from '@shared/service-proxies/service-proxies';
 import { AppConsts } from '@shared/AppConsts';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SelectItem, MenuItem } from 'primeng/api';
@@ -48,6 +48,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   isFingerWorking: any
   isFaceSensorWorking: any;
   batteryHealth: number;
+  isPriorty: any;
   isKit: any;
   isWarranty: any;
   warrantyMonths: number;
@@ -56,11 +57,12 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   selectedBatteryGaming
   selectedBatteryMobileData
   selectedBattery: ProductAdvertBatteryUsageDto[] = []
+  uploadedFileNames: ProductAdvertImageDto[] = [];
   detailProduct: any;
   description: string = '';
   productId: number;
   isInProgress: boolean = false;
-
+  ProductImagePriorityEnum: ProductImagePriorityEnum;
   constructor(
     injector: Injector,
     private _authService: AppAuthService,
@@ -134,6 +136,9 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this.detailProduct ? this.getProductById() : null;
 
   }
+  onPriorty() {
+    console.log(this.isPriorty)
+  }
   getProductById() {
     this._ProductAdvertService.getProductAdvertForEdit(this.detailProduct.productdetails.queryParams.id).subscribe(res => {
       console.log(res)
@@ -142,15 +147,12 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
       setTimeout(() => this.selectedProductModel = this.productModel.filter(response => response.name == res.productModelName)[0], 6000);
 
       //  setTimeout(() => {
-
       // this.accessories.filter(response => {
       //    res.productAdvertAccessories.map(acc => {
       //      acc.id = 3;
       //     if(response.id == acc.id) this.selectedAccessories = response
-
       //     })
       //   })
-
       // }, 2000);
 
       this.isNew = res.productAdvert.isNew == true ? this.booleanEnum[0] : this.booleanEnum[1];
@@ -209,7 +211,6 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     })
   }
 
-
   onUpload(event): void {
     console.log(event);
     if (event.files.length > 0) {
@@ -219,6 +220,13 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
           this.uploadedFiles.push(file);
         }
         console.log(originalEvent.body.result[0].fileName);
+        originalEvent.body.result.map((res => {
+          let obj: ProductAdvertImageDto = new ProductAdvertImageDto();
+          obj.image = res.fileName;
+          this.uploadedFileNames.push(obj)
+        }))
+
+
         this.notify.success(this.l("File Uploaded"));
 
       } else {
@@ -227,6 +235,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
 
       }
     }
+    console.log(this.uploadedFileNames)
   }
   onSelect(event) {
     this.fileInQue = true;
@@ -305,9 +314,13 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   }
 
   onPostAd() {
+
+    // let obj: ProductAdvertImageDto = new ProductAdvertImageDto();
+    this.uploadedFileNames.map(res => {
+      res.productImagePriority = res.image == this.isPriorty ? 1 : 2
+    })
+    console.log(this.uploadedFileNames)
     let selectedAccessories: ProductAdvertAccessoryDto[] = [];
-    // = new ProductAdvertAccessoryDto();
-    // selectedAccessories=this.selectedAccessories;
     for (var index = 0; index < this.selectedAccessories.length; index++) {
       let obj: ProductAdvertAccessoryDto = new ProductAdvertAccessoryDto();
       obj.id = this.selectedAccessories[index].id;
@@ -339,7 +352,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this.product.productAdvertBatteryUsages = this.selectedBattery;
     console.log(this.product)
 
-    this.product.images = []
+    this.product.images = this.uploadedFileNames;
 
     this.product.productAdvertinput = new ProductAdvertDto();
     this.product.productAdvertinput.description = this.description;

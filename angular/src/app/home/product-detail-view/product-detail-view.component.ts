@@ -71,6 +71,9 @@ export class ProductDetailViewComponent implements OnInit {
       ]
     },
   ]
+  myThumbnail = "https://wittlock.github.io/ngx-image-zoom/assets/thumb.jpg";
+  myFullresImage = "https://wittlock.github.io/ngx-image-zoom/assets/fullres.jpg";
+  replyInput = [];
   ngOnInit(): void {
     console.log(this.commentsArray)
     // this.getAllBrands();
@@ -78,23 +81,14 @@ export class ProductDetailViewComponent implements OnInit {
     // this.getAllStorages();
     this.getAllProducts();
 
-    this.images = [
-      { src: 'assets/img/phone-img/phone1.jpg', id: 0 },
-      { src: 'assets/img/phone-img/phone2.jpg', id: 1 },
-      { src: 'assets/img/phone-img/phone3.jpg', id: 2 },
-      { src: 'assets/img/phone-img/phone1.jpg', id: 3 },
-      { src: 'assets/img/phone-img/phone2.jpg', id: 4 },
-    ]
-    this.imageShown = this.images[0].src;
+  
     this.getProductById();
-    this.highlightedRows.push(this.images[0].id)
   }
-  myThumbnail = "https://wittlock.github.io/ngx-image-zoom/assets/thumb.jpg";
-  myFullresImage = "https://wittlock.github.io/ngx-image-zoom/assets/fullres.jpg";
+
 
   mouseEnter(id?, src?) {
     this.highlightedRows = [];
-    this.imageShown = src;
+    this.imageShown = src?'https://phonelelostore.blob.core.windows.net/phonelelo/ProductImages/'+src.image:null;
     this.highlightedRows.push(id);
   }
   zoomScroll(s) {
@@ -105,9 +99,11 @@ export class ProductDetailViewComponent implements OnInit {
     this._ProductAdvertService.getProductAdvertForDetailView(parseInt(this.searchId)).subscribe(res => {
       this.isProgress = true;
       console.log(res)
-      // this.isInProgress = true;
       this.product = res;
-      this.isProgress=true;
+      this.isProgress = true;
+      this.images=res.images;
+      this.imageShown ='https://phonelelostore.blob.core.windows.net/phonelelo/ProductImages/'+this.images[0].image;
+      this.highlightedRows.push(this.images[0].id);
     })
   }
   getAllProducts() {
@@ -120,9 +116,8 @@ export class ProductDetailViewComponent implements OnInit {
       this.products = res.items;
     })
   }
-  replyInput=[];
-  onEnterReply(e,i){
-    this.replyInput=[];
-this.replyInput.push(i);
+  onEnterReply(e, i) {
+    this.replyInput = [];
+    this.replyInput.push(i);
   }
 }

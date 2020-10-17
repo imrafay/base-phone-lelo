@@ -8,12 +8,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-public-header',
   templateUrl: './public-header.component.html',
+  styleUrls:['./public-header.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PublicHeaderComponent extends AppComponentBase implements OnInit {
   @ViewChild('signUpRegisterModal', { static: true }) signUpRegisterModal: SignUpRegisterModalComponent;
   isUserValid: Boolean = false;
-  highlightedRows = []
+  highlightedRows = [];
+  searchFilter='';
   constructor(
     injector: Injector,
     private _AppSessionService: AppSessionService,
@@ -48,5 +50,13 @@ export class PublicHeaderComponent extends AppComponentBase implements OnInit {
     this.highlightedRows.length > 0 ? this.highlightedRows = [] : null;
     this.highlightedRows.push(id);
 
+  }
+  signUpRegisterModalShow() {
+    if (this.appSession.user) {
+      this._router.navigate(['/app/main/add-post']);
+    }
+    else {
+      this.signUpRegisterModal.show();
+    }
   }
 }
