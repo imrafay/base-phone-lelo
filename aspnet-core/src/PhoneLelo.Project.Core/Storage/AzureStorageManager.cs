@@ -49,7 +49,7 @@ namespace PhoneLelo.Project.Storage
 
         //}
 
-        public string ConnectionString => "DefaultEndpointsProtocol=https;AccountName=phonelelostore;AccountKey=2WeoDm40itSr/xZ2hmJDPtDAA3oobkEHPRpFCFcH/bKPrUjRjxrJYkPULVFM6tEIusWNXzbh80Rup3YDbs8ipg==;EndpointSuffix=core.windows.net";
+        public string ConnectionString => "DefaultEndpointsProtocol=https;AccountName=phonelelostore;AccountKey=2La4OgnweFV1fFFq+t7n4Z+JhpJfYOtF0XLdqI2MRWjFeMJdoMd3fSyRjDk3AkU7xDJk5CQk7pnqVczsgR/8oA==;EndpointSuffix=core.windows.net";
         public string BaseUrl  => "https://phonelelostore.blob.core.windows.net";
         public string ContainerName => "phonelelo";
 
