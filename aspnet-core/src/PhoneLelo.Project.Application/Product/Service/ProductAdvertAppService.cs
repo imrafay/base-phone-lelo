@@ -9,6 +9,7 @@ using Abp.Authorization;
 using Abp.Domain.Uow;
 using Abp.Extensions;
 using Abp.Runtime.Session;
+using Abp.Threading;
 using Abp.UI;
 using PhoneLelo.Project.Authorization;
 using PhoneLelo.Project.FileManagement;
@@ -418,6 +419,8 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     productAdvert.PrimaryProductImage,
                     PhoneLeloDataFileType.ProductImages
                     );
+
+                productAdvert.Views = AsyncHelper.RunSync(()=> GetProductAdverViews(productAdvert.Id)) ;
             }
         }
 
