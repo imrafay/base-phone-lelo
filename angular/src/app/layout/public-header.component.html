@@ -64,14 +64,10 @@
                 <div class="post-btn" style="margin-right: 25px;">
                     <a class="btn btn-common" (click)="signUpRegisterModalShow()" style="color:white">
                         Sell
-                        <!-- <i class="fas fa-ad ml-1"></i> -->
-                        <i class="fas fa-plus ml-1 "></i> 
-
+                        <i class="fas fa-plus ml-1 "></i>
                     </a>
-
-
                 </div>
-                <a routerLink="/account/login"  *ngIf="!isUserValid">
+                <a routerLink="/account/login" *ngIf="!isUserValid">
                     <!-- <i class="lni-lock"></i>
                     Log In -->
                     <i class="fas fa-sign-in-alt icons-header"></i>
@@ -79,28 +75,20 @@
                 <!-- <a routerLink="/account/login" class="ml-1" (click)="logout()" *ngIf="isUserValid">
                     <i class="fas fa-sign-out-alt icons-header"></i>
                 </a> -->
-                <a style="padding-bottom: 30px;">
-                     <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:55px"
+                <a style="padding-bottom: 15x;" class="cursor-pointer">
+                    <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:55px"
                         [ngClass]=" highlightedRows[0] == 3  ? 'active'  : ''">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
+                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-cog icons-header"></i>
                         </a>
-                        <div class="dropdown-menu" style="left: -30px;
-                        min-width: 30px;">
-
+                        <div class="dropdown-menu" style="left: -46px;min-width: 0px;">
                             <a class="dropdown-item" routerLink="/app/main/user-dashboard">Dashboard</a>
                             <a class="dropdown-item" (click)="logout()">Sign out</a>
                         </div>
                     </li>
-             
                 </a>
-
-
-
             </div>
         </div>
-
         <ul class="mobile-menu">
             <li>
                 <a class="active" href="#">
@@ -150,10 +138,6 @@
                 <a href="contact.html">Contact Us</a>
             </li>
         </ul>
-
     </nav>
-
-
-
 </header>
 <signUpRegisterModal #signUpRegisterModal></signUpRegisterModal>

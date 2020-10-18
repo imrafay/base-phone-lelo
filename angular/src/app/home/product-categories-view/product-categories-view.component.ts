@@ -85,8 +85,8 @@ export class ProductCategoriesViewComponent implements OnInit {
       this.isNegotiable ? (this.isNegotiable['id'] == 1 ? true : (this.isNegotiable['id'] == 2 ? false : null)) : null,
       this.isSpot ? (this.isSpot['id'] == 1 ? true : (this.isSpot['id'] == 2 ? false : null)) : null,
       this.isDamage ? (this.isDamage['id'] == 1 ? true : (this.isDamage['id'] == 2 ? false : null)) : null,
+      undefined,undefined,
       sortEnum ? sortEnum : undefined,
-       undefined, undefined,
     ).subscribe(res => {
       this.isProgress = true;
       console.log(res)

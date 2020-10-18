@@ -1,4 +1,4 @@
-<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+<!-- <div class="page-header" style="background: url(assets/img/banner1.jpg);">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -12,10 +12,10 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
-<div id="content" class="section-padding">
+<div id="content" class="section-padding" style="margin-top: 1.5rem;">
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-4 col-lg-3 page-sidebar">
@@ -38,7 +38,7 @@
                                             <div class="icon"><i class="lni-write"></i></div>
                                             <div class="contentbox">
                                                 <h2><a href="#">Total Ad Posted</a></h2>
-                                                <h3>480 Add Posted</h3>
+                                                <h3>{{SiteStatisticsOutputDto ? SiteStatisticsOutputDto.totalAdsCount : 0}} Add Posted</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -46,12 +46,12 @@
                                         <div class="dashboardbox">
                                             <div class="icon"><i class="lni-add-files"></i></div>
                                             <div class="contentbox">
-                                                <h2><a href="#">Featured Ads</a></h2>
-                                                <h3>80 Add Posted</h3>
+                                                <h2><a href="#">Locations</a></h2>
+                                                <h3>{{SiteStatisticsOutputDto ? SiteStatisticsOutputDto.totalLocationsCount : 0}}</h3>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                    <!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
                                         <div class="dashboardbox">
                                             <div class="icon"><i class="lni-support"></i></div>
                                             <div class="contentbox">
@@ -59,7 +59,7 @@
                                                 <h3>2040 Messages</h3>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <table class="table table-responsive dashboardtable tablemyads">
@@ -69,7 +69,6 @@
                                         <th>Photo</th>
                                         <th>Title</th>
                                         <th>Ram/Storage</th>
-                                        <th>Ad Status</th>
                                         <th>Price</th>
                                         <th>Action</th>
                                     </tr>
@@ -92,16 +91,15 @@
                                             <span>{{products.productModelName}}</span>
                                         </td>
                                         <td data-title="Category"><span class="adcategories">{{products.ram}}/{{products.storage}}</span></td>
-                                        <td data-title="Ad Status"><span class="adstatus adstatusactive">active</span>
-                                        </td>
+                                     
                                         <td data-title="Price">
                                             <h3>{{products.price | number}}</h3>
                                         </td>
                                         <td data-title="Action">
                                             <div class="btns-actions">
-                                                <a class="btn-action btn-view" href="#"><i class="lni-eye"></i></a>
-                                                <a class="btn-action btn-edit" (click)="getProductById(products.id)"><i class="lni-pencil"></i></a>
-                                                <a class="btn-action btn-delete" href="#"><i class="lni-trash"></i></a>
+                                                <!-- <a class="btn-action btn-view" href="#"><i class="lni-eye"></i></a> -->
+                                                <a class="btn-action btn-edit cursor-pointer" (click)="getProductById(products.id)"><i class="lni-pencil"></i></a>
+                                                <!-- <a class="btn-action btn-delete" href="#"><i class="lni-trash"></i></a> -->
                                             </div>
                                         </td>
                                     </tr>

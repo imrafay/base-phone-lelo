@@ -10,7 +10,7 @@
                         [enableScrollZoom]="true" [enableLens]="true" [lensWidth]="100"></lib-ngx-image-zoom>
                 </div>
             </div>
-            <div class="row" *ngIf="images">
+            <div class="row mt-3" *ngIf="images">
                 <div *ngFor="let img of images;let i = index" (click)="mouseEnter(img.id,img)" [ngClass]="
                     highlightedRows[0] ===
                     img.id

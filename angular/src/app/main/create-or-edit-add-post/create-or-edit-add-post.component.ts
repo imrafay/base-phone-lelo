@@ -53,7 +53,8 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   isWarranty: any;
   warrantyMonths: number;
   rangeValues: number[] = [0, 5000];
-  selectedBatteryWifi: ProductAdvertBatteryUsageDto = new ProductAdvertBatteryUsageDto();
+  selectedBatteryWifi
+  // : ProductAdvertBatteryUsageDto = new ProductAdvertBatteryUsageDto();
   selectedBatteryGaming
   selectedBatteryMobileData
   selectedBattery: ProductAdvertBatteryUsageDto[] = []
@@ -119,13 +120,12 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     { name: '12+', id: 4, hours: 12, batteryUsageType: 3 },
   ]
   accessories = [
-    { id: 0, accessoryName: "Charger", accessoryType: 0 },
-    { id: 1, accessoryName: "Wireless Charger", accessoryType: 1 },
-    { id: 2, accessoryName: "Box", accessoryType: 2 },
-    { id: 3, accessoryName: "HandsFree", accessoryType: 3 },
-    { id: 4, accessoryName: "AirPods", accessoryType: 4 },
+    { id: 0, accessoryName: "Charger", accessoryType: 1 },
+    { id: 1, accessoryName: "Wireless Charger", accessoryType: 2 },
+    { id: 2, accessoryName: "Box", accessoryType: 3 },
+    { id: 3, accessoryName: "HandsFree", accessoryType: 4 },
+    { id: 4, accessoryName: "AirPods", accessoryType: 5 },
   ]
-
 
   ngOnInit(): void {
     this.getAllRams();
@@ -139,13 +139,13 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
   onPriorty() {
     console.log(this.isPriorty)
   }
+  images = [];
   getProductById() {
     this._ProductAdvertService.getProductAdvertForEdit(this.detailProduct.productdetails.queryParams.id).subscribe(res => {
       console.log(res)
       this.selectedProductBrands = this.productBrands.filter(response => response.name == res.productCompanyName)[0]
-      setTimeout(() => this.onSelectBrand(null, this.selectedProductBrands['id']), 1000);
+      setTimeout(() => this.onSelectBrand(null, this.selectedProductBrands && this.selectedProductBrands['id']), 1000);
       setTimeout(() => this.selectedProductModel = this.productModel.filter(response => response.name == res.productModelName)[0], 6000);
-
       //  setTimeout(() => {
       // this.accessories.filter(response => {
       //    res.productAdvertAccessories.map(acc => {
@@ -171,13 +171,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
       this.selectedStorage = this.storage.filter(response => response.id == res.productAdvert.storage)[0];
       this.rangeValues[0] = res.productAdvert.negotiableMinValue
       this.rangeValues[1] = res.productAdvert.negotiableMaxValue
-
-      // this.batteryWifi.filter(bat =>
-      //   res.productAdvertBatteryUsages.map(x => {
-      //     if (bat.hours == x.hours && bat.batteryUsageType == x.batteryUsageType) this.selectedBatteryWifi = bat;
-      //   }))
-
-
+      this.images = res.images;
       this.batteryGaming.filter(bat =>
         res.productAdvertBatteryUsages.map(x => {
           if (bat.hours == x.hours && bat.batteryUsageType == x.batteryUsageType) this.selectedBatteryGaming = bat;
@@ -187,27 +181,23 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
         res.productAdvertBatteryUsages.map(x => {
           if (bat.hours == x.hours && bat.batteryUsageType == x.batteryUsageType) this.selectedBatteryMobileData = bat;
         }))
-
+      this.batteryWifi.filter(bat =>
+        res.productAdvertBatteryUsages.map(x => {
+          if (bat.hours == x.hours && bat.batteryUsageType == x.batteryUsageType) this.selectedBatteryWifi = bat;
+        }))
     })
-
   }
 
-
-
   getAllStates() {
-
     this._UserLocationServiceProxy.getStates().subscribe(res => {
       this.states = res;
       console.log(this.states)
-
     })
     console.log(this.city)
   }
   getAllCities() {
-
     this._UserLocationServiceProxy.getCitiesByStateId(4).subscribe(res => {
       this.city = res;
-
     })
   }
 
@@ -220,30 +210,25 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
           this.uploadedFiles.push(file);
         }
         console.log(originalEvent.body.result[0].fileName);
+        console.log(originalEvent.body.result)
         originalEvent.body.result.map((res => {
           let obj: ProductAdvertImageDto = new ProductAdvertImageDto();
           obj.image = res.fileName;
+          this.images.push(res.url)
           this.uploadedFileNames.push(obj)
         }))
-
-
         this.notify.success(this.l("File Uploaded"));
-
       } else {
-
         console.log(originalEvent.body.error.message);
-
       }
     }
     console.log(this.uploadedFileNames)
   }
   onSelect(event) {
     this.fileInQue = true;
-
   }
   onRemove(event) {
     this.fileInQue = false;
-
   }
   onBeforeUpload(event): void {
     console.log("event", event);
@@ -282,6 +267,10 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
       console.log(error)
     }
   }
+  removeImg(e?,i?) {
+    this.images.splice(i, 1);
+}
+
   logout(): void {
     this._authService.logout();
   }
@@ -306,20 +295,23 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     // this.isWarranty['id'] == 1 ? this.warrantyMonths : this.isWarranty == 2
     return !(
       this.selectedProductBrands['id'] && this.selectedProductModel['id'] &&
-      this.isNew['id'] && this.isExchange['id'] && this.isPtaApproved['id'] && this.price && this.isSpot['id'] &&
-      this.isFaceSensorWorking['id'] && this.isFingerWorking['id'] && this.selectedRam['id'] && this.selectedStorage['id'] &&
-      this.isWarranty['id'] && this.isKit['id'] && (this.selectedProductBrands['name'] == 'Apple' ? this.batteryHealth : this.selectedProductBrands['name'])
+      (this.isNew && this.isNew['id']) && this.isExchange['id'] && this.isPtaApproved['id'] &&
+      this.price && this.isSpot['id'] && this.isFaceSensorWorking['id'] &&
+      this.isFingerWorking['id'] && this.selectedRam['id'] &&
+      this.selectedStorage['id'] && this.isWarranty['id'] &&
+      this.isKit['id'] && (this.selectedProductBrands['name'] == 'Apple' ?
+        this.batteryHealth : this.selectedProductBrands['name']) &&
+      this.images.length > 0
     )
     // && this.selectedProductBrands['name'] == AppConsts.mobileBrand.Apple ? this.batteryHealth : this.selectedProductBrands[/'']
   }
 
   onPostAd() {
-
-    // let obj: ProductAdvertImageDto = new ProductAdvertImageDto();
     this.uploadedFileNames.map(res => {
       res.productImagePriority = res.image == this.isPriorty ? 1 : 2
     })
     console.log(this.uploadedFileNames)
+    console.log(this.selectedAccessories)
     let selectedAccessories: ProductAdvertAccessoryDto[] = [];
     for (var index = 0; index < this.selectedAccessories.length; index++) {
       let obj: ProductAdvertAccessoryDto = new ProductAdvertAccessoryDto();
@@ -328,8 +320,8 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
       obj.accessoryType = this.selectedAccessories[index].accessoryType;
       selectedAccessories.push(obj)
     }
+    this.product.productAdvertAccessories=selectedAccessories;
 
-    console.log(this.selectedAccessories)
     console.log(selectedAccessories)
 
     let selectedBatteryWifi: ProductAdvertBatteryUsageDto = new ProductAdvertBatteryUsageDto();
@@ -364,6 +356,7 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
     this.product.productAdvertinput.isExchangeable = this.isExchange['id'] == 1 ? true : false
     this.product.productAdvertinput.price = this.price
     this.product.productAdvertinput.isNegotiable = this.isNegotiable['id'] == 1 ? true : false
+    this.product.productAdvertinput.isDamage = this.isDamaged['id'] == 1 ? true : false
     this.product.productAdvertinput.negotiableMaxValue = this.isNegotiable['id'] == 1 ? this.rangeValues[0] : null;
     this.product.productAdvertinput.negotiableMinValue = this.isNegotiable['id'] == 1 ? this.rangeValues[1] : null;
     this.product.productAdvertinput.isSpot = this.isSpot == 1 ? true : false;
@@ -380,7 +373,6 @@ export class CreateOrEditAddPostComponent extends AppComponentBase implements On
       console.log(res)
       this.notify.success(this.l('Successfully Created'));
       setTimeout(() => this.router.navigate(['/app/main/user-dashboard']), 1000);
-
 
     }) : this._ProductAdvertService.update(this.product).subscribe(res => {
       console.log(res)

@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
-import { ProductAdvertServiceProxy, ProductAdvertViewDto, ProductAdvertDetailViewDto } from '@shared/service-proxies/service-proxies';
+import { ProductAdvertServiceProxy, ProductAdvertViewDto, ProductAdvertDetailViewDto, SiteStatisticsOutputDto } from '@shared/service-proxies/service-proxies';
 import { CreateOrEditAddPostComponent } from '../create-or-edit-add-post/create-or-edit-add-post.component';
 import { AbpSessionService } from 'abp-ng2-module';
 import { Router, NavigationExtras } from '@angular/router';
@@ -16,6 +16,7 @@ export class UserDashboardComponent extends AppComponentBase  implements OnInit 
 
   product: ProductAdvertViewDto[] = [];
   isInProgress: boolean =false;
+  SiteStatisticsOutputDto:SiteStatisticsOutputDto=new SiteStatisticsOutputDto();
 
   constructor(
     private _ProductAdvertService: ProductAdvertServiceProxy,
@@ -28,7 +29,8 @@ export class UserDashboardComponent extends AppComponentBase  implements OnInit 
    }
 
   ngOnInit(): void {
-    this.getAllProducts(this._sessionService.userId)
+    this.getAllProducts(this._sessionService.userId);
+    this.getSiteStatistics();
   }
   getAllProducts(currentUserId:number) {
     this._ProductAdvertService.getAll(
@@ -50,4 +52,13 @@ export class UserDashboardComponent extends AppComponentBase  implements OnInit 
     this.router.navigate(['/app/main/add-post'], { 
       state: { productdetails: objToSend }
     });  }
+    
+
+    getSiteStatistics() {
+      this._ProductAdvertService.getSiteStatistics().subscribe(res => {
+        console.log(res)
+        this.SiteStatisticsOutputDto=res;
+      })
+    }
+    
 }

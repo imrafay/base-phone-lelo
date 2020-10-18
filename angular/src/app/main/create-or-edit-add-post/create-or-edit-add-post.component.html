@@ -170,14 +170,36 @@
                                     [auto]="true" (onError)="onError($event)" [showUploadButton]="false"
                                     [showCancelButton]="false">
                                     <ng-template pTemplate="content">
-                                        <ul *ngIf="uploadedFiles.length">
+                                        <!-- <ul *ngIf="uploadedFiles.length">
                                             <li *ngFor="let file of uploadedFiles" class="d-flex mt-1">
                                                 <div style="width: 40px;">
                                                     <input type="radio" name="fileName" [value]="file.name"
-                                                    [(ngModel)]="isPriorty">
+                                                        [(ngModel)]="isPriorty">
                                                 </div>
                                                 <div>
                                                     {{file.name}}
+                                                </div>
+                                            </li>
+                                        </ul> -->
+                                        <ul *ngIf="images">
+                                            <li *ngFor="let img of images;let i = index" class="d-flex mt-1">
+                                                <div style="width: 40px;" *ngIf="file">
+                                                    <input type="radio" name="fileName"
+                                                        [value]="file && file.name?file.name:file && file.image" [(ngModel)]="isPriorty">
+                                                </div>
+                                                
+                                                <div>
+                                                    <span *ngIf="img && img.image">
+                                                        <img [src]="'https://phonelelostore.blob.core.windows.net/phonelelo/ProductImages/'+img.image"
+                                                            alt="" style="max-width: 200px;">
+                                                    </span>
+                                                    <span *ngIf="img && img.src">
+                                                        <img [src]="img.src" alt="" style="max-width: 200px;">
+                                                    </span>
+                                                    <span style="margin-left: 20px;"
+                                                    (click)="removeImg(img, i)">
+                                                        <i class="far fa-trash-alt" style="padding-left:5px"></i>
+                                                    </span>
                                                 </div>
                                             </li>
                                         </ul>
@@ -185,8 +207,6 @@
                                 </p-fileUpload>
                             </div>
                         </div>
-                        <button (click)="onPriorty()">test</button>
-
                         <div class="inner-box mt-3 mb-3">
                             <div class="dashboard-box">
                                 <h2 class="dashbord-title">Price</h2>
@@ -352,7 +372,7 @@
 
                                 </div>
                                 <!-- [disabled]="isValid()" -->
-                                <button class="btn btn-common" type="submit" >Post
+                                <button class="btn btn-common" type="submit" [disabled]="isValid()">Post
                                     Ad</button>
                             </div>
                         </div>
