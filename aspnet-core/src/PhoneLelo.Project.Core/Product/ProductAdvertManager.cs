@@ -71,6 +71,25 @@ namespace PhoneLelo.Project.Authorization
                  .SaveChangesAsync();
         }
 
+        public async Task EnableDisableToggleProductAdvert(
+            long productAdvertId,
+            bool toggleStatus)
+        {
+            var productAdvert = await GetByIdAsync(id: productAdvertId);
+
+            if (productAdvert != null)
+            {
+                productAdvert.IsActive = toggleStatus;
+                await UpdateAsync(productAdvert);
+            }
+        }
+
+        public async Task DeleteAsync(
+            long productAdvertId)
+        {
+            await _productAdvertRepository.DeleteAsync(x => x.Id == productAdvertId);
+        }
+
         public async Task CreateBatteryUsageAsync(
             List<ProductAdvertBatteryUsage> list)
         {
@@ -176,7 +195,7 @@ namespace PhoneLelo.Project.Authorization
               .ThenInclude(x => x.CityFk)
               .Include(x => x.UserFk)
               .ThenInclude(x => x.NeighbourhoodFk)
-              .Where(x => x.UserFk != null);
+              .Where(x => x.UserFk != null && x.IsActive == true);
 
             var output = productAdvertQuery
               .WhereIf(filter.UserId.HasValue, x =>
@@ -285,6 +304,7 @@ namespace PhoneLelo.Project.Authorization
                           on state.Id equals user.StateId
 
                           join ad in _productAdvertRepository.GetAll()
+                          .Where(x=>x.IsActive)
                           on user.Id equals ad.UserId
 
                           group ad by new { state.Id, state.Name } into stateAds
@@ -310,6 +330,7 @@ namespace PhoneLelo.Project.Authorization
                           on neighbourhood.Id equals user.NeighbourhoodId
 
                           join ad in _productAdvertRepository.GetAll()
+                           .Where(x => x.IsActive)
                           on user.Id equals ad.UserId
 
                           group ad by new { neighbourhood.Id, neighbourhood.Name } into neighbourhoodAds
@@ -337,6 +358,7 @@ namespace PhoneLelo.Project.Authorization
                           on city.Id equals user.CityId
 
                           join ad in _productAdvertRepository.GetAll()
+                           .Where(x => x.IsActive)
                           on user.Id equals ad.UserId
 
                           group ad by new { city.Id, city.Name } into cityAds
@@ -353,10 +375,22 @@ namespace PhoneLelo.Project.Authorization
 
         public SiteStatisticsOutputDto GetSiteStatistics()
         {
-            var adsCount = _productAdvertRepository.GetAll().Count();
-            var adsViewsCount = _productAdvertViewLogrepository.GetAll().Count();
-            var usersCount = _userRepository.GetAll().Count();
-            var locaionsCount = _neighbourhoodRepository.GetAll().Count();
+            var adsCount = _productAdvertRepository
+                 .GetAll()
+                 .Where(x => x.IsActive)
+                 .Count();
+
+            var adsViewsCount = _productAdvertViewLogrepository
+                .GetAll()
+                .Count();
+
+            var usersCount = _userRepository
+                .GetAll()
+                .Count();
+
+            var locaionsCount = _neighbourhoodRepository
+                .GetAll()
+                .Count();
 
             var output = new SiteStatisticsOutputDto()
             {

@@ -46,5 +46,12 @@ namespace PhoneLelo.Project.Import.MobilePhone
            int pageSize);
 
         SiteStatisticsOutputDto GetSiteStatistics();
+
+        Task EnableDisableToggleProductAdvert(
+           long productAdvertId,
+           bool toggleStatus);
+
+        Task DeleteAsync(
+            long productAdvertId);
     }
 }

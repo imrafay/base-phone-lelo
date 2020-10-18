@@ -54,6 +54,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
             var productAdvert = ObjectMapper
                    .Map<ProductAdvert>(input.ProductAdvertinput);
 
+            productAdvert.IsActive = true;
             productAdvert.UserId = AbpSession.UserId;
             if (productAdvert == null)
             {
@@ -184,6 +185,22 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     productAdvertId: productAdvert.Id);
             }
             #endregion
+        }
+
+        public async Task EnableDisableToggleProductAdvert(
+            long productAdvertId,
+            bool toggleStatus)
+        {
+            await _productAdvertManager.EnableDisableToggleProductAdvert(
+                productAdvertId: productAdvertId,
+                toggleStatus: toggleStatus);
+        }
+
+        public async Task DeleteAsync(
+            long productAdvertId)
+        {
+            await _productAdvertManager.DeleteAsync(
+                productAdvertId: productAdvertId);
         }
 
         [AbpAllowAnonymous]
