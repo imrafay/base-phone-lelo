@@ -25,6 +25,7 @@ namespace PhoneLelo.Project.Authorization
         private readonly IRepository<State, long> _stateRepository;
         private readonly IRepository<Neighbourhood, long> _neighbourhoodRepository;
         private readonly IRepository<User, long> _userRepository;
+        private readonly IRepository<ProductAdvertViewLog, long> _productAdvertViewLogrepository;
 
         public ProductAdvertManager(
             IRepository<ProductAdvert, long> productAdvertRepository,
@@ -34,7 +35,7 @@ namespace PhoneLelo.Project.Authorization
             IRepository<City, long> cityRepository,
             IRepository<State, long> stateRepository,
             IRepository<Neighbourhood, long> neighbourhoodRepository,
-            IRepository<User, long> userRepository)
+            IRepository<User, long> userRepository, IRepository<ProductAdvertViewLog, long> productAdvertViewLogrepository)
 
 
         {
@@ -46,6 +47,7 @@ namespace PhoneLelo.Project.Authorization
             _stateRepository = stateRepository;
             _neighbourhoodRepository = neighbourhoodRepository;
             _userRepository = userRepository;
+            _productAdvertViewLogrepository = productAdvertViewLogrepository;
         }
 
         public async Task<ProductAdvert> GetByIdAsync(long id)
@@ -216,7 +218,7 @@ namespace PhoneLelo.Project.Authorization
                   Price = x.Price,
                   IsNew = x.IsNew,
                   Storage = x.Storage,
-                  CreationTime=x.CreationTime,
+                  CreationTime = x.CreationTime,
                   IsPtaApproved = x.IsPtaApproved,
                   AdvertPostedDate = x.CreationTime,
                   ProductModelId = x.ProductModelId,
@@ -233,7 +235,7 @@ namespace PhoneLelo.Project.Authorization
               });
 
             return output;
-            
+
         }
 
 
@@ -349,5 +351,22 @@ namespace PhoneLelo.Project.Authorization
             return output;
         }
 
+        public SiteStatisticsOutputDto GetSiteStatistics()
+        {
+            var adsCount = _productAdvertRepository.GetAll().Count();
+            var adsViewsCount = _productAdvertViewLogrepository.GetAll().Count();
+            var usersCount = _userRepository.GetAll().Count();
+            var locaionsCount = _neighbourhoodRepository.GetAll().Count();
+
+            var output = new SiteStatisticsOutputDto()
+            {
+                TotalAdsCount = adsCount,
+                TotalAdViewsCount = adsViewsCount,
+                TotalUsersCount = usersCount,
+                TotalLocationsCount = locaionsCount
+            };
+
+            return output;
+        }
     }
 }

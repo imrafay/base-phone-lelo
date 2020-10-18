@@ -44,5 +44,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
            long productAdvertId,
            int page,
            int pageSize);
+
+        SiteStatisticsOutputDto GetSiteStatistics();
     }
 }

@@ -402,6 +402,12 @@ namespace PhoneLelo.Project.Import.MobilePhone
         }
 
 
+        [AbpAllowAnonymous]
+        public SiteStatisticsOutputDto GetSiteStatistics()
+        {
+            return _productAdvertManager.GetSiteStatistics();
+        }
+
         private async Task<int> GetProductAdverViews(long id)
         {
             return await _productAdvertViewLogManager

@@ -45,4 +45,12 @@ namespace PhoneLelo.Project.Product.Dto
         public List<ProductAdvertBatteryUsageDto> ProductAdvertBatteryUsages { get; set; }
         public List<ProductAdvertAccessoryDto> productAdvertAccessories { get; set; }
     }
+
+    public class SiteStatisticsOutputDto 
+    {
+        public int TotalAdsCount { get; set; }
+        public int TotalUsersCount { get; set; }
+        public int TotalAdViewsCount { get; set; }
+        public int TotalLocationsCount { get; set; }
+    }
 }
