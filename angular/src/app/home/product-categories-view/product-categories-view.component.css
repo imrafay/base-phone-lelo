@@ -59,9 +59,9 @@
 }
 
 .section-filter-bg {
-  background-image: url("../../../assets/img/product/img5.jpg");
+  /* background-image: url("../../../assets/img/product/img5.jpg");
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 }
 
 .search-by-filter {

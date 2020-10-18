@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductAdvertServiceProxy, ProductAdvertViewDto } from '@shared/service-proxies/service-proxies';
+import { ProductAdvertServiceProxy, ProductAdvertViewDto, SiteStatisticsOutputDto } from '@shared/service-proxies/service-proxies';
 import { AbpSessionService } from 'abp-ng2-module';
 
 
@@ -16,6 +16,7 @@ export class PublicHomeComponent implements OnInit {
   products: ProductAdvertViewDto[] = [];
   usedProducts: ProductAdvertViewDto[] = [];
   newProducts: ProductAdvertViewDto[] = [];
+  SiteStatisticsOutputDto:SiteStatisticsOutputDto=new SiteStatisticsOutputDto();
   userName: string;
   itemsPerSlide = 4;
   singleSlideOffset = true;
@@ -33,6 +34,7 @@ export class PublicHomeComponent implements OnInit {
     this.getAllProducts();
     this.getAllUsedProducts();
     this.getAllDamagedProducts();
+    this.getSiteStatistics();
     console.log(this._sessionService)
 
   }
@@ -44,7 +46,7 @@ export class PublicHomeComponent implements OnInit {
     ).subscribe(res => {
       console.log(res)
       this.isInProgress = true;
-      this.products = res.items;
+      this.products = res.items.slice(0,4);
       console.log(this.slides)
     })
   }
@@ -72,4 +74,12 @@ export class PublicHomeComponent implements OnInit {
       this.newProducts = res.items;
     })
   }
+
+  getSiteStatistics() {
+    this._ProductAdvertService.getSiteStatistics().subscribe(res => {
+      console.log(res)
+      this.SiteStatisticsOutputDto=res;
+    })
+  }
+  
 }

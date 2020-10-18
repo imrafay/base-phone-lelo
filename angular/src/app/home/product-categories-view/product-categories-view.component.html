@@ -101,12 +101,16 @@
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">Price</label><br>
                             <p-slider [(ngModel)]="rangeValues" [range]="true"
-                                [style]="{'width':'90%','margin':'10px auto'}" [min]="0" [max]="5000" name="rangeSlider"
+                                [style]="{'width':'90%','margin':'10px auto'}" [min]="0" [max]="1000000" name="rangeSlider"
                                 (onChange)="onSelectFilter($event)">
                             </p-slider>
                             <div class="pl-2">
                                 <label style="margin-top: 5px;">
-                                    {{rangeValues[0] + ' Rs  - ' + rangeValues[1] + ' Rs'}}</label>
+                                    {{rangeValues[0] | number}}
+                                    -
+                                    {{rangeValues[1] | number}}
+                                
+                                </label>
                             </div>
 
                             <div>
@@ -160,7 +164,7 @@
                         <div class="flex-center" style="float:right;color: black;cursor: pointer;"
                             (click)="resetRightFilters()">
                             Reset Filters <i class="far fa-trash-alt" style="padding-left: 7px;
-                            padding-top: 2px;"></i></div>
+                            padding-top: 2px;margin-right: 10px;"></i></div>
                     </div>
 
 
@@ -200,6 +204,7 @@
 
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
+                                  
                                     <a class="nav-link" data-toggle="tab" href="#grid-view"><i class="lni-grid"></i></a>
                                 </li>
                                 <li class="nav-item">
@@ -211,23 +216,23 @@
                     </div>
 
 
-                    <div class="adds-wrapper">
+                    <div class="adds-wrapper mt-2">
                         <div class="tab-content">
                             <div id="grid-view" class="tab-pane fade active show">
                                 <div class="row flex-center mt-5" *ngIf="!isProgress">
                                     <p-progressSpinner></p-progressSpinner>
                                 </div>
-                                <div class="row">
+                                <div class="row" *ngIf="isProgress">
                                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngFor="let product of products">
                                         <div class="item">
                                             <div class="product-item" style="box-shadow: 0px 2px 7px 7px lightgrey;
                                             ">
                                                 <div class="carousel-thumb">
                                                     <span *ngIf="!product.primaryProductImage">
-                                                        <img class="img-fluid" src="assets/img/product/img1.jpg" alt="">
+                                                        <img class="img-fluid-box" src="assets/img/product/img1.jpg" alt="">
                                                     </span>
                                                     <span *ngIf="product.primaryProductImage">
-                                                        <img class="img-fluid" [src]="product.primaryProductImage" alt="">
+                                                        <img class="img-fluid-box" [src]="product.primaryProductImage" alt="">
                                                     </span>
                                                     <div class="overlay">
                                                         <div>
@@ -276,7 +281,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="list-view" class="tab-pane fade">
+                            <!-- <div id="list-view" class="tab-pane fade">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                         <div class="featured-box">
@@ -288,7 +293,7 @@
                                                     <span class="bg-green"><i class="lni-heart"></i></span>
                                                     <span><i class="lni-bookmark"></i></span>
                                                 </div>
-                                                <a href="#"><img class="img-fluid" src="assets/img/featured/img-1.jpg"
+                                                <a href="#"><img class="img-fluid-box" src="assets/img/featured/img-1.jpg"
                                                         alt=""></a>
                                             </figure>
                                             <div class="feature-content">
@@ -325,7 +330,7 @@
                                                     <span class="bg-green"><i class="lni-heart"></i></span>
                                                     <span><i class="lni-bookmark"></i></span>
                                                 </div>
-                                                <a href="#"><img class="img-fluid" src="assets/img/featured/img-2.jpg"
+                                                <a href="#"><img class="img-fluid-box" src="assets/img/featured/img-2.jpg"
                                                         alt=""></a>
                                             </figure>
                                             <div class="feature-content">
@@ -365,7 +370,7 @@
                                                     <span class="bg-green"><i class="lni-heart"></i></span>
                                                     <span><i class="lni-bookmark"></i></span>
                                                 </div>
-                                                <a href="#"><img class="img-fluid" src="assets/img/featured/img-3.jpg"
+                                                <a href="#"><img class="img-fluid-box" src="assets/img/featured/img-3.jpg"
                                                         alt=""></a>
                                             </figure>
                                             <div class="feature-content">
@@ -402,7 +407,7 @@
                                                     <span class="bg-green"><i class="lni-heart"></i></span>
                                                     <span><i class="lni-bookmark"></i></span>
                                                 </div>
-                                                <a href="#"><img class="img-fluid" src="assets/img/featured/img-4.jpg"
+                                                <a href="#"><img class="img-fluid-box" src="assets/img/featured/img-4.jpg"
                                                         alt=""></a>
                                             </figure>
                                             <div class="feature-content">
@@ -433,12 +438,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="no-record-section" *ngIf="productsLength == 0 && isProgress">
-
                                 <div class="no-record-found ">
                                     No product related to this search
-
                                 </div>
                             </div>
                         </div>

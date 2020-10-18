@@ -113,7 +113,7 @@ export class ProductDetailViewComponent implements OnInit {
       3
     ).subscribe(res => {
       console.log(res)
-      this.products = res.items;
+      this.products = res.items.slice(0,4);;
     })
   }
   onEnterReply(e, i) {

@@ -27,7 +27,7 @@ export class ProductCategoriesViewComponent implements OnInit {
   ]
   isNew;
   isPTAapproved;
-  rangeValues: number[] = [0, 5000];
+  rangeValues: number[] = [0, 1000000];
   isExchangeable
   isSpot: DropdownOutputDto[] = [];
   ram = [];
@@ -91,7 +91,7 @@ export class ProductCategoriesViewComponent implements OnInit {
       this.isProgress = true;
       console.log(res)
       // this.isInProgress = true;
-      this.products = res.items;
+      this.products = res.items.slice(0,4);;
       this.productsLength = res.items.length;
 
     })
@@ -174,7 +174,7 @@ export class ProductCategoriesViewComponent implements OnInit {
     this.selectedRam = null;
     this.isProgress = false;
     this.isNegotiable = false;
-    this.rangeValues = [0,5000];
+    this.rangeValues = [0,1000000];
     this.getAllProducts();
 
   }
