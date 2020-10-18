@@ -210,13 +210,13 @@
         </div>
     </div>
 </section>
-<section class="featured section-padding">
+<section class="featured section-padding" *ngIf="products.length > 0">
     <div class="container">
         <h1 class="section-title">Latest Products</h1>
         <div class="row center" *ngIf="!isInProgress">
             <p-progressSpinner></p-progressSpinner>
         </div>
-        <product-card [products]="products" *ngIf="products.length > 0"> </product-card>
+        <product-card [products]="products"> </product-card>
     </div>
 </section>
 
