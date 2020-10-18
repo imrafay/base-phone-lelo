@@ -1131,6 +1131,57 @@ export class ProductAdvertServiceProxy {
         }
         return _observableOf<DropdownCountOutputDto[]>(<any>null);
     }
+
+    /**
+     * @return Success
+     */
+    getSiteStatistics(): Observable<SiteStatisticsOutputDto> {
+        let url_ = this.baseUrl + "/api/services/app/ProductAdvert/GetSiteStatistics";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSiteStatistics(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSiteStatistics(<any>response_);
+                } catch (e) {
+                    return <Observable<SiteStatisticsOutputDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SiteStatisticsOutputDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSiteStatistics(response: HttpResponseBase): Observable<SiteStatisticsOutputDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SiteStatisticsOutputDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SiteStatisticsOutputDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -4803,6 +4854,61 @@ export interface IDropdownCountOutputDto {
     id: number;
     name: string | undefined;
     count: number;
+}
+
+export class SiteStatisticsOutputDto implements ISiteStatisticsOutputDto {
+    totalAdsCount: number;
+    totalUsersCount: number;
+    totalAdViewsCount: number;
+    totalLocationsCount: number;
+
+    constructor(data?: ISiteStatisticsOutputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalAdsCount = _data["totalAdsCount"];
+            this.totalUsersCount = _data["totalUsersCount"];
+            this.totalAdViewsCount = _data["totalAdViewsCount"];
+            this.totalLocationsCount = _data["totalLocationsCount"];
+        }
+    }
+
+    static fromJS(data: any): SiteStatisticsOutputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SiteStatisticsOutputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalAdsCount"] = this.totalAdsCount;
+        data["totalUsersCount"] = this.totalUsersCount;
+        data["totalAdViewsCount"] = this.totalAdViewsCount;
+        data["totalLocationsCount"] = this.totalLocationsCount;
+        return data; 
+    }
+
+    clone(): SiteStatisticsOutputDto {
+        const json = this.toJSON();
+        let result = new SiteStatisticsOutputDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISiteStatisticsOutputDto {
+    totalAdsCount: number;
+    totalUsersCount: number;
+    totalAdViewsCount: number;
+    totalLocationsCount: number;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
