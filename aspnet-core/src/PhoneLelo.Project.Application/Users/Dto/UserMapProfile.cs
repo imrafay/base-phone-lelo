@@ -59,4 +59,12 @@ namespace PhoneLelo.Project.Users.Dto
             CreateMap<UserProfileReviewDto, UserProfileReview>();
         }
     }
+    
+    public class UserProfileReviewInputProfile : Profile
+    {
+        public UserProfileReviewInputProfile()
+        {
+            CreateMap<UserProfileReviewInputDto, UserProfileReview>();
+        }
+    }
 }

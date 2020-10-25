@@ -53,7 +53,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
         public async Task Update(
           UserProfileReviewDto input)
         {
-            if (input.Id > 0)
+            if (input.Id == 0)
             {
                 throw new UserFriendlyException(AppConsts.ErrorMessage.IdMustBeProvided);
             }

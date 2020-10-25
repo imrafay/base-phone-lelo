@@ -35,7 +35,8 @@ namespace PhoneLelo.Project.Authorization
 
         public async Task<UserProfileReview> GetByIdAsync(long id)
         {
-            var userProfileReview =  await _userProfileReviewRepository.GetAll()
+            var a = await _userProfileReviewRepository.GetAll().ToListAsync();
+            var userProfileReview = await _userProfileReviewRepository.GetAll()
                 .Include(x => x.ReviewerFk)
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
@@ -53,14 +54,14 @@ namespace PhoneLelo.Project.Authorization
             return query;
         }
 
-            public async Task<UserProfileReviewOutputDto> GetUserReviewsAsync(UserProfileReviewFilterDto filter)
+        public async Task<UserProfileReviewOutputDto> GetUserReviewsAsync(UserProfileReviewFilterDto filter)
         {
             var query = _userProfileReviewRepository.GetAll()
-                .Include(x=>x.ReviewerFk)
+                .Include(x => x.ReviewerFk)
                 .WhereIf(filter.Id > 0, x => x.Id == filter.Id)
                 .Where(x => x.UserId == filter.UserId);
 
-            var userProfileReviews = await query              
+            var userProfileReviews = await query
                 .Select(x => new UserProfileReviewOutputListDto()
                 {
                     Id = x.Id,
@@ -70,13 +71,13 @@ namespace PhoneLelo.Project.Authorization
                     ReviewerFullName = x.ReviewerFk.FullName
                 }).ToListAsync();
 
-            var averageRating =userProfileReviews
+            var averageRating = userProfileReviews
                     .Select(x => x.Rating)
                     .Average();
 
             return new UserProfileReviewOutputDto()
             {
-                AverageRating=averageRating,
+                AverageRating = averageRating,
                 UserProfileReviewOutputList = userProfileReviews
             };
         }
@@ -95,7 +96,7 @@ namespace PhoneLelo.Project.Authorization
 
         public async Task Delete(long id)
         {
-            await _userProfileReviewRepository.DeleteAsync(x=>x.Id == id);
+            await _userProfileReviewRepository.DeleteAsync(x => x.Id == id);
             await CurrentUnitOfWork.SaveChangesAsync();
         }
     }

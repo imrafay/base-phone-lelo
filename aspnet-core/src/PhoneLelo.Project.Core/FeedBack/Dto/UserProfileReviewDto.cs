@@ -6,9 +6,11 @@ using PhoneLelo.Project.Product.Enum;
 
 namespace PhoneLelo.Project.Product.Dto
 {
+    [AutoMapFrom(typeof(UserProfileReview))]
     public class UserProfileReviewInputDto
     {
         public long Id { get; set; }
+        public long ReviewerId { get; set; }
         public long UserId { get; set; }
         public string Review { get; set; }
         public int Rating { get; set; }
@@ -38,9 +40,6 @@ namespace PhoneLelo.Project.Product.Dto
     public class UserProfileReviewDto
     {
         public long Id { get; set; }
-        public long UserId { get; set; }
-        public long? ReviewerId { get; set; }
-        public long? ProductStoreId { get; set; }
         public string Review { get; set; }
         public int Rating { get; set; }
     }
