@@ -45,15 +45,15 @@
 
                         <div style="padding: 0px 10px;">
                             <label class="control-label fontColor">Rom</label>
-                            <div class="row" *ngFor="let rom of ram">
-                                <div class="col-4">
+                            <div class="row" *ngFor="let rom of ram;let i =index">
+                                <div class="col-12">
+                                    <input type="radio" [value]="rom" name="isRam" (change)="onSelectFilter($event)"
+                                        [(ngModel)]="selectedRam">
                                     <label class="control-label p-2">{{rom.name}}</label>
                                 </div>
-                                <div class="col-3 margin-left-neg-45">
-                                    <input type="radio" [value]="rom" name="isRam" (change)="onSelectFilter($event)"
-                                        [(ngModel)]="selectedRam"></div>
-
                             </div>
+                            <div (click)="showMoreBrands('ram')" *ngIf="!isShowRam" class="viewMore">View more</div>
+                            <div (click)="showLessBrands('ram')" *ngIf="isShowRam" class="viewMore">View less</div>
 
                             <div>
                                 <hr>
@@ -62,14 +62,16 @@
                         <div style="padding: 0px 10px;">
                             <label class="control-label fontColor">Storage</label>
                             <div class="row" *ngFor="let store of storage">
-                                <div class="col-4">
-                                    <label class="control-label p-2">{{store.name}}</label>
-                                </div>
-                                <div class="col-3 margin-left-neg-45">
+                                <div class="col-12">
                                     <input type="radio" [value]="store" name="isRam" (change)="onSelectFilter($event)"
-                                        [(ngModel)]="selectedStorage"></div>
-
+                                        [(ngModel)]="selectedStorage">
+                                    <label class="control-label p-2">{{store.name}}</label>
+                        
+                                </div>
                             </div>
+                            <div (click)="showMoreBrands('storage')" *ngIf="!isShowstorage" class="viewMore">View more</div>
+                            <div (click)="showLessBrands('storage')" *ngIf="isShowstorage" class="viewMore">View less</div>
+
                             <div>
                                 <hr>
                             </div>
@@ -101,15 +103,15 @@
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">Price</label><br>
                             <p-slider [(ngModel)]="rangeValues" [range]="true"
-                                [style]="{'width':'90%','margin':'10px auto'}" [min]="0" [max]="1000000" name="rangeSlider"
-                                (onChange)="onSelectFilter($event)">
+                                [style]="{'width':'90%','margin':'10px auto'}" [min]="0" [max]="1000000"
+                                name="rangeSlider" (onChange)="onSelectFilter($event)">
                             </p-slider>
                             <div class="pl-2">
                                 <label style="margin-top: 5px;">
                                     {{rangeValues[0] | number}}
                                     -
                                     {{rangeValues[1] | number}}
-                                
+
                                 </label>
                             </div>
 
@@ -150,8 +152,8 @@
                     <form role="search" id="search-form">
                         <input type="search" class="form-control" autocomplete="off" name="s" placeholder="Search..."
                             id="search-input" value="" [(ngModel)]="searchFilter">
-                        <button type="submit" id="search-submit" class="search-btn"
-                        (click)="onSelectFilter()"><i class="lni-search"></i></button>
+                        <button type="submit" id="search-submit" class="search-btn" (click)="onSelectFilter()"><i
+                                class="lni-search"></i></button>
                     </form>
                 </div>
                 <div class="product-filter section-filter-bg" style="margin-bottom:0px"
@@ -204,7 +206,7 @@
 
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
-                                  
+
                                     <a class="nav-link" data-toggle="tab" href="#grid-view"><i class="lni-grid"></i></a>
                                 </li>
                                 <li class="nav-item">
@@ -229,14 +231,17 @@
                                             ">
                                                 <div class="carousel-thumb">
                                                     <span *ngIf="!product.primaryProductImage">
-                                                        <img class="img-fluid-box" src="assets/img/product/img1.jpg" alt="">
+                                                        <img class="img-fluid-box" src="assets/img/product/img1.jpg"
+                                                            alt="">
                                                     </span>
                                                     <span *ngIf="product.primaryProductImage">
-                                                        <img class="img-fluid-box" [src]="product.primaryProductImage" alt="">
+                                                        <img class="img-fluid-box" [src]="product.primaryProductImage"
+                                                            alt="">
                                                     </span>
                                                     <div class="overlay">
                                                         <div>
-                                                            <a class="btn btn-common" [routerLink]="['/app/home/detail',product.id]">View
+                                                            <a class="btn btn-common"
+                                                                [routerLink]="['/app/home/detail',product.id]">View
                                                                 Details</a>
                                                         </div>
                                                     </div>
@@ -247,7 +252,9 @@
                                                 <div class="product-content">
                                                     <h2 class="fs-20"> Rs.{{product.price | number}}
                                                     </h2>
-                                                    <h3 class="product-title"><a href="ads-details.html">{{product.productModelName}}</a></h3>
+                                                    <h3 class="product-title"><a
+                                                            href="ads-details.html">{{product.productModelName}}</a>
+                                                    </h3>
                                                     <span>{{product.productCompanyName}}</span>
                                                     <!-- <div class="icon">
                                                         <span><i class="lni-bookmark"></i></span>
@@ -268,9 +275,10 @@
                                                             </span>
                                                         </div>
                                                         <div class="float-right" *ngIf="product.city">
-                                                            <a class="address" href="#"><i class="lni-map-marker"></i>{{product.city}}</a>
+                                                            <a class="address" href="#"><i
+                                                                    class="lni-map-marker"></i>{{product.city}}</a>
                                                         </div>
-                        
+
                                                     </div>
                                                     <div class="col-12 date-end">
                                                         {{product.creationTime.fromNow()}}
