@@ -34,6 +34,10 @@ namespace PhoneLelo.Project.EntityFrameworkCore
         public virtual DbSet<ProductAdvertViewLog> ProductAdvertViewLogs { get; set; }
         #endregion
 
+        #region Feeb Back
+        public virtual DbSet<UserProfileReview> UserProfileReviews { get; set; } 
+        #endregion
+
         public virtual DbSet<BinaryObject> BinaryObjects { get; set; }
 
 

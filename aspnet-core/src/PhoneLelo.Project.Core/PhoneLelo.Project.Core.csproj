@@ -24,4 +24,8 @@
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.4.0" />
     <PackageReference Include="Flurl" Version="2.8.2" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FeedBack\Dto\" />
+    <Folder Include="FeedBack\Enum\" />
+  </ItemGroup>
 </Project>
