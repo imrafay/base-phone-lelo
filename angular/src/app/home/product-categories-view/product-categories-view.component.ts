@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductCompanyServiceProxy, DropdownOutputDto, ProductAdvertServiceProxy, ProductAdvertViewDto } from '@shared/service-proxies/service-proxies';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ActivationStart, NavigationStart, Router } from '@angular/router';
+import { isNull } from 'util';
 
 @Component({
   selector: 'product-categories-view',
@@ -29,7 +30,7 @@ export class ProductCategoriesViewComponent implements OnInit {
   ]
   isNew;
   isPTAapproved;
-  rangeValues: number[] = [0, 1000000];
+  rangeValues: number[] = [0, 400000];
   isExchangeable
   isSpot: DropdownOutputDto[] = [];
   ram: DropdownOutputDto[] = [];
@@ -41,19 +42,30 @@ export class ProductCategoriesViewComponent implements OnInit {
   searchFilter = '';
   isDamage;
   isNegotiable;
-  ramSelected = [];
-  storageSelected: DropdownOutputDto[] = [];
+  ramSelected=[];
+  storageSelected=[];
 
   constructor(
     private _ProductCompanyService: ProductCompanyServiceProxy,
     private _ProductAdvertService: ProductAdvertServiceProxy,
-    private _route: ActivatedRoute
-
-
+    private _route: ActivatedRoute,
+    private router: Router,
   ) {
     console.log(this._route.params)
-    this.searchFilter = this._route.params ? this._route.params['value'].id : ''
+    this.searchFilter = this._route.params ? this._route.params['value'].id : '';
+    this.router.events.subscribe((val) => {
+      console.log(val);
+      if (val instanceof ActivationStart) {
+        if (val) {
+          if (val.snapshot.url.length > 0) {
+            this.searchFilter = val.snapshot.url[1].path;
+          }
+        }
+        this.getAllProducts();
+      }
+    });
   }
+
 
   ngOnInit(): void {
     this.getAllBrands();
@@ -76,11 +88,12 @@ export class ProductCategoriesViewComponent implements OnInit {
     })
   }
   getAllProducts(sortEnum?) {
+    console.log(this.selectedStorage['id'])
     this._ProductAdvertService.getAll(
       undefined, undefined, undefined, undefined, undefined,
       this.productCompanyId, this.searchFilter,
       this.selectedRam ? this.ramSelected : null,
-      this.selectedStorage ? this.selectedStorage['id'] : null,
+      this.selectedStorage ? this.storageSelected : null,
       this.isNew ? (this.isNew['id'] == 1 ? true : (this.isNew['id'] == 2 ? false : null)) : null,
       this.isPTAapproved ? (this.isPTAapproved['id'] == 1 ? true : (this.isPTAapproved['id'] == 2 ? false : null)) : null,
       this.isExchangeable ? (this.isExchangeable['id'] == 1 ? true : (this.isExchangeable['id'] == 2 ? false : null)) : null,
@@ -126,11 +139,11 @@ export class ProductCategoriesViewComponent implements OnInit {
   showLessBrands(text: string) {
     if (text == 'ram') {
       this.isShowRam = false;
-     this.ram = this.ram.splice(0, 4);
+      this.ram = this.ram.splice(0, 4);
     }
     if (text == 'storage') {
       this.isShowstorage = false;
-      this.storage = this.storage.splice(0,4);
+      this.storage = this.storage.splice(0, 4);
     }
   }
 
@@ -180,7 +193,7 @@ export class ProductCategoriesViewComponent implements OnInit {
     this.selectedRam = null;
     this.isProgress = false;
     this.isNegotiable = false;
-    this.rangeValues = [0, 1000000];
+    this.rangeValues = [0, 400000];
     this.getAllProducts();
 
   }

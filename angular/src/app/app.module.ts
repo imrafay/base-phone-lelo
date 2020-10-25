@@ -92,7 +92,9 @@ import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/si
     // DropdownModule,
     // ProgressSpinnerModule,
   ],
-  providers: [],
+  providers: [
+    
+  ],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,
@@ -104,6 +106,7 @@ import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/si
     CreateUserDialogComponent,
     EditUserDialogComponent,
     ResetPasswordDialogComponent,
+    PublicHeaderComponent
   ],
 })
 export class AppModule { }

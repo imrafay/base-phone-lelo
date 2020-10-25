@@ -19,9 +19,9 @@
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">Spot</label><br>
                             <span class="" *ngFor="let bool of booleanEnum">
-                                <label class="control-label p-2">{{bool.name}}</label>
                                 <input type="radio" [value]="bool" name="isSpot" [(ngModel)]="isSpot"
                                     (change)="onSelectFilter($event)">
+                                <label class="control-label pl-1 pr-2">{{bool.name}}</label>
                             </span>
                             <div>
                                 <hr>
@@ -30,9 +30,9 @@
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">Damage</label><br>
                             <span class="" *ngFor="let bool of booleanEnum">
-                                <label class="control-label p-2">{{bool.name}}</label>
                                 <input type="radio" [value]="bool" name="isDamaged" (change)="onSelectFilter($event)"
-                                    [(ngModel)]="isDamage">
+                                [(ngModel)]="isDamage">
+                                <label class="control-label pl-1 pr-2">{{bool.name}}</label>
                             </span>
 
                             <span *ngIf="isSpot && isSpot['value'] == 1">
@@ -63,7 +63,7 @@
                             <label class="control-label fontColor">Storage</label>
                             <div class="row" *ngFor="let store of storage">
                                 <div class="col-12">
-                                    <input type="radio" [value]="store" name="isRam" (change)="onSelectFilter($event)"
+                                    <input type="radio" [value]="store" name="isStorage" (change)="onSelectFilter($event)"
                                         [(ngModel)]="selectedStorage">
                                     <label class="control-label p-2">{{store.name}}</label>
                         
@@ -79,9 +79,9 @@
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">Item Condition</label><br>
                             <span class="" *ngFor="let cond of condition">
-                                <label class="control-label p-2">{{cond.name}}</label>
                                 <input type="radio" [value]="cond" name="isUsed" (change)="onSelectFilter($event)"
                                     [(ngModel)]="isNew">
+                                <label class="control-label pl-1 pr-2">{{cond.name}}</label>
                             </span>
 
                             <div>
@@ -91,9 +91,9 @@
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">PTA status</label><br>
                             <span class="" *ngFor="let bool of booleanEnum">
-                                <label class="control-label p-2">{{bool.name}}</label>
                                 <input type="radio" [value]="bool" name="isPTAapproved"
                                     (change)="onSelectFilter($event)" [(ngModel)]="isPTAapproved">
+                                <label class="control-label pr-2 pl-1">{{bool.name}}</label>
                             </span>
 
                             <div>
@@ -103,7 +103,7 @@
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">Price</label><br>
                             <p-slider [(ngModel)]="rangeValues" [range]="true"
-                                [style]="{'width':'90%','margin':'10px auto'}" [min]="0" [max]="1000000"
+                                [style]="{'width':'90%','margin':'10px auto'}" [min]="0" [max]="400000"
                                 name="rangeSlider" (onChange)="onSelectFilter($event)">
                             </p-slider>
                             <div class="pl-2">
@@ -122,9 +122,9 @@
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">Negotiable in price</label><br>
                             <span class="" *ngFor="let bool of booleanEnum">
-                                <label class="control-label p-2">{{bool.name}}</label>
                                 <input type="radio" [value]="bool" name="isNegotiable" (change)="onSelectFilter($event)"
                                     [(ngModel)]="isNegotiable">
+                                <label class="control-label pr-2 pl-1">{{bool.name}}</label>
                             </span>
 
                             <div>
@@ -134,9 +134,9 @@
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">Change with other phone</label><br>
                             <span class="" *ngFor="let bool of booleanEnum">
-                                <label class="control-label p-2">{{bool.name}}</label>
                                 <input type="radio" [value]="bool" name="isExchangeable"
                                     (change)="onSelectFilter($event)" [(ngModel)]="isExchangeable">
+                                <label class="control-label pl-1 pr-2">{{bool.name}}</label>
                             </span>
 
                             <div>
@@ -148,19 +148,19 @@
                 </aside>
             </div>
             <div class="col-lg-9 col-md-12 col-xs-12 page-content">
-                <div class="" style="margin-bottom:0px">
+                <!-- <div class="" style="margin-bottom:0px">
                     <form role="search" id="search-form">
                         <input type="search" class="form-control" autocomplete="off" name="s" placeholder="Search..."
                             id="search-input" value="" [(ngModel)]="searchFilter">
                         <button type="submit" id="search-submit" class="search-btn" (click)="onSelectFilter()"><i
                                 class="lni-search"></i></button>
                     </form>
-                </div>
+                </div> -->
                 <div class="product-filter section-filter-bg" style="margin-bottom:0px"
                     *ngIf="productBrandsLength && productBrandsLength > 0">
 
                     <div class="row ">
-                        <div class="flex-center search-by-filter" style="margin:auto">
+                        <div class="flex-center search-by-filter" style="margin:auto;padding-left: 120px;                        ">
                             Search By Filter
                         </div>
                         <div class="flex-center" style="float:right;color: black;cursor: pointer;"
@@ -184,27 +184,27 @@
                 </div>
                 <div class="product-filter">
 
-                    <div class="row" style="margin:auto">
-                        <div class="short-name col-4 pt-2">
+                    <div class="row">
+                        <div class="short-name col-4">
                             <span>Showing {{productsLength}} products</span>
                         </div>
                         <div class="short-name col-6">
 
-                            <label class="control-label fontColor ml-2-mr-2">Sort by</label>
+                            <label class="control-label fontColor ml-2-mr-2">Sort by: </label>
                             <!-- <br> -->
                             <!-- Price
                             <input type="text" placeholder="min" class="width-70">
                             -
                             <input type="text" placeholder="max" class="width-70"> -->
-                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,5)">min price</a>
-                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,4)">max price</a>
-                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,1)">Name</a>
-                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,3)">Oldest</a>
+                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,5)">min price |</a>
+                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,4)">max price |</a>
+                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,1)">Name |</a>
+                            <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,3)">Oldest |</a>
                             <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,2)">Recent</a>
                         </div>
-                        <div class="col-2 pt-2">
+                        <div class="col-2">
 
-                            <ul class="nav nav-tabs">
+                            <ul class="nav nav-tabs mr-0">
                                 <li class="nav-item">
 
                                     <a class="nav-link" data-toggle="tab" href="#grid-view"><i class="lni-grid"></i></a>
@@ -459,3 +459,4 @@
             </div>
         </div>
     </div>
+    
