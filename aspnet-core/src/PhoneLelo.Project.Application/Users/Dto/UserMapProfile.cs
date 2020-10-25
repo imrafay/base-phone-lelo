@@ -51,4 +51,12 @@ namespace PhoneLelo.Project.Users.Dto
             CreateMap<ProductModelDto, ProductModel>();
         }
     }
+
+    public class UserProfileReviewProfile : Profile
+    {
+        public UserProfileReviewProfile()
+        {
+            CreateMap<UserProfileReviewDto, UserProfileReview>();
+        }
+    }
 }

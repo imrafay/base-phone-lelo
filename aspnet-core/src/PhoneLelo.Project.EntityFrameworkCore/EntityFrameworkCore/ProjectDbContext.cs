@@ -36,6 +36,7 @@ namespace PhoneLelo.Project.EntityFrameworkCore
 
         #region Feeb Back
         public virtual DbSet<UserProfileReview> UserProfileReviews { get; set; } 
+        public virtual DbSet<UserProfileReviewLike> UserProfileReviewLikes { get; set; } 
         #endregion
 
         public virtual DbSet<BinaryObject> BinaryObjects { get; set; }

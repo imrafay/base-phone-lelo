@@ -18,5 +18,12 @@
 
         public const int RelatedProductAdPriceLimit = 10000;
         public const int RelatedProductAdPageSize = 12;
+
+        public class ErrorMessage
+        {
+            public const string NotFound = "Not found.";
+            public const string IdMustBeProvided = "Id must be provided.";
+            public const string GeneralErrorMessage = "Some thing went wrong.";
+        }
     }
 }

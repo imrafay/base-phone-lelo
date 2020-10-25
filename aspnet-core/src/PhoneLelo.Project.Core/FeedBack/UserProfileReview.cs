@@ -13,11 +13,9 @@ namespace PhoneLelo.Project
     [Table("UserProfileReviews")]
     public class UserProfileReview : FullAuditedEntity<long>
     {
-        public long UserId { get; set; }
-        [ForeignKey("UserId")]
-        public User UserFk { get; set; }
+        public long? UserId { get; set; }
 
-        public long? ReviewerId { get; set; }
+        public long ReviewerId { get; set; }
         [ForeignKey("ReviewerId")]
         public User ReviewerFk { get; set; }
 
@@ -27,9 +25,8 @@ namespace PhoneLelo.Project
 
         public string Review { get; set; }
         public int Rating { get; set; }
-        public string GuestEmailAddress { get; set; }
-        public string GuestFirstName{ get; set; }
-        public string GuestLastName{ get; set; }
+
+        public ICollection<UserProfileReviewLike> userProfileReviewLikes { get; set; }
 
     }
 }
