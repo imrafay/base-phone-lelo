@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, Injector, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, Injector, OnInit, Output, EventEmitter } from '@angular/core';
 import { SignUpRegisterModalComponent } from './sign-up-register-modal/sign-up-register-modal.component';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -16,6 +16,7 @@ export class PublicHeaderComponent extends AppComponentBase implements OnInit {
   isUserValid: Boolean = false;
   highlightedRows = [];
   searchFilter='';
+
   constructor(
     injector: Injector,
     private _AppSessionService: AppSessionService,
@@ -59,4 +60,5 @@ export class PublicHeaderComponent extends AppComponentBase implements OnInit {
       this.signUpRegisterModal.show();
     }
   }
+
 }
