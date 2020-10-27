@@ -46,40 +46,53 @@ namespace PhoneLelo.Project.Authorization
 
         public IQueryable<UserProfileReview> GetAllQuery(UserProfileReviewFilterDto filter)
         {
-            var query = _userProfileReviewRepository.GetAll()
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+            {
+                var query = _userProfileReviewRepository.GetAll()
                 .Include(x => x.ReviewerFk)
                 .WhereIf(filter.Id > 0, x => x.Id == filter.Id)
                 .WhereIf(filter.UserId > 0, x => x.UserId == filter.UserId);
 
-            return query;
+                return query;
+            }
         }
 
         public async Task<UserProfileReviewOutputDto> GetUserReviewsAsync(UserProfileReviewFilterDto filter)
         {
-            var query = _userProfileReviewRepository.GetAll()
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+            {
+                var query = _userProfileReviewRepository.GetAll()
                 .Include(x => x.ReviewerFk)
                 .WhereIf(filter.Id > 0, x => x.Id == filter.Id)
                 .Where(x => x.UserId == filter.UserId);
 
-            var userProfileReviews = await query
-                .Select(x => new UserProfileReviewOutputListDto()
+                var userProfileReviews = await query
+                    .Select(x => new UserProfileReviewOutputListDto()
+                    {
+                        Id = x.Id,
+                        CreationTime = x.CreationTime,
+                        Rating = x.Rating,
+                        Review = x.Review,
+                        ReviewerFullName = x.ReviewerFk.FullName
+                    }).ToListAsync();
+
+                if (userProfileReviews.Any())
                 {
-                    Id = x.Id,
-                    CreationTime = x.CreationTime,
-                    Rating = x.Rating,
-                    Review = x.Review,
-                    ReviewerFullName = x.ReviewerFk.FullName
-                }).ToListAsync();
+                    var averageRating = userProfileReviews
+                        .Select(x => x.Rating)
+                        .Average();
 
-            var averageRating = userProfileReviews
-                    .Select(x => x.Rating)
-                    .Average();
+                    return new UserProfileReviewOutputDto()
+                    {
+                        AverageRating = averageRating,
+                        UserProfileReviewOutputList = userProfileReviews
+                    };
+                }
 
-            return new UserProfileReviewOutputDto()
-            {
-                AverageRating = averageRating,
-                UserProfileReviewOutputList = userProfileReviews
-            };
+                return new UserProfileReviewOutputDto();
+            }
         }
 
         public async Task CreateAsync(UserProfileReview userProfileReview)
