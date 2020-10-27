@@ -25,8 +25,22 @@ namespace PhoneLelo.Project.Product.Dto
     public class UserProfileReviewOutputDto
     {
         public double AverageRating { get; set; }
+        public UserProfileReviewsStatsDto Rating { get; set; }
         public List<UserProfileReviewOutputListDto> UserProfileReviewOutputList { get; set; }
     }
+
+    public class UserProfileReviewsStatsDto
+    {
+        public int TotalReviews { get; set; }
+        public List<UserProfileReviewsRatingDto> Ratings { get; set; }
+    }
+
+    public class UserProfileReviewsRatingDto
+    {
+        public int Rating { get; set; }
+        public int Count { get; set; }
+    }
+
     public class UserProfileReviewOutputListDto
     {
         public long Id { get; set; }

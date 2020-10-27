@@ -84,9 +84,21 @@ namespace PhoneLelo.Project.Authorization
                         .Select(x => x.Rating)
                         .Average();
 
+                    var ratings = userProfileReviews.GroupBy(
+                            p => p.Rating,
+                            (key, g) => new UserProfileReviewsRatingDto
+                            {
+                                Rating = key, Count = g.Count()
+                            }).ToList();
+
                     return new UserProfileReviewOutputDto()
                     {
                         AverageRating = averageRating,
+                        Rating = new UserProfileReviewsStatsDto()
+                        {
+                            Ratings= ratings,
+                            TotalReviews= userProfileReviews.Count()
+                        },
                         UserProfileReviewOutputList = userProfileReviews
                     };
                 }
