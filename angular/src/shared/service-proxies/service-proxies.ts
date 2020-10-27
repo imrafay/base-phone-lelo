@@ -3765,6 +3765,235 @@ export class UserLocationServiceProxy {
     }
 }
 
+@Injectable()
+export class UserProfileReviewServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param id (optional) 
+     * @param userId (optional) 
+     * @return Success
+     */
+    getUserReviews(id: number | undefined, userId: number | undefined): Observable<UserProfileReviewOutputDto> {
+        let url_ = this.baseUrl + "/api/services/app/UserProfileReview/GetUserReviews?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "UserId=" + encodeURIComponent("" + userId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUserReviews(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUserReviews(<any>response_);
+                } catch (e) {
+                    return <Observable<UserProfileReviewOutputDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserProfileReviewOutputDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetUserReviews(response: HttpResponseBase): Observable<UserProfileReviewOutputDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserProfileReviewOutputDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserProfileReviewOutputDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: UserProfileReviewInputDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/UserProfileReview/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    update(body: UserProfileReviewDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/UserProfileReview/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/UserProfileReview/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     tenancyName: string;
 
@@ -6724,6 +6953,336 @@ export interface IUserLocationInputDto {
     stateId: number;
     cityId: number;
     neighbourhoodId: number | undefined;
+}
+
+export class UserProfileReviewsRatingDto implements IUserProfileReviewsRatingDto {
+    rating: number;
+    count: number;
+
+    constructor(data?: IUserProfileReviewsRatingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.rating = _data["rating"];
+            this.count = _data["count"];
+        }
+    }
+
+    static fromJS(data: any): UserProfileReviewsRatingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserProfileReviewsRatingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["rating"] = this.rating;
+        data["count"] = this.count;
+        return data; 
+    }
+
+    clone(): UserProfileReviewsRatingDto {
+        const json = this.toJSON();
+        let result = new UserProfileReviewsRatingDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserProfileReviewsRatingDto {
+    rating: number;
+    count: number;
+}
+
+export class UserProfileReviewsStatsDto implements IUserProfileReviewsStatsDto {
+    totalReviews: number;
+    ratings: UserProfileReviewsRatingDto[] | undefined;
+
+    constructor(data?: IUserProfileReviewsStatsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalReviews = _data["totalReviews"];
+            if (Array.isArray(_data["ratings"])) {
+                this.ratings = [] as any;
+                for (let item of _data["ratings"])
+                    this.ratings.push(UserProfileReviewsRatingDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): UserProfileReviewsStatsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserProfileReviewsStatsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalReviews"] = this.totalReviews;
+        if (Array.isArray(this.ratings)) {
+            data["ratings"] = [];
+            for (let item of this.ratings)
+                data["ratings"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): UserProfileReviewsStatsDto {
+        const json = this.toJSON();
+        let result = new UserProfileReviewsStatsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserProfileReviewsStatsDto {
+    totalReviews: number;
+    ratings: UserProfileReviewsRatingDto[] | undefined;
+}
+
+export class UserProfileReviewOutputListDto implements IUserProfileReviewOutputListDto {
+    id: number;
+    review: string | undefined;
+    rating: number;
+    reviewerFullName: string | undefined;
+    creationTime: moment.Moment;
+
+    constructor(data?: IUserProfileReviewOutputListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.review = _data["review"];
+            this.rating = _data["rating"];
+            this.reviewerFullName = _data["reviewerFullName"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UserProfileReviewOutputListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserProfileReviewOutputListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["review"] = this.review;
+        data["rating"] = this.rating;
+        data["reviewerFullName"] = this.reviewerFullName;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        return data; 
+    }
+
+    clone(): UserProfileReviewOutputListDto {
+        const json = this.toJSON();
+        let result = new UserProfileReviewOutputListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserProfileReviewOutputListDto {
+    id: number;
+    review: string | undefined;
+    rating: number;
+    reviewerFullName: string | undefined;
+    creationTime: moment.Moment;
+}
+
+export class UserProfileReviewOutputDto implements IUserProfileReviewOutputDto {
+    averageRating: number;
+    rating: UserProfileReviewsStatsDto;
+    userProfileReviewOutputList: UserProfileReviewOutputListDto[] | undefined;
+
+    constructor(data?: IUserProfileReviewOutputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.averageRating = _data["averageRating"];
+            this.rating = _data["rating"] ? UserProfileReviewsStatsDto.fromJS(_data["rating"]) : <any>undefined;
+            if (Array.isArray(_data["userProfileReviewOutputList"])) {
+                this.userProfileReviewOutputList = [] as any;
+                for (let item of _data["userProfileReviewOutputList"])
+                    this.userProfileReviewOutputList.push(UserProfileReviewOutputListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): UserProfileReviewOutputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserProfileReviewOutputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["averageRating"] = this.averageRating;
+        data["rating"] = this.rating ? this.rating.toJSON() : <any>undefined;
+        if (Array.isArray(this.userProfileReviewOutputList)) {
+            data["userProfileReviewOutputList"] = [];
+            for (let item of this.userProfileReviewOutputList)
+                data["userProfileReviewOutputList"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): UserProfileReviewOutputDto {
+        const json = this.toJSON();
+        let result = new UserProfileReviewOutputDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserProfileReviewOutputDto {
+    averageRating: number;
+    rating: UserProfileReviewsStatsDto;
+    userProfileReviewOutputList: UserProfileReviewOutputListDto[] | undefined;
+}
+
+export class UserProfileReviewInputDto implements IUserProfileReviewInputDto {
+    id: number;
+    reviewerId: number;
+    userId: number;
+    review: string | undefined;
+    rating: number;
+
+    constructor(data?: IUserProfileReviewInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.reviewerId = _data["reviewerId"];
+            this.userId = _data["userId"];
+            this.review = _data["review"];
+            this.rating = _data["rating"];
+        }
+    }
+
+    static fromJS(data: any): UserProfileReviewInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserProfileReviewInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["reviewerId"] = this.reviewerId;
+        data["userId"] = this.userId;
+        data["review"] = this.review;
+        data["rating"] = this.rating;
+        return data; 
+    }
+
+    clone(): UserProfileReviewInputDto {
+        const json = this.toJSON();
+        let result = new UserProfileReviewInputDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserProfileReviewInputDto {
+    id: number;
+    reviewerId: number;
+    userId: number;
+    review: string | undefined;
+    rating: number;
+}
+
+export class UserProfileReviewDto implements IUserProfileReviewDto {
+    id: number;
+    review: string | undefined;
+    rating: number;
+
+    constructor(data?: IUserProfileReviewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.review = _data["review"];
+            this.rating = _data["rating"];
+        }
+    }
+
+    static fromJS(data: any): UserProfileReviewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserProfileReviewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["review"] = this.review;
+        data["rating"] = this.rating;
+        return data; 
+    }
+
+    clone(): UserProfileReviewDto {
+        const json = this.toJSON();
+        let result = new UserProfileReviewDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserProfileReviewDto {
+    id: number;
+    review: string | undefined;
+    rating: number;
 }
 
 export class ApiException extends Error {
