@@ -36,6 +36,8 @@ namespace PhoneLelo.Project.Product.Dto
     public class ProductAdvertDetailViewDto : IProductAdvertViewDto
     {
         public long ProductModelId { get; set; }
+        public long UserId { get; set; }
+        public string UserFullName { get; set; }
         public string ProductCompanyName { get; set; }
         public string ProductModelName { get; set; }
         public int Views { get; set; }

@@ -4999,6 +4999,8 @@ export interface IProductModelDto {
 
 export class ProductAdvertDetailViewDto implements IProductAdvertDetailViewDto {
     productModelId: number;
+    userId: number;
+    userFullName: string | undefined;
     productCompanyName: string | undefined;
     productModelName: string | undefined;
     views: number;
@@ -5020,6 +5022,8 @@ export class ProductAdvertDetailViewDto implements IProductAdvertDetailViewDto {
     init(_data?: any) {
         if (_data) {
             this.productModelId = _data["productModelId"];
+            this.userId = _data["userId"];
+            this.userFullName = _data["userFullName"];
             this.productCompanyName = _data["productCompanyName"];
             this.productModelName = _data["productModelName"];
             this.views = _data["views"];
@@ -5053,6 +5057,8 @@ export class ProductAdvertDetailViewDto implements IProductAdvertDetailViewDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["productModelId"] = this.productModelId;
+        data["userId"] = this.userId;
+        data["userFullName"] = this.userFullName;
         data["productCompanyName"] = this.productCompanyName;
         data["productModelName"] = this.productModelName;
         data["views"] = this.views;
@@ -5086,6 +5092,8 @@ export class ProductAdvertDetailViewDto implements IProductAdvertDetailViewDto {
 
 export interface IProductAdvertDetailViewDto {
     productModelId: number;
+    userId: number;
+    userFullName: string | undefined;
     productCompanyName: string | undefined;
     productModelName: string | undefined;
     views: number;

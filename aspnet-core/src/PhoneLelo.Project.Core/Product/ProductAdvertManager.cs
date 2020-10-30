@@ -55,8 +55,9 @@ namespace PhoneLelo.Project.Authorization
 
             var productAdvert = await _productAdvertRepository
                     .GetAll()
+                    .Include(x=>x.UserFk)
                     .Include(x => x.ProductModelFk)
-                    .FirstOrDefaultAsync(x => x.Id == id);
+                    .FirstOrDefaultAsync(x => x.Id == id && x.UserId > 0);
 
             return productAdvert;
         }

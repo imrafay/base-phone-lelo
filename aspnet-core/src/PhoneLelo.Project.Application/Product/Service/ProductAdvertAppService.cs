@@ -274,7 +274,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     }
                 };
 
-               return await GetAll(getAllfilter);
+                return await GetAll(getAllfilter);
             }
 
             return result;
@@ -283,55 +283,59 @@ namespace PhoneLelo.Project.Import.MobilePhone
         [AbpAllowAnonymous]
         public async Task<ProductAdvertDetailViewDto> GetProductAdvertForEdit(long id)
         {
-            try
-            {
-                var productAdvert = await _productAdvertManager
-                     .GetByIdAsync(id);
-
-                if (productAdvert == null)
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+                try
                 {
-                    return null;
+                    var productAdvert = await _productAdvertManager
+                         .GetByIdAsync(id);
+
+                    if (productAdvert == null)
+                    {
+                        return null;
+                    }
+
+                    var productAdvertBatteryUsages = await _productAdvertManager
+                        .GetProducAdverBatteryUsagesById(id);
+
+                    var images = await _productAdvertManager
+                        .GetProducAdverImagesById(id);
+
+                    var productAdvertAccessories = await _productAdvertManager
+                        .GetProductAdvertAccessoriesById(id);
+
+                    var productAdvertOutput = ObjectMapper
+                        .Map<ProductAdvertDto>(productAdvert);
+
+                    var productAdvertBatteryUsageList = (ObjectMapper.Map<List<ProductAdvertBatteryUsageDto>>
+                        (productAdvertBatteryUsages));
+
+                    var productAdvertImageList = (ObjectMapper.Map<List<ProductAdvertImageDto>>
+                        (images));
+
+                    var productAdvertAccessoryList = (ObjectMapper.Map<List<ProductAdvertAccessoryDto>>
+                        (productAdvertAccessories));
+
+                    var viewsCount = await GetProductAdverViews(id);
+                    return new ProductAdvertDetailViewDto
+                    {
+                        UserId = productAdvert.UserId.Value,
+                        UserFullName = productAdvert.UserFk.FullName,
+                        ProductModelId = productAdvert.ProductModelId,
+                        ProductCompanyName = productAdvert.ProductModelFk.Brand,
+                        ProductModelName = productAdvert.ProductModelFk.Model,
+                        Views = viewsCount,
+                        ProductAdvert = productAdvertOutput,
+                        ProductAdvertBatteryUsages = productAdvertBatteryUsageList,
+                        Images = productAdvertImageList,
+                        productAdvertAccessories = productAdvertAccessoryList
+                    };
                 }
-
-                var productAdvertBatteryUsages = await _productAdvertManager
-                    .GetProducAdverBatteryUsagesById(id);
-
-                var images = await _productAdvertManager
-                    .GetProducAdverImagesById(id);
-
-                var productAdvertAccessories = await _productAdvertManager
-                    .GetProductAdvertAccessoriesById(id);
-
-                var productAdvertOutput = ObjectMapper
-                    .Map<ProductAdvertDto>(productAdvert);
-
-                var productAdvertBatteryUsageList = (ObjectMapper.Map<List<ProductAdvertBatteryUsageDto>>
-                    (productAdvertBatteryUsages));
-
-                var productAdvertImageList = (ObjectMapper.Map<List<ProductAdvertImageDto>>
-                    (images));
-
-                var productAdvertAccessoryList = (ObjectMapper.Map<List<ProductAdvertAccessoryDto>>
-                    (productAdvertAccessories));
-
-                var viewsCount = await GetProductAdverViews(id);
-                return new ProductAdvertDetailViewDto
+                catch (Exception ex)
                 {
-                    ProductModelId = productAdvert.ProductModelId,
-                    ProductCompanyName = productAdvert.ProductModelFk.Brand,
-                    ProductModelName = productAdvert.ProductModelFk.Model,
-                    Views = viewsCount,
-                    ProductAdvert = productAdvertOutput,
-                    ProductAdvertBatteryUsages = productAdvertBatteryUsageList,
-                    Images = productAdvertImageList,
-                    productAdvertAccessories = productAdvertAccessoryList
-                };
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"GetProductAdverForEdit > ERROR > {ex.Message}");
-                throw new UserFriendlyException($"GetProductAdverForEdit > ERROR > {ex.Message}");
-            }
+                    Logger.Error($"GetProductAdverForEdit > ERROR > {ex.Message}");
+                    throw new UserFriendlyException($"GetProductAdverForEdit > ERROR > {ex.Message}");
+                }
         }
 
         [AbpAllowAnonymous]
@@ -443,7 +447,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     PhoneLeloDataFileType.ProductImages
                     );
 
-                productAdvert.Views = AsyncHelper.RunSync(()=> GetProductAdverViews(productAdvert.Id)) ;
+                productAdvert.Views = AsyncHelper.RunSync(() => GetProductAdverViews(productAdvert.Id));
             }
         }
 
