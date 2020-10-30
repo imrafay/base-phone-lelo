@@ -3992,6 +3992,58 @@ export class UserProfileReviewServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param reviewId (optional) 
+     * @return Success
+     */
+    likeDisLikeReview(reviewId: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/UserProfileReview/LikeDisLikeReview?";
+        if (reviewId === null)
+            throw new Error("The parameter 'reviewId' cannot be null.");
+        else if (reviewId !== undefined)
+            url_ += "reviewId=" + encodeURIComponent("" + reviewId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processLikeDisLikeReview(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processLikeDisLikeReview(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processLikeDisLikeReview(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
@@ -7070,6 +7122,7 @@ export class UserProfileReviewOutputListDto implements IUserProfileReviewOutputL
     review: string | undefined;
     rating: number;
     reviewerFullName: string | undefined;
+    likeCount: number;
     creationTime: moment.Moment;
 
     constructor(data?: IUserProfileReviewOutputListDto) {
@@ -7087,6 +7140,7 @@ export class UserProfileReviewOutputListDto implements IUserProfileReviewOutputL
             this.review = _data["review"];
             this.rating = _data["rating"];
             this.reviewerFullName = _data["reviewerFullName"];
+            this.likeCount = _data["likeCount"];
             this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
         }
     }
@@ -7104,6 +7158,7 @@ export class UserProfileReviewOutputListDto implements IUserProfileReviewOutputL
         data["review"] = this.review;
         data["rating"] = this.rating;
         data["reviewerFullName"] = this.reviewerFullName;
+        data["likeCount"] = this.likeCount;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         return data; 
     }
@@ -7121,6 +7176,7 @@ export interface IUserProfileReviewOutputListDto {
     review: string | undefined;
     rating: number;
     reviewerFullName: string | undefined;
+    likeCount: number;
     creationTime: moment.Moment;
 }
 
