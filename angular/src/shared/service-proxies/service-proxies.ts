@@ -7018,6 +7018,7 @@ export interface IUserLocationInputDto {
 export class UserProfileReviewsRatingDto implements IUserProfileReviewsRatingDto {
     rating: number;
     count: number;
+    percentage: number;
 
     constructor(data?: IUserProfileReviewsRatingDto) {
         if (data) {
@@ -7032,6 +7033,7 @@ export class UserProfileReviewsRatingDto implements IUserProfileReviewsRatingDto
         if (_data) {
             this.rating = _data["rating"];
             this.count = _data["count"];
+            this.percentage = _data["percentage"];
         }
     }
 
@@ -7046,6 +7048,7 @@ export class UserProfileReviewsRatingDto implements IUserProfileReviewsRatingDto
         data = typeof data === 'object' ? data : {};
         data["rating"] = this.rating;
         data["count"] = this.count;
+        data["percentage"] = this.percentage;
         return data; 
     }
 
@@ -7060,6 +7063,7 @@ export class UserProfileReviewsRatingDto implements IUserProfileReviewsRatingDto
 export interface IUserProfileReviewsRatingDto {
     rating: number;
     count: number;
+    percentage: number;
 }
 
 export class UserProfileReviewsStatsDto implements IUserProfileReviewsStatsDto {
