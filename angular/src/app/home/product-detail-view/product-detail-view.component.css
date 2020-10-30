@@ -95,3 +95,10 @@ tr:nth-child(even) {
 .selectedImg{
   border: 1px solid #e91e63;
 }
+.rating{
+  color: #e91e63;
+}
+.no-rating{
+  color: lightgray;
+
+}

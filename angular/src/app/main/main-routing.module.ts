@@ -4,6 +4,7 @@ import { CreateOrEditAddPostComponent } from './create-or-edit-add-post/create-o
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { AuthGuard } from '@shared/auth/auth-guard';
+import { RatingModule } from 'ngx-bootstrap/rating';
 
 
 @NgModule({

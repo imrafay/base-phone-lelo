@@ -4,8 +4,7 @@
             <div class="col-lg-3 col-md-12 col-xs-12 page-sidebar">
                 <aside>
                     <div class="widget categories">
-                        <div class="row" style="padding: 20px;
-                        ">
+                        <div class="row" style="padding:20px;">
                             <div class="col-8">
                                 <h4 class="" style="
                                 font-size: 20px;">All Categories</h4>
@@ -14,8 +13,6 @@
                             " (click)="resetLeftFilters()">
                                 Reset<i class="far fa-trash-alt" style="padding-left:5px"></i></div>
                         </div>
-
-
                         <div class="" style="padding: 0px 10px;">
                             <label class="control-label fontColor">Spot</label><br>
                             <span class="" *ngFor="let bool of booleanEnum">
@@ -31,7 +28,7 @@
                             <label class="control-label fontColor">Damage</label><br>
                             <span class="" *ngFor="let bool of booleanEnum">
                                 <input type="radio" [value]="bool" name="isDamaged" (change)="onSelectFilter($event)"
-                                [(ngModel)]="isDamage">
+                                    [(ngModel)]="isDamage">
                                 <label class="control-label pl-1 pr-2">{{bool.name}}</label>
                             </span>
 
@@ -42,7 +39,6 @@
                                 <hr>
                             </div>
                         </div>
-
                         <div style="padding: 0px 10px;">
                             <label class="control-label fontColor">Rom</label>
                             <div class="row" *ngFor="let rom of ram;let i =index">
@@ -54,7 +50,6 @@
                             </div>
                             <div (click)="showMoreBrands('ram')" *ngIf="!isShowRam" class="viewMore">View more</div>
                             <div (click)="showLessBrands('ram')" *ngIf="isShowRam" class="viewMore">View less</div>
-
                             <div>
                                 <hr>
                             </div>
@@ -63,15 +58,15 @@
                             <label class="control-label fontColor">Storage</label>
                             <div class="row" *ngFor="let store of storage">
                                 <div class="col-12">
-                                    <input type="radio" [value]="store" name="isStorage" (change)="onSelectFilter($event)"
-                                        [(ngModel)]="selectedStorage">
+                                    <input type="radio" [value]="store" name="isStorage"
+                                        (change)="onSelectFilter($event)" [(ngModel)]="selectedStorage">
                                     <label class="control-label p-2">{{store.name}}</label>
-                        
                                 </div>
                             </div>
-                            <div (click)="showMoreBrands('storage')" *ngIf="!isShowstorage" class="viewMore">View more</div>
-                            <div (click)="showLessBrands('storage')" *ngIf="isShowstorage" class="viewMore">View less</div>
-
+                            <div (click)="showMoreBrands('storage')" *ngIf="!isShowstorage" class="viewMore">View more
+                            </div>
+                            <div (click)="showLessBrands('storage')" *ngIf="isShowstorage" class="viewMore">View less
+                            </div>
                             <div>
                                 <hr>
                             </div>
@@ -83,7 +78,6 @@
                                     [(ngModel)]="isNew">
                                 <label class="control-label pl-1 pr-2">{{cond.name}}</label>
                             </span>
-
                             <div>
                                 <hr>
                             </div>
@@ -95,7 +89,6 @@
                                     (change)="onSelectFilter($event)" [(ngModel)]="isPTAapproved">
                                 <label class="control-label pr-2 pl-1">{{bool.name}}</label>
                             </span>
-
                             <div>
                                 <hr>
                             </div>
@@ -108,13 +101,9 @@
                             </p-slider>
                             <div class="pl-2">
                                 <label style="margin-top: 5px;">
-                                    {{rangeValues[0] | number}}
-                                    -
-                                    {{rangeValues[1] | number}}
-
+                                    {{rangeValues[0] | number}} - {{rangeValues[1] | number}}
                                 </label>
                             </div>
-
                             <div>
                                 <hr>
                             </div>
@@ -126,7 +115,6 @@
                                     [(ngModel)]="isNegotiable">
                                 <label class="control-label pr-2 pl-1">{{bool.name}}</label>
                             </span>
-
                             <div>
                                 <hr>
                             </div>
@@ -138,12 +126,10 @@
                                     (change)="onSelectFilter($event)" [(ngModel)]="isExchangeable">
                                 <label class="control-label pl-1 pr-2">{{bool.name}}</label>
                             </span>
-
                             <div>
                                 <hr>
                             </div>
                         </div>
-
                     </div>
                 </aside>
             </div>
@@ -158,9 +144,8 @@
                 </div> -->
                 <div class="product-filter section-filter-bg" style="margin-bottom:0px"
                     *ngIf="productBrandsLength && productBrandsLength > 0">
-
                     <div class="row ">
-                        <div class="flex-center search-by-filter" style="margin:auto;padding-left: 120px;                        ">
+                        <div class="flex-center search-by-filter" style="margin:auto;padding-left: 120px;">
                             Search By Filter
                         </div>
                         <div class="flex-center" style="float:right;color: black;cursor: pointer;"
@@ -168,34 +153,21 @@
                             Reset Filters <i class="far fa-trash-alt" style="padding-left: 7px;
                             padding-top: 2px;margin-right: 10px;"></i></div>
                     </div>
-
-
                     <div class="row flex-center">
                         <div class="col-1 brand-box" (click)="onSelectBrand(products.id)"
-                            *ngFor="let products of productBrands" [ngClass]="
-                        highlightedRows[0] ===
-                        products.id
-                            ? 'selected'
-                            : ''
-                    ">
+                            *ngFor="let products of productBrands"
+                            [ngClass]="highlightedRows[0] ===products.id? 'selected': '' ">
                             {{products.name}}
                         </div>
                     </div>
                 </div>
                 <div class="product-filter">
-
                     <div class="row">
                         <div class="short-name col-4">
                             <span>Showing {{productsLength}} products</span>
                         </div>
                         <div class="short-name col-6">
-
                             <label class="control-label fontColor ml-2-mr-2">Sort by: </label>
-                            <!-- <br> -->
-                            <!-- Price
-                            <input type="text" placeholder="min" class="width-70">
-                            -
-                            <input type="text" placeholder="max" class="width-70"> -->
                             <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,5)">min price |</a>
                             <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,4)">max price |</a>
                             <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,1)">Name |</a>
@@ -203,10 +175,8 @@
                             <a class="ml-2-mr-2 sort-btn" (click)="onSelectFilter(null,2)">Recent</a>
                         </div>
                         <div class="col-2">
-
                             <ul class="nav nav-tabs mr-0">
                                 <li class="nav-item">
-
                                     <a class="nav-link" data-toggle="tab" href="#grid-view"><i class="lni-grid"></i></a>
                                 </li>
                                 <li class="nav-item">
@@ -216,8 +186,6 @@
                             </ul>
                         </div>
                     </div>
-
-
                     <div class="adds-wrapper mt-2">
                         <div class="tab-content">
                             <div id="grid-view" class="tab-pane fade active show">
@@ -278,7 +246,6 @@
                                                             <a class="address" href="#"><i
                                                                     class="lni-map-marker"></i>{{product.city}}</a>
                                                         </div>
-
                                                     </div>
                                                     <div class="col-12 date-end">
                                                         {{product.creationTime.fromNow()}}
@@ -459,4 +426,3 @@
             </div>
         </div>
     </div>
-    

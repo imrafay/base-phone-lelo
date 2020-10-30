@@ -23,6 +23,7 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
 ;
 import { UserSiderbarComponent } from './user-siderbar/user-siderbar.component'
 ;
+import { RatingModule } from 'ngx-bootstrap/rating';
 @NgModule({
 	imports: [
     CommonModule,
@@ -33,6 +34,7 @@ import { UserSiderbarComponent } from './user-siderbar/user-siderbar.component'
     ModalModule.forChild(),
     MainRoutingModule,
     BsDropdownModule,
+    RatingModule.forRoot(),
     CollapseModule,
     TabsModule,
     ServiceProxyModule,

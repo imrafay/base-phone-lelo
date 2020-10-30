@@ -341,7 +341,7 @@
                                             Reply</a>
                                     </div>
                                     <p>
-                                        {{commentReply.userReply}}  </p>
+                                        {{commentReply.userReply}} </p>
                                     <div class="row" *ngIf="replyInput[0] == i">
                                         <div class="col-lg-12 col-md-12 col-xs-12">
                                             <div class="mb-2 mt-4">
@@ -359,23 +359,19 @@
                             </div>
                         </li>
                     </ul>
-                </li>   </ol>
+                </li>
+            </ol>
 
             <div id="respond">
-                <h2 class="respond-title">Leave A Comment</h2>
+                <h2 class="respond-title" style="margin-bottom: 10px;">Leave A Review</h2>
                 <form action="#">
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col-lg-6 col-md-6 col-xs-12">
-                            <div class="form-group">
-                                <input id="author" class="form-control" name="author" type="text"
-                                    [(ngModel)]="commentUsername" size="30" placeholder="Your Name">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-xs-12">
-                            <div class="form-group">
-                                <input id="email" class="form-control" name="author" type="text"
-                                    [(ngModel)]="commentUserEmail" size="30" placeholder="Your E-Mail">
-                            </div>
+                            <div>Rating </div>
+
+                            <rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly"
+                                (keyup)="confirmSelection($event)"></rating>
+
                         </div>
                     </div>
                     <div class="row">
@@ -384,7 +380,8 @@
                                 <textarea id="comment" class="form-control" name="comment" cols="45" rows="8"
                                     placeholder="Message..." [(ngModel)]="commentText"></textarea>
                             </div>
-                            <button type="submit" id="submit" class="btn btn-common">Post Comment</button>
+                            <button type="submit" id="submit" class="btn btn-common" (click)="onSaveReview()">Post
+                                Comment</button>
                         </div>
                     </div>
                 </form>

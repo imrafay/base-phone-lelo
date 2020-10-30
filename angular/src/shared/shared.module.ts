@@ -19,11 +19,14 @@ import { LayoutStoreService } from './layout/layout-store.service';
 import { BusyDirective } from './directives/busy.directive';
 import { EqualValidator } from './directives/equal-validator.directive';
 import { CreateUserLocationComponent } from './components/create-user-location/create-user-location.component';
+import { SignUpRegisterModalComponent } from './components/sign-up-register-modal/sign-up-register-modal.component';
+
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 
 import { AuthGuard } from './auth/auth-guard';
 import { ProductCardComponent } from './components/product-card/product-card.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
     imports: [
@@ -32,6 +35,8 @@ import { ProductCardComponent } from './components/product-card/product-card.com
         RouterModule,
         NgxPaginationModule,
         DropdownModule,
+    ModalModule.forChild(),
+
 
     ],
     declarations: [
@@ -43,7 +48,8 @@ import { ProductCardComponent } from './components/product-card/product-card.com
         BusyDirective,
         EqualValidator,
         CreateUserLocationComponent,
-        ProductCardComponent
+        ProductCardComponent,
+        SignUpRegisterModalComponent,
     ],
     exports: [
         AbpPaginationControlsComponent,
@@ -54,6 +60,7 @@ import { ProductCardComponent } from './components/product-card/product-card.com
         BusyDirective,
         EqualValidator,
         CreateUserLocationComponent,
+        SignUpRegisterModalComponent,
         ProductCardComponent,
     ]
 })

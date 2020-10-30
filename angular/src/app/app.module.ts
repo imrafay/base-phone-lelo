@@ -41,7 +41,7 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { AdminHeaderComponent } from './layout/admin-header.component';
 import { PublicHeaderComponent } from './layout/public-header.component';
 import { CategoryComponent } from './category/category.component';
-import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/sign-up-register-modal.component';
+// import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/sign-up-register-modal.component';
 
 
 @NgModule({
@@ -74,7 +74,7 @@ import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/si
     AdminHeaderComponent,
     PublicHeaderComponent,
     CategoryComponent,
-    SignUpRegisterModalComponent,
+    // SignUpRegisterModalComponent,
   ],
   imports: [
     CommonModule,

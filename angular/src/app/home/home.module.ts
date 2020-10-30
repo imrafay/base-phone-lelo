@@ -16,13 +16,16 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SliderModule } from 'primeng/slider';
-
 import { TabMenuModule } from 'primeng/tabmenu'; import { HomeComponent } from './home.component';
 import { PublicHomeComponent } from './public-home.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ProductCategoriesViewComponent } from './product-categories-view/product-categories-view.component';
 import { ProductDetailViewComponent } from './product-detail-view/product-detail-view.component';
+import { ProfileAdDashboard } from './profile-ad-dashboard/profile-ad-dashboard';
 import { NgxImageZoomModule } from 'ngx-image-zoom';
+// import { RatingModule } from 'ngx-bootstrap/rating';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import {RatingModule} from 'primeng/rating';
 
 // import {MenuItem} from 'primeng/api';
 @NgModule({
@@ -33,6 +36,7 @@ import { NgxImageZoomModule } from 'ngx-image-zoom';
         HttpClientModule,
         HttpClientJsonpModule,
         ModalModule.forChild(),
+        RatingModule,
         HomeRoutingModule,
         BsDropdownModule,
         CollapseModule,
@@ -41,20 +45,23 @@ import { NgxImageZoomModule } from 'ngx-image-zoom';
         SharedModule,
         NgxPaginationModule,
         CarouselModule.forRoot(),
+        ProgressbarModule.forRoot(),
         //primeng
         ProgressSpinnerModule,
         DropdownModule,
         TabMenuModule,
         FileUploadModule,
         MultiSelectModule,
-        NgxImageZoomModule, 
-               SliderModule],
+        NgxImageZoomModule,
+        SliderModule],
     declarations: [
         HomeComponent,
         PublicHomeComponent,
         ProductCategoriesViewComponent,
         ProductDetailViewComponent,
-    ],
-    providers: []
+        ProfileAdDashboard,
+        ],
+    providers: [],
+    
 })
 export class HomeModule { } 

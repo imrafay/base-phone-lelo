@@ -1,0 +1,134 @@
+<div id="content" class="section-padding" style="margin-top: 1.5rem;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center" style="margin-top: 100px;
+            margin-bottom: 150px;" *ngIf="!isInProgress">
+                <p-progressSpinner></p-progressSpinner>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="isInProgress">
+                <div class="page-content">
+                    <div class="inner-box">
+                        <div class="dashboard-box">
+                            <h2 class="dashbord-title">Profile</h2>
+                        </div>
+                        <div class="dashboard-wrapper">
+
+                            <product-card [products]="product"> </product-card>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="isInProgress">
+            <div class="container-fluid" style="margin-bottom: 50px">
+                <div id="comments" style="margin-bottom: 50px;">
+                    <div class="comment-box">
+                        <div class="dashboard-box">
+                            <h2 class="dashbord-title">Reviews</h2>
+                        </div>
+                        <div class="row">
+                            <div class="customerReviewsHeading">
+                                Customer Reviews({{review.rating && review.rating.totalReviews}})
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-4">
+                                <div class="row mb-3" *ngFor="let reviewStart of review.rating.ratings;let i = index">
+                                    <div class="col-3">
+                                        <div style="margin-top: -9px;padding-left: 7px;">
+                                            {{reviewStart.rating}} stars
+                                        </div>
+                                    </div>
+                                    <div class="col-8" style="margin-left: -40px;">
+                                        <progressbar [value]="reviewStart.percentage"></progressbar>
+
+                                    </div>
+                                    <div class="col-1" style="margin-left: -20px;">
+                                        <div class="review-count">
+                                            {{reviewStart.percentage}}%
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="    display: flex;
+                            align-items: center;justify-content:center">
+                                <div class="d-flex">
+                                    <b style="    font-family: OpenSans-Bold;
+                                    font-size: 16px;
+                                    color: #000;
+                                    text-align: left;"> {{review.averageRating.toFixed(2)}}</b> <span style="margin-left: 5px;
+                                    font-size: 11px;
+                                  ;"> / 5</span>
+                                    <div style="    margin-right: -40px;
+                                    margin-left: 20px;">
+                                        <!-- <rating [(ngModel)]="rate" [max]="max" readonly="true" name="ratingText1" disable>
+                                        </rating> -->
+                                        <p-rating [ngModel]="rate" readonly="true" stars="5" [cancel]="false" name="rating1"></p-rating>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ol class="comments-list mt-5" *ngIf="review">
+                            <li *ngFor="let comment of review.userProfileReviewOutputList;let i = index">
+                                <div class="media">
+                                    <div class="thumb-left">
+                                        <a>
+                                            <span id="recipient-title-badge{{i}}" class="badge badge-name-styling">
+                                                {{generateAvater(comment.reviewerFullName, i,'recipient-title-badge')}}
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="info-body">
+                                        <div class="media-heading">
+                                            <h4 class="name d-flex">{{comment.reviewerFullName}} &nbsp;&nbsp;
+                                                <!-- <rating [(ngModel)]="comment.rating" [max]="max" readonly="true" name="ratingText"></rating> -->
+                                                <p-rating [ngModel]="comment.rating" readonly="true" stars="5" [cancel]="false" name="rating2"></p-rating>
+
+                                            </h4>
+                                            <span class="comment-date"><i class="lni-alarm-clock"></i>
+                                                {{comment.creationTime.format('ll')}}</span>
+
+                                        </div>
+                                        <p>{{comment.review}}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <div id="respond" *ngIf="searchId != appSession.userId">
+                            <h2 class="respond-title" style="margin-bottom: 10px;" *ngIf="!isReviewEnable">
+                                <span><button class="btn btn-common" (click)="onClickReview()">
+                                        Leave A Review
+                                    </button></span></h2>
+                            <form action="#" *ngIf="isReviewEnable">
+                                <div class="row mb-4">
+                                    <div class="col-lg-6 col-md-6 col-xs-12">
+                                        <div class="pl-1">Rating </div>
+
+                                        <!-- <rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly" name="rating" (keyup)="confirmSelection($event)"></rating> -->
+                                        <p-rating [ngModel]="rate" [cancel]="false" (onRate)="onSelectRating($event)" name="rating1"></p-rating>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12col-xs-12">
+                                        <div class="form-group">
+                                            <textarea id="comment" class="form-control" name="comment" cols="45" rows="8" placeholder="Message..." [(ngModel)]="commentText"></textarea>
+                                        </div>
+                                        <button type="submit" id="submit" class="btn btn-common" (click)="onSaveReview()" [disabled]="commentText == ''">Post
+                                            Review</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<signUpRegisterModal #signUpRegisterModal></signUpRegisterModal>

@@ -1,14 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProductCompanyServiceProxy, DropdownOutputDto, ProductAdvertServiceProxy, ProductAdvertViewDto, ProductAdvertDetailViewDto } from '@shared/service-proxies/service-proxies';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { ProductCompanyServiceProxy, DropdownOutputDto, ProductAdvertServiceProxy, ProductAdvertViewDto, ProductAdvertDetailViewDto, UserProfileReviewInputDto } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
+import { AppComponentBase } from '@shared/app-component-base';
 
 @Component({
   selector: 'product-detail-view.component',
   templateUrl: './product-detail-view.component.html',
   styleUrls: ['./product-detail-view.component.css']
 })
-export class ProductDetailViewComponent implements OnInit {
+export class ProductDetailViewComponent extends AppComponentBase implements OnInit {
   productBrands: DropdownOutputDto[] = [];
   productBrandsLength;
   isShow = false;
@@ -40,18 +41,10 @@ export class ProductDetailViewComponent implements OnInit {
   isNegotiable;
   ramSelected = [];
   storageSelected = [];
-
-  constructor(
-    private _ProductCompanyService: ProductCompanyServiceProxy,
-    private _ProductAdvertService: ProductAdvertServiceProxy,
-    private _route: ActivatedRoute,
-    private viewportScroller: ViewportScroller
-
-
-  ) {
-    console.log(this._route.params)
-    this.searchId = this._route.params ? this._route.params['value'].id : ''
-  }
+  UserProfileReviewInputDto: UserProfileReviewInputDto = new UserProfileReviewInputDto();
+  myThumbnail = "https://wittlock.github.io/ngx-image-zoom/assets/thumb.jpg";
+  myFullresImage = "https://wittlock.github.io/ngx-image-zoom/assets/fullres.jpg";
+  replyInput = [];
   images = [];
   imageShown;
   @ViewChild("aboutus", { static: false }) aboutus;
@@ -71,9 +64,22 @@ export class ProductDetailViewComponent implements OnInit {
       ]
     },
   ]
-  myThumbnail = "https://wittlock.github.io/ngx-image-zoom/assets/thumb.jpg";
-  myFullresImage = "https://wittlock.github.io/ngx-image-zoom/assets/fullres.jpg";
-  replyInput = [];
+  max = 10;
+  rate = 7;
+  isReadonly = false;
+  constructor(
+    injector: Injector,
+    private _ProductCompanyService: ProductCompanyServiceProxy,
+    private _ProductAdvertService: ProductAdvertServiceProxy,
+    private _route: ActivatedRoute,
+    private viewportScroller: ViewportScroller,
+
+
+  ) {
+    super(injector);
+    console.log(this._route.params)
+    this.searchId = this._route.params ? this._route.params['value'].id : ''
+  }
   ngOnInit(): void {
     console.log(this.commentsArray)
     // this.getAllBrands();
@@ -81,14 +87,14 @@ export class ProductDetailViewComponent implements OnInit {
     // this.getAllStorages();
     this.getAllProducts();
 
-  
+
     this.getProductById();
   }
 
 
   mouseEnter(id?, src?) {
     this.highlightedRows = [];
-    this.imageShown = src?'https://phonelelostore.blob.core.windows.net/phonelelo/ProductImages/'+src.image:null;
+    this.imageShown = src ? 'https://phonelelostore.blob.core.windows.net/phonelelo/ProductImages/' + src.image : null;
     this.highlightedRows.push(id);
   }
   zoomScroll(s) {
@@ -101,8 +107,8 @@ export class ProductDetailViewComponent implements OnInit {
       console.log(res)
       this.product = res;
       this.isProgress = true;
-      this.images=res.images;
-      this.imageShown ='https://phonelelostore.blob.core.windows.net/phonelelo/ProductImages/'+this.images[0].image;
+      this.images = res.images;
+      this.imageShown = 'https://phonelelostore.blob.core.windows.net/phonelelo/ProductImages/' + this.images[0].image;
       this.highlightedRows.push(this.images[0].id);
     })
   }
@@ -113,11 +119,22 @@ export class ProductDetailViewComponent implements OnInit {
       3
     ).subscribe(res => {
       console.log(res)
-      this.products = res.items.slice(0,4);;
+      this.products = res.items.slice(0, 4);;
     })
   }
   onEnterReply(e, i) {
     this.replyInput = [];
     this.replyInput.push(i);
   }
+  onSaveReview() {
+    this.UserProfileReviewInputDto.review = this.commentText;
+    this.UserProfileReviewInputDto.userId = this.appSession.userId;
+
+  }
+  confirmSelection(event: KeyboardEvent) {
+    if (event.keyCode === 13 || event.key === 'Enter') {
+      this.isReadonly = true;
+    }
+  }
+ 
 }

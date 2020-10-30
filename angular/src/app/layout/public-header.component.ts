@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, ViewChild, Injector, OnInit, Output, EventEmitter } from '@angular/core';
-import { SignUpRegisterModalComponent } from './sign-up-register-modal/sign-up-register-modal.component';
+import { SignUpRegisterModalComponent } from '@shared/components/sign-up-register-modal/sign-up-register-modal.component';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { AppComponentBase } from '@shared/app-component-base';
 import { AppAuthService } from '@shared/auth/app-auth.service';

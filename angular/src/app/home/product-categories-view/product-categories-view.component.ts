@@ -42,8 +42,8 @@ export class ProductCategoriesViewComponent implements OnInit {
   searchFilter = '';
   isDamage;
   isNegotiable;
-  ramSelected=[];
-  storageSelected=[];
+  ramSelected = [];
+  storageSelected = [];
 
   constructor(
     private _ProductCompanyService: ProductCompanyServiceProxy,
