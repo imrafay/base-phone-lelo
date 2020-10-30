@@ -47,6 +47,7 @@ namespace PhoneLelo.Project.Product.Dto
         public string Review { get; set; }
         public int Rating { get; set; }
         public string ReviewerFullName { get; set; }
+        public int LikeCount { get; set; }
         public DateTime CreationTime { get; set; }
     }
 
@@ -56,5 +57,11 @@ namespace PhoneLelo.Project.Product.Dto
         public long Id { get; set; }
         public string Review { get; set; }
         public int Rating { get; set; }
+    }
+
+    public class UserProfileReviewLikeDto
+    {
+        public long ReviewId { get; set; }
+        public bool Status { get; set; }
     }
 }
