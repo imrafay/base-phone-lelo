@@ -88,16 +88,21 @@ namespace PhoneLelo.Project.Authorization
                         .Average();
 
                     var ratings = new List<UserProfileReviewsRatingDto>();
+                    var totalReviews = userProfileReviews.Count();
+
                     for (int i = 1; i <= 5; i++)
                     {
                         var ratingCount = userProfileReviews.Count(x => x.Rating == i);
-                        ratings.Add(new UserProfileReviewsRatingDto()
+
+                        var review = new UserProfileReviewsRatingDto()
                         {
                             Rating = i,
-                            Count = ratingCount
-                        });
-                    }
+                            Count = ratingCount,
+                            Percentage = (totalReviews > 0) ? (int)Math.Round((double)(100 * ratingCount) / totalReviews) : 0
+                        };
 
+                        ratings.Add(review);
+                    }
 
                     return new UserProfileReviewOutputDto()
                     {
@@ -156,8 +161,8 @@ namespace PhoneLelo.Project.Authorization
         public async Task DeleteUserProfileReviewLike(
         long id)
         {
-             await _userProfileReviewLikeRepository
-                .DeleteAsync(x=>x.Id == id);
+            await _userProfileReviewLikeRepository
+               .DeleteAsync(x => x.Id == id);
         }
     }
 }

@@ -39,6 +39,7 @@ namespace PhoneLelo.Project.Product.Dto
     {
         public int Rating { get; set; }
         public int Count { get; set; }
+        public int Percentage { get; set; }
     }
 
     public class UserProfileReviewOutputListDto
