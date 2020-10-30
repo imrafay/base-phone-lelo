@@ -80,6 +80,34 @@ namespace PhoneLelo.Project.Import.MobilePhone
         {
             await _userProfileReviewManager.Delete(id);
         }
+
+
+        public async Task LikeDisLikeReview(long reviewId)
+        {
+            if (reviewId == 0)
+            {
+                throw new UserFriendlyException(AppConsts.ErrorMessage.IdMustBeProvided);
+            }
+
+            var userProfileReviewLike = await _userProfileReviewManager.
+                GetUserProfileReviewLikeByIdAsync(
+                reviewId: reviewId,
+                userId: AbpSession.UserId.Value);
+
+            if (userProfileReviewLike == null)
+            {
+                var reviewLike = new UserProfileReviewLike()
+                {
+                    UserProfileReviewId= reviewId,
+                    UserId = AbpSession.UserId.Value
+                };
+                await _userProfileReviewManager.CreateUserProfileReviewLike(reviewLike);
+            }
+            else
+            {
+                await _userProfileReviewManager.DeleteUserProfileReviewLike(userProfileReviewLike.Id);
+            }
+        }
     }
 }
 

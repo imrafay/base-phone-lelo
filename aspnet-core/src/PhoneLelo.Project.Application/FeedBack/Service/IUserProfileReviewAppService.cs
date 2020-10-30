@@ -16,5 +16,7 @@ namespace PhoneLelo.Project.Import.MobilePhone
         Task Update(UserProfileReviewDto input);
 
         Task Delete(long id);
+
+        Task LikeDisLikeReview(long reviewId);
     }
 }

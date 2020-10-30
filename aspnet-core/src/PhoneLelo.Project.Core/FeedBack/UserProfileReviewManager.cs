@@ -26,16 +26,17 @@ namespace PhoneLelo.Project.Authorization
     public class UserProfileReviewManager : DomainService
     {
         private readonly IRepository<UserProfileReview, long> _userProfileReviewRepository;
+        private readonly IRepository<UserProfileReviewLike, long> _userProfileReviewLikeRepository;
 
         public UserProfileReviewManager(
-            IRepository<UserProfileReview, long> userProfileReviewRepository)
+            IRepository<UserProfileReview, long> userProfileReviewRepository, IRepository<UserProfileReviewLike, long> userProfileReviewLikeRepository)
         {
             _userProfileReviewRepository = userProfileReviewRepository;
+            _userProfileReviewLikeRepository = userProfileReviewLikeRepository;
         }
 
         public async Task<UserProfileReview> GetByIdAsync(long id)
         {
-            var a = await _userProfileReviewRepository.GetAll().ToListAsync();
             var userProfileReview = await _userProfileReviewRepository.GetAll()
                 .Include(x => x.ReviewerFk)
                 .Where(x => x.Id == id)
@@ -65,6 +66,7 @@ namespace PhoneLelo.Project.Authorization
             {
                 var query = _userProfileReviewRepository.GetAll()
                 .Include(x => x.ReviewerFk)
+                .Include(x => x.userProfileReviewLikes)
                 .WhereIf(filter.Id > 0, x => x.Id == filter.Id)
                 .Where(x => x.UserId == filter.UserId);
 
@@ -75,7 +77,8 @@ namespace PhoneLelo.Project.Authorization
                         CreationTime = x.CreationTime,
                         Rating = x.Rating,
                         Review = x.Review,
-                        ReviewerFullName = x.ReviewerFk.FullName
+                        ReviewerFullName = x.ReviewerFk.FullName,
+                        LikeCount = x.userProfileReviewLikes.Count()
                     }).ToListAsync();
 
                 if (userProfileReviews.Any())
@@ -88,7 +91,8 @@ namespace PhoneLelo.Project.Authorization
                             p => p.Rating,
                             (key, g) => new UserProfileReviewsRatingDto
                             {
-                                Rating = key, Count = g.Count()
+                                Rating = key,
+                                Count = g.Count()
                             }).ToList();
 
                     return new UserProfileReviewOutputDto()
@@ -96,8 +100,8 @@ namespace PhoneLelo.Project.Authorization
                         AverageRating = averageRating,
                         Rating = new UserProfileReviewsStatsDto()
                         {
-                            Ratings= ratings,
-                            TotalReviews= userProfileReviews.Count()
+                            Ratings = ratings,
+                            TotalReviews = userProfileReviews.Count()
                         },
                         UserProfileReviewOutputList = userProfileReviews
                     };
@@ -123,6 +127,33 @@ namespace PhoneLelo.Project.Authorization
         {
             await _userProfileReviewRepository.DeleteAsync(x => x.Id == id);
             await CurrentUnitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<UserProfileReviewLike> GetUserProfileReviewLikeByIdAsync(
+            long reviewId,
+            long userId)
+        {
+            var userProfileReviewLike = await _userProfileReviewLikeRepository.GetAll()
+                .Include(x => x.UserProfileReviewFk)
+                .Where(x => x.UserProfileReviewId == reviewId &&
+                x.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            return userProfileReviewLike;
+        }
+
+
+        public async Task CreateUserProfileReviewLike(
+            UserProfileReviewLike input)
+        {
+            await _userProfileReviewLikeRepository.InsertAsync(input);
+        }
+
+        public async Task DeleteUserProfileReviewLike(
+        long id)
+        {
+             await _userProfileReviewLikeRepository
+                .DeleteAsync(x=>x.Id == id);
         }
     }
 }
