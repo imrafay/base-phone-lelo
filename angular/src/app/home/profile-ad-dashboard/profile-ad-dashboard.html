@@ -9,8 +9,10 @@
                 <div class="page-content">
                     <div class="inner-box">
                         <div class="dashboard-box">
-                            <h2 class="dashbord-title">Profile
-                                <span>{{product && product.length > 0 ? product[0].userFullName:'' }}</span>
+                            <h2 class="dashbord-title">
+                                <span
+                                    style="text-transform: capitalize;">{{product && product.length > 0 ? product[0].userFullName:'' }}</span>
+                                Profile
                             </h2>
                         </div>
                         <div class="dashboard-wrapper">
@@ -23,9 +25,9 @@
             </div>
         </div>
         <div class="row" *ngIf="isInProgress && product && product.length == 0">
-        <div class="col-12 no-products">
-            No Product related to this id
-        </div>
+            <div class="col-12 no-products">
+                No Product related to this id
+            </div>
         </div>
         <div class="row" *ngIf="isInProgress && product && product.length > 0">
             <div class="container-fluid" style="margin-bottom: 50px">
