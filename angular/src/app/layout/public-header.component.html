@@ -66,17 +66,17 @@
                 <a routerLink="/account/login" *ngIf="!isUserValid">
                     <!-- <i class="lni-lock"></i>
                     Log In -->
-                    <i class="fas fa-sign-in-alt icons-header"></i>
+                    <i class="fas fa-sign-in-alt icons-header mt-1"></i>
                 </a>
                 <!-- <a routerLink="/account/login" class="ml-1" (click)="logout()" *ngIf="isUserValid">
                     <i class="fas fa-sign-out-alt icons-header"></i>
                 </a> -->
                 <a style="padding-bottom: 15x;" class="cursor-pointer">
-                    <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:55px" [ngClass]=" highlightedRows[0] == 3  ? 'active'  : ''">
+                    <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:70px" [ngClass]=" highlightedRows[0] == 3  ? 'active'  : ''">
                         <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-bottom: 10px;">
                             <i class="fas fa-cog icons-header"></i>
                         </a>
-                        <div class="dropdown-menu" style="left: -46px;min-width: 0px;">
+                        <div class="dropdown-menu" style="left: -46px;min-width: 0px;margin-top: -20px;">
                             <a class="dropdown-item" routerLink="/app/main/user-dashboard">Dashboard</a>
                             <a class="dropdown-item" (click)="logout()">Sign out</a>
                         </div>

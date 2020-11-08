@@ -44,17 +44,16 @@
             <div class="row">
                 Brand: {{product.productCompanyName}} | More Mobiles Sale & Purchasing From Phonelelo
             </div>
-            <div class="row" style="display: inline-block;
+            <div class="row pb-4" style="display: inline-block;
            width: 100%;
-           padding-bottom: 15px;
            border-bottom: 1px solid #eff0f5;
            line-height: 20px;"></div>
 
-            <div class="row" style="padding-top: 15px;color:#e91e63;font-size:30px">
+            <div class="row pt-2" style="color:#e91e63;font-size:30px;margin-left: -17px;">
                 Rs. {{product.productAdvert.price | number}}
 
             </div>
-            <div class="row" style="padding-top: 25px;">
+            <div class="row pt-3" style="margin-left: -19px;">
                 <div class="badges">
                     <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isPtaApproved">PTA
                         approved</span>
@@ -76,29 +75,34 @@
                         No warranty</span>
                 </div>
             </div>
-            <div class="row" style="padding-top: 15px">
+            <div class="row pt-3">
                 {{product.productAdvert.description}}
             </div>
-            <div class="row" style="padding-top: 15px">
-                <div class="col-3">
-                    <span style="color: black;font-weight: 600;">Storage: </span>
+            <div class="row pt-3">
+                <div class="col-3 pl-0">
+                    <span class="product-status-badge">Storage: </span>
                     &nbsp; {{product.productAdvert.ram}}gb/{{product.productAdvert.storage}}gb
                 </div>
-                <div class="col-3">
-                    <span style="color: black;font-weight: 600;">Exhange Policy: </span>
+                <div class="col-3 pl-0">
+                    <span class="product-status-badge">Exhange Policy: </span>
                     &nbsp; <span *ngIf="product.productAdvert.isExchangeable">Yes</span>
                     <span *ngIf="!product.productAdvert.isExchangeable">No</span>
                 </div>
-                <div class="col-3">
-                    <span style="color: black;font-weight: 600;">Face Sensor: </span>
+                <div class="col-3 pl-0">
+                    <span class="product-status-badge">Face Sensor: </span>
                     <span *ngIf="product.productAdvert.isFaceSensorWorking">Yes</span>
                     <span *ngIf="!product.productAdvert.isFaceSensorWorking">No</span>
                 </div>
-                <div class="col-3">
-                    <span style="color: black;font-weight: 600;">Finger Sensor: </span>
+                <div class="col-3 pl-0">
+                    <span class="product-status-badge">Finger Sensor: </span>
                     <span *ngIf="product.productAdvert.isFingerSensorWorking">Yes</span>
                     <span *ngIf="!product.productAdvert.isFingerSensorWorking">No</span>
                 </div>
+            </div>
+            <div class="row pt-3">
+                <a [routerLink]="['/app/home/profile',product.userId]">
+                    View Profile {{product.userFullName}}
+                </a>
             </div>
         </div>
     </div>

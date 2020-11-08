@@ -1,20 +1,3 @@
-<!-- <div class="page-header" style="background: url(assets/img/banner1.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="breadcrumb-wrapper">
-                    <h2 class="product-title">Dashbord</h2>
-                    <ol class="breadcrumb">
-                        <li><a routerLink="/">Home /</a></li>
-                        <li class="current">Dashboard</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
 <div id="content" class="section-padding" style="margin-top: 1.5rem;">
     <div class="container-fluid">
         <div class="row">
@@ -38,7 +21,8 @@
                                             <div class="icon"><i class="lni-write"></i></div>
                                             <div class="contentbox">
                                                 <h2><a href="#">Total Ad Posted</a></h2>
-                                                <h3>{{SiteStatisticsOutputDto ? SiteStatisticsOutputDto.totalAdsCount : 0}} Add Posted</h3>
+                                                <h3>{{SiteStatisticsOutputDto ? SiteStatisticsOutputDto.totalAdsCount : 0}}
+                                                    Add Posted</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -52,15 +36,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
-                                        <div class="dashboardbox">
-                                            <div class="icon"><i class="lni-support"></i></div>
-                                            <div class="contentbox">
-                                                <h2><a href="#">Offers / Messages</a></h2>
-                                                <h3>2040 Messages</h3>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                 </div>
                             </div>
                             <table class="table  dashboardtable tablemyads">
@@ -89,210 +64,22 @@
                                             <h3>{{products.productCompanyName}}</h3>
                                             <span>{{products.productModelName}}</span>
                                         </td>
-                                        <td data-title="Category"><span class="adcategories">{{products.ram}}/{{products.storage}}</span></td>
+                                        <td data-title="Category"><span
+                                                class="adcategories">{{products.ram}}/{{products.storage}}</span></td>
 
                                         <td data-title="Price">
                                             <h3>{{products.price | number}}</h3>
                                         </td>
                                         <td data-title="Action">
                                             <div class="btns-actions">
-                                                <!-- <a class="btn-action btn-view" href="#"><i class="lni-eye"></i></a> -->
-                                                <a class="btn-action btn-edit cursor-pointer" (click)="getProductById(products.id)"><i class="lni-pencil"></i></a>
-                                                <!-- <a class="btn-action btn-delete" href="#"><i class="lni-trash"></i></a> -->
+                                                <a class="btn-action btn-edit cursor-pointer"
+                                                    (click)="getProductById(products.id)"><i class="lni-pencil"></i></a>
                                             </div>
                                         </td>
                                     </tr>
-                                    <!-- <tr data-category="inactive">
-
-                                        <td class="photo"><img class="img-fluid"
-                                                src="../../../assets/img/product/img3.jpg" alt=""></td>
-                                        <td data-title="Title">
-                                            <h3>Furniture Straps 4-Pack, TV Anti-Tip Metal Wall </h3>
-                                            <span>Ad ID: ng3D5hAMHPajQrM</span>
-                                        </td>
-                                        <td data-title="Category">Real Estate</td>
-                                        <td>
-                                            <span class="adstatus adstatusinactive">Inactive</span>
-                                        </td>
-                                        <td data-title="Price">
-                                            <h3>$69</h3>
-                                        </td>
-                                        <td data-title="Action">
-                                            <div class="btns-actions">
-                                                <a class="btn-action btn-view" href="#"><i class="lni-eye"></i></a>
-                                                <a class="btn-action btn-edit" href="#"><i class="lni-pencil"></i></a>
-                                                <a class="btn-action btn-delete" href="#"><i class="lni-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr data-category="sold">
-
-                                        <td class="photo"><img class="img-fluid"
-                                                src="../../../assets/img/product/img4.jpg" alt=""></td>
-                                        <td data-title="Title">
-                                            <h3>Apple iPhone X, Fully Unlocked 5.8", 64 GB - Black</h3>
-                                            <span>Ad ID: ng3D5hAMHPajQrM</span>
-                                        </td>
-                                        <td data-title="Category">Mobile</td>
-                                        <td data-title="Ad Status"><span class="adstatus adstatussold">Sold</span></td>
-                                        <td data-title="Price">
-                                            <h3>$89</h3>
-                                        </td>
-                                        <td data-title="Action">
-                                            <div class="btns-actions">
-                                                <a class="btn-action btn-view" href="#"><i class="lni-eye"></i></a>
-                                                <a class="btn-action btn-delete" href="#"><i class="lni-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr data-category="expired">
-
-                                        <td class="photo"><img class="img-fluid"
-                                                src="../../../assets/img/product/img7.jpg" alt=""></td>
-                                        <td data-title="Title">
-                                            <h3>Essential Phone 8GB Unlocked with Dual Camera</h3>
-                                            <span>Ad ID: ng3D5hAMHPajQrM</span>
-                                        </td>
-                                        <td data-title="Category">Mobile</td>
-                                        <td data-title="Ad Status"><span class="adstatus adstatusexpired">Expired</span>
-                                        </td>
-                                        <td data-title="Price">
-                                            <h3>$89</h3>
-                                        </td>
-                                        <td data-title="Action">
-                                            <div class="btns-actions">
-                                                <a class="btn-action btn-view" href="#"><i class="lni-eye"></i></a>
-                                                <a class="btn-action btn-edit" href="#"><i class="lni-pencil"></i></a>
-                                                <a class="btn-action btn-delete" href="#"><i class="lni-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr data-category="deleted">
-
-                                        <td class="photo"><img class="img-fluid"
-                                                src="../../../assets/img/product/img10.jpg" alt=""></td>
-                                        <td data-title="Title">
-                                            <h3>Apple iMac Pro 27" All-in-One Desktop, Space Gray</h3>
-                                            <span>Ad ID: ng3D5hAMHPajQrM</span>
-                                        </td>
-                                        <td data-title="Category">Apple iMac</td>
-                                        <td data-title="Ad Status"><span class="adstatus adstatusdeleted">Deleted</span>
-                                        </td>
-                                        <td data-title="Price">
-                                            <h3>$389</h3>
-                                        </td>
-                                        <td data-title="Action">
-                                            <div class="btns-actions">
-                                                <a class="btn-action btn-view" href="#"><i class="lni-eye"></i></a>
-                                                <a class="btn-action btn-edit" href="#"><i class="lni-pencil"></i></a>
-                                                <a class="btn-action btn-delete" href="#"><i class="lni-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="container" style="margin-bottom: 50px;padding: 0px;">
-                <div id="comments" style="margin-bottom: 50px;">
-                    <div class="comment-box">
-                        <h3>Comments</h3>
-                        <ol class="comments-list">
-                            <li *ngFor="let comment of commentsArray;let i = index">
-                                <div class="media">
-                                    <div class="thumb-left">
-                                        <a href="#">
-                                            <img src="assets/img/phone-img/img3.png" alt="" class="img-fluid">
-                                        </a>
-                                    </div>
-                                    <div class="info-body">
-                                        <div class="media-heading">
-                                            <h4 class="name">{{comment.commentUsername}}</h4>
-                                            <span class="comment-date"><i class="lni-alarm-clock"></i> June 21,
-                                                2018</span>
-                                            <a class="reply-link cursor-pointer" (click)="onEnterReply($event,i)"><i
-                                                    class="lni-reply"></i>
-                                                Reply</a>
-                                        </div>
-                                        <p>{{comment.commentText}}</p>
-                                        <div class="row" *ngIf="replyInput[0] == i">
-                                            <div class="col-lg-12 col-md-12 col-xs-12">
-                                                <div class="mb-2 mt-4">
-                                                    <input id="author" class="form-control" name="author" type="text" size="30" placeholder="Reply..">
-                                                </div>
-                                                <div class="d-flex justify-content-end">
-                                                    <span class="send-reply-btn cursor-pointer">
-                                                        Send
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul *ngIf="comment && comment.commentReplies">
-                                    <li *ngFor="let commentReply of comment.commentReplies">
-                                        <div class="media">
-                                            <div class="thumb-left">
-                                                <a href="#">
-                                                    <img src="assets/img/phone-img/img3.png" alt="" class="img-fluid">
-                                                </a>
-                                            </div>
-                                            <div class="info-body">
-                                                <div class="media-heading">
-                                                    <h4 class="name">{{commentReply.userName}}</h4>
-                                                    <span class="comment-date"><i class="lni-alarm-clock"></i> June 21,
-                                                        2018</span>
-                                                    <a class="reply-link cursor-pointer" (click)="onEnterReply($event,i)"><i class="lni-reply"></i>
-                                                        Reply</a>
-                                                </div>
-                                                <p>
-                                                    {{commentReply.userReply}} </p>
-                                                <div class="row" *ngIf="replyInput[0] == i">
-                                                    <div class="col-lg-12 col-md-12 col-xs-12">
-                                                        <div class="mb-2 mt-4">
-                                                            <input id="author" class="form-control" name="author" type="text" size="30" placeholder="Reply..">
-                                                        </div>
-                                                        <div class="d-flex justify-content-end">
-                                                            <span class="send-reply-btn cursor-pointer">
-                                                                Send
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ol>
-
-                        <div id="respond">
-                            <h2 class="respond-title" style="margin-bottom: 10px;">Leave A Review</h2>
-                            <form action="#">
-                                <div class="row mb-4">
-                                    <div class="col-lg-6 col-md-6 col-xs-12">
-                                        <div>Rating </div>
-
-                                        <rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly" (keyup)="confirmSelection($event)"></rating>
-
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12col-xs-12">
-                                        <div class="form-group">
-                                            <textarea id="comment" class="form-control" name="comment" cols="45" rows="8" placeholder="Message..." [(ngModel)]="commentText"></textarea>
-                                        </div>
-                                        <button type="submit" id="submit" class="btn btn-common" (click)="onSaveReview()">Post
-                                            Review</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
                     </div>
                 </div>
             </div>

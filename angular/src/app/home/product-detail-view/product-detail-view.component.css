@@ -100,5 +100,7 @@ tr:nth-child(even) {
 }
 .no-rating{
   color: lightgray;
-
+}
+.product-status-badge{
+  color: black;font-weight: 600;
 }
