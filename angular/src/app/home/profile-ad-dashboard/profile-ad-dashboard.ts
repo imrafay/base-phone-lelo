@@ -114,7 +114,7 @@ export class ProfileAdDashboard extends AppComponentBase implements OnInit {
     this._userProfileReviewServiceProxy.getUserReviews(0, this.searchId).subscribe(res => {
       console.log(res)
       this.review = res;
-      res.userProfileReviewOutputList.map(res => res['firstLetter'] = res.reviewerFullName.substring(0, 1))
+      res && res.userProfileReviewOutputList?res.userProfileReviewOutputList.map(res => res['firstLetter'] = res.reviewerFullName.substring(0, 1)):null;
     })
   }
   reset() {

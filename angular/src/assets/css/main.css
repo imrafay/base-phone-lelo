@@ -4736,10 +4736,10 @@ textarea {
 }
 
 .login-area .forgetpassword {
-    float: right;
-    font-size: 14px;
+    margin-right: 15px;
+    font-size: 10px;
     line-height: 20px;
-    color: #999
+    color: black !important;
 }
 
 .login-area .forgetpassword:hover {
