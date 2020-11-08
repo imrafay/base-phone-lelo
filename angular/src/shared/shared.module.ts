@@ -27,6 +27,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthGuard } from './auth/auth-guard';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
     imports: [
@@ -35,9 +36,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
         RouterModule,
         NgxPaginationModule,
         DropdownModule,
-    ModalModule.forChild(),
-
-
+        ModalModule.forChild(),
+        ProgressSpinnerModule
     ],
     declarations: [
         AbpPaginationControlsComponent,

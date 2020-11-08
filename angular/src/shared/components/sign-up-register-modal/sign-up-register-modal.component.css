@@ -14,8 +14,8 @@
     width: 340px;
 }
 
-.mb-100 {
-    margin-bottom: 100px !important
+.mb-50 {
+    margin-bottom: 50px !important
 }
 
 .mb-50 {
@@ -27,11 +27,14 @@
 }
 
 .verifyLabel {
-    color: black
+    font-size: 13px;
 }
 
 .resetCode {
     color: blue
+}
+.mb-30{
+    margin-bottom: 30px;
 }
 
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {

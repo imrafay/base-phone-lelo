@@ -47,7 +47,9 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   inputName: string = '';
   inputSurName: string = '';
   phoneCode = '03';
-
+  isSignUpNumberSpinner = false;
+  isVerifyCodeSpinner = false;
+  isSignUpDetailsSpinner = false;
   @Output() newItemEvent = new EventEmitter<string>();
 
 
@@ -81,33 +83,26 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   registerOption() {
     console.log(this.inputRegisterOption)
     this.signUpDetailFormBool = true;
-    // this.mobileFormBool = false;
     this.registerAsUserChoice = false;
-    // this.verificationFormBool = false;
-    // this.locationDetailForm = false;
   }
 
   changeRole = (e) => this.inputRegisterOption = e.target.value;
 
   signUpNumber(): void {
-
+    this.isSignUpNumberSpinner = true;
     this._UserServiceProxy.signUpUserByPhoneNumber(this.phoneCode + this.inputNumber, undefined).subscribe(res => {
       this.userId = res;
       this.mobileFormBool = false;
       this.verificationFormBool = true;
       this.cd.detectChanges();
-
-
+      this.isSignUpNumberSpinner = false
       console.log(res)
-
     })
   }
 
   validateNumber(event) {
     const keyCode = event.keyCode;
-
     const excludedKeys = [8, 37, 39, 46];
-
     if (!((keyCode >= 48 && keyCode <= 57) ||
       (keyCode >= 96 && keyCode <= 105) ||
       (excludedKeys.includes(keyCode)))) {
@@ -122,11 +117,10 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
       this.selectedNeighbourhood = valuesArray[2];
       this.neighbourhood = valuesArray[3];
     }
-
-    // this.isValid(valuesArray)
   }
+  
   signUpDetail() {
-
+    this.isSignUpDetailsSpinner = true;
     this.CreateUserDto.emailAddress = this.inputEmail;
     this.CreateUserDto.userName = this.inputEmail;
     this.CreateUserDto.name = this.inputName;
@@ -140,16 +134,16 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
         this.locationDetailForm = true;
         this.signUpDetailFormBool = false;
         this.notify.success(this.l('SuccessfullyRegistered'));
+        this.isSignUpDetailsSpinner = false;
         this.cd.detectChanges();
-
       })
-
+    this.isSignUpDetailsSpinner = false;
+    this.cd.detectChanges();
     console.log(this.CreateUserDto)
-
   }
 
   sendVerificationCode() {
-
+    this.isVerifyCodeSpinner = true;
     this._UserServiceProxy.verifyUserPhoneNumber(this.userId, this.inputVerifyCode).subscribe(res => {
       console.log(res)
       if (res == true) {
@@ -157,14 +151,15 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
         this.mobileFormBool = false;
         this.verificationFormBool = false;
         this.cd.detectChanges();
+        this.isVerifyCodeSpinner = false;
       }
       else {
         this.incorrectCode = true;
         this.cd.detectChanges();
-
+        this.isVerifyCodeSpinner = false;
+        this.cd.detectChanges();
       }
     })
-
   }
 
   getRoles() {
@@ -204,9 +199,9 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
       this.selectedNeighbourhood['id'] ? this.selectedNeighbourhood['id'] : null).subscribe(res => {
         console.log(res)
         this.notify.success(('Location Updated'));
-        this.authService.authenticateModel.password=this.inputVerifyCode
-        this.authService.authenticateModel.userNameOrEmailAddress=this.inputEmail
-        this.authService.authenticateModel.rememberClient=true;
+        this.authService.authenticateModel.password = this.inputVerifyCode
+        this.authService.authenticateModel.userNameOrEmailAddress = this.inputEmail
+        this.authService.authenticateModel.rememberClient = true;
         this.authService.authenticate(() => console.log('res'));
         // setTimeout(() => this.close(), 2000);
         this.cd.detectChanges();
