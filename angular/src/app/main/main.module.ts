@@ -17,12 +17,11 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {SliderModule} from 'primeng/slider';
-
 import {TabMenuModule} from 'primeng/tabmenu';;
-import { UserDashboardComponent } from './user-dashboard/user-dashboard.component'
-;
-import { UserSiderbarComponent } from './user-siderbar/user-siderbar.component'
-;
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { MessagesComponent } from './messages/messages.component';
+
+import { UserSiderbarComponent } from './user-siderbar/user-siderbar.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 @NgModule({
 	imports: [
@@ -49,10 +48,9 @@ import { RatingModule } from 'ngx-bootstrap/rating';
     SliderModule],
 	declarations: [
 	CreateOrEditAddPostComponent,
-	UserDashboardComponent
-,
-	UserSiderbarComponent
-,
+	UserDashboardComponent,
+    UserSiderbarComponent,
+    MessagesComponent,
 	],
 	providers: []
 })

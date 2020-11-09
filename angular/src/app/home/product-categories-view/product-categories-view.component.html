@@ -1,13 +1,13 @@
 <div class="main-container section-padding" style="margin-top:20px">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 col-md-12 col-xs-12 page-sidebar">
+            <div class="col-lg-2 col-12 page-sidebar pr-0">
                 <aside>
                     <div class="widget categories">
-                        <div class="row" style="padding:20px;">
+                        <div class="row resetSection">
                             <div class="col-8">
-                                <h4 class="" style="
-                                font-size: 20px;">All Categories</h4>
+                                <!-- <h4 class="" style="
+                                font-size: 20px;">All Categories</h4> -->
                             </div>
                             <div class="col-4" style="color: black;cursor: pointer;text-align:end;    padding: 1px 10px 0px 0px;
                             " (click)="resetLeftFilters()">
@@ -18,7 +18,7 @@
                             <span class="" *ngFor="let bool of booleanEnum">
                                 <input type="radio" [value]="bool" name="isSpot" [(ngModel)]="isSpot"
                                     (change)="onSelectFilter($event)">
-                                <label class="control-label pl-1 pr-2">{{bool.name}}</label>
+                                <label class="control-label pl-1 pr-2 fontColor-label">{{bool.name}}</label>
                             </span>
                             <div>
                                 <hr>
@@ -29,7 +29,7 @@
                             <span class="" *ngFor="let bool of booleanEnum">
                                 <input type="radio" [value]="bool" name="isDamaged" (change)="onSelectFilter($event)"
                                     [(ngModel)]="isDamage">
-                                <label class="control-label pl-1 pr-2">{{bool.name}}</label>
+                                <label class="control-label pl-1 pr-2 fontColor-label">{{bool.name}}</label>
                             </span>
 
                             <span *ngIf="isSpot && isSpot['value'] == 1">
@@ -45,7 +45,7 @@
                                 <div class="col-12">
                                     <input type="radio" [value]="rom" name="isRam" (change)="onSelectFilter($event)"
                                         [(ngModel)]="selectedRam">
-                                    <label class="control-label p-2">{{rom.name}}</label>
+                                    <label class="control-label p-2 fontColor-label">{{rom.name}}</label>
                                 </div>
                             </div>
                             <div (click)="showMoreBrands('ram')" *ngIf="!isShowRam" class="viewMore">View more</div>
@@ -60,7 +60,7 @@
                                 <div class="col-12">
                                     <input type="radio" [value]="store" name="isStorage"
                                         (change)="onSelectFilter($event)" [(ngModel)]="selectedStorage">
-                                    <label class="control-label p-2">{{store.name}}</label>
+                                    <label class="control-label p-2 fontColor-label">{{store.name}}</label>
                                 </div>
                             </div>
                             <div (click)="showMoreBrands('storage')" *ngIf="!isShowstorage" class="viewMore">View more
@@ -76,7 +76,7 @@
                             <span class="" *ngFor="let cond of condition">
                                 <input type="radio" [value]="cond" name="isUsed" (change)="onSelectFilter($event)"
                                     [(ngModel)]="isNew">
-                                <label class="control-label pl-1 pr-2">{{cond.name}}</label>
+                                <label class="control-label pl-1 pr-2 fontColor-label">{{cond.name}}</label>
                             </span>
                             <div>
                                 <hr>
@@ -87,7 +87,7 @@
                             <span class="" *ngFor="let bool of booleanEnum">
                                 <input type="radio" [value]="bool" name="isPTAapproved"
                                     (change)="onSelectFilter($event)" [(ngModel)]="isPTAapproved">
-                                <label class="control-label pr-2 pl-1">{{bool.name}}</label>
+                                <label class="control-label pr-2 pl-1 fontColor-label">{{bool.name}}</label>
                             </span>
                             <div>
                                 <hr>
@@ -100,7 +100,7 @@
                                 name="rangeSlider" (onChange)="onSelectFilter($event)">
                             </p-slider>
                             <div class="pl-2">
-                                <label style="margin-top: 5px;">
+                                <label style="margin-top: 5px;" class="fontColor-label">
                                     {{rangeValues[0] | number}} - {{rangeValues[1] | number}}
                                 </label>
                             </div>
@@ -113,7 +113,7 @@
                             <span class="" *ngFor="let bool of booleanEnum">
                                 <input type="radio" [value]="bool" name="isNegotiable" (change)="onSelectFilter($event)"
                                     [(ngModel)]="isNegotiable">
-                                <label class="control-label pr-2 pl-1">{{bool.name}}</label>
+                                <label class="control-label pr-2 pl-1 fontColor-label ">{{bool.name}}</label>
                             </span>
                             <div>
                                 <hr>
@@ -124,7 +124,7 @@
                             <span class="" *ngFor="let bool of booleanEnum">
                                 <input type="radio" [value]="bool" name="isExchangeable"
                                     (change)="onSelectFilter($event)" [(ngModel)]="isExchangeable">
-                                <label class="control-label pl-1 pr-2">{{bool.name}}</label>
+                                <label class="control-label pl-1 pr-2 fontColor-label">{{bool.name}}</label>
                             </span>
                             <div>
                                 <hr>
@@ -133,7 +133,7 @@
                     </div>
                 </aside>
             </div>
-            <div class="col-lg-9 col-md-12 col-xs-12 page-content">
+            <div class="col-lg-10 col-12 page-content">
 
                 <div class="product-filter section-filter-bg" style="margin-bottom:0px"
                     *ngIf="productBrandsLength && productBrandsLength > 0 && false">
@@ -170,11 +170,11 @@
                         <div class="col-2">
                             <ul class="nav nav-tabs mr-0">
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#grid-view"><i class="lni-grid"></i></a>
+                                    <a class="nav-link active" data-toggle="tab" href="#grid-view"><i
+                                            class="lni-grid"></i></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#list-view"><i
-                                            class="lni-list"></i></a>
+                                    <a class="nav-link" data-toggle="tab" href="#list-view"><i class="lni-list"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -186,7 +186,8 @@
                                     <p-progressSpinner></p-progressSpinner>
                                 </div>
                                 <div class="row" *ngIf="isProgress">
-                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngFor="let product of products">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngFor="let product of products"
+                                        style="margin-top: 20px;margin-bottom: 20px;">
                                         <div class="item">
                                             <div class="product-item" style="box-shadow: 0px 2px 7px 7px lightgrey;
                                             ">
@@ -241,7 +242,7 @@
                                     <div class="col-12" *ngFor="let product of products">
                                         <div class="featured-box">
                                             <figure>
-                                                <a><img class="img-fluid-box" src="assets/img/featured/img-1.jpg"
+                                                <a><img class="img-fluid-box-list" src="assets/img/featured/img-1.jpg"
                                                         alt=""></a>
                                             </figure>
                                             <div class="feature-content">

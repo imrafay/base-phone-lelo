@@ -2260,7 +2260,7 @@ a.back-to-top:focus {
 
 #list-view .featured-box figure {
     float: left;
-    width: 49%
+    width: 25%
 }
 
 #list-view .featured-box .feature-content {
@@ -2268,7 +2268,7 @@ a.back-to-top:focus {
     text-align: left;
     padding: 15px;
     /* width: 50.667% */
-    width: 100%
+    width: 75%
 }
 
 #list-view .featured-box .feature-content .dsc {
@@ -5425,7 +5425,10 @@ footer .menu li a:hover {
     min-height: 156px!important;
     max-height: 156px!important;
 }
-
+.img-fluid-box-list{
+    width: 100%;
+    height: 176px;
+}
 rating {
     font-size: 25px;
 }
@@ -5460,4 +5463,8 @@ p-rating .p-rating-icon:focus {
 #signUpModal .p-progress-spinner-svg {
     width: 50% !important;
     margin-top: -250px !important;
+}
+#phoneVerifyCode .wrapper{
+    display: flex;
+    justify-content: center;
 }

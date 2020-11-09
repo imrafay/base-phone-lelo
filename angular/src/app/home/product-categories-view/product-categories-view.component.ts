@@ -57,7 +57,7 @@ export class ProductCategoriesViewComponent implements OnInit {
       console.log(val);
       if (val instanceof ActivationStart) {
         if (val) {
-          if (val.snapshot.url.length > 0) {
+          if (val.snapshot.url.length == 2) {
             this.searchFilter = val.snapshot.url[1].path;
           }
         }
@@ -88,7 +88,6 @@ export class ProductCategoriesViewComponent implements OnInit {
     })
   }
   getAllProducts(sortEnum?) {
-    console.log(this.selectedStorage['id'])
     this._ProductAdvertService.getAll(
       undefined, undefined, undefined, undefined, undefined,
       this.productCompanyId, this.searchFilter,
@@ -158,11 +157,11 @@ export class ProductCategoriesViewComponent implements OnInit {
 
   onSelectFilter(event?, sortEnum?) {
 
-    if (this.selectedRam.length != 0) {
+    if (this.selectedRam && this.selectedRam.length != 0) {
       this.ramSelected = [];
       this.ramSelected.push(this.selectedRam['id'])
     }
-    if (this.selectedStorage.length != 0) {
+    if (this.selectedStorage && this.selectedStorage.length != 0) {
       this.storageSelected = [];
       this.storageSelected.push(this.selectedStorage['id'])
     }
@@ -174,13 +173,13 @@ export class ProductCategoriesViewComponent implements OnInit {
     this.getAllProducts(sortEnum ? sortEnum : null);
   }
 
-  resetRightFilters() {
-    this.isProgress = false;
-    this.productCompanyId = null;
-    this.highlightedRows = [];
-    this.products = [];
-    this.getAllProducts();
-  }
+  // resetRightFilters() {
+  //   this.isProgress = false;
+  //   this.productCompanyId = null;
+  //   this.highlightedRows = [];
+  //   this.products = [];
+  //   this.getAllProducts();
+  // }
 
   resetLeftFilters() {
     this.isProgress = false;

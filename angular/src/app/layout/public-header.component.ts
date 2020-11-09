@@ -22,6 +22,8 @@ export class PublicHeaderComponent extends AppComponentBase implements OnInit {
     private _AppSessionService: AppSessionService,
     private _authService: AppAuthService,
     private _router: Router,
+    private _route: ActivatedRoute,
+
 
   ) {
     super(injector);
@@ -30,6 +32,8 @@ export class PublicHeaderComponent extends AppComponentBase implements OnInit {
     this._router.url == '/app/main/add-post' ? this.highlightedRows.push(3) : null;
     console.log(this.appSession)
     console.log(this._router.url)
+    this.searchFilter = this._router.routerState.snapshot.url.split('/')[4];
+    console.log(this._router)
 
   }
   ngOnInit() {
@@ -41,6 +45,7 @@ export class PublicHeaderComponent extends AppComponentBase implements OnInit {
       this.isUserValid = false
     }
     console.log(this.appSession)
+    console.log(this._route)
 
   }
   logout(): void {

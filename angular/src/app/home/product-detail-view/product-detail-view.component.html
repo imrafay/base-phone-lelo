@@ -12,12 +12,8 @@
             </div>
             <div class="row mt-3" *ngIf="images">
                 <div *ngFor="let img of images;let i = index" (click)="mouseEnter(img.id,img)" [ngClass]="
-                    highlightedRows[0] ===
-                    img.id
-                        ? 'selectedImg'
-                        : ''
-                " class="cursor-pointer">
-                    <a><img class="img-fluid" style="width:48px;height: 48px;"
+                    highlightedRows[0] ===img.id ? 'selectedImg': ''" class="cursor-pointer">
+                    <a><img class="img-fluid imgSlider" 
                             [src]="'https://phonelelostore.blob.core.windows.net/phonelelo/ProductImages/'+img.image"
                             alt=""></a>
                 </div>
@@ -100,9 +96,15 @@
                 </div>
             </div>
             <div class="row pt-3">
-                <a [routerLink]="['/app/home/profile',product.userId]">
-                    View Profile {{product.userFullName}}
-                </a>
+                <div class="profileText">
+                    <a [routerLink]="['/app/home/profile',product.userId]">
+                        View Profile {{product.userFullName}}
+                    </a>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-common" [routerLink]="['/app/main/message']">
+                        Chat with seller</button>
+                </div>
             </div>
         </div>
     </div>

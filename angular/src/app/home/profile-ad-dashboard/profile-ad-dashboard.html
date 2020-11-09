@@ -61,22 +61,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-2" style="    display: flex;
-                            align-items: center;justify-content:center">
+                            <div class="col-2 align-center-middle">
                                 <div class="d-flex">
-                                    <b style="    font-family: OpenSans-Bold;
-                                    font-size: 16px;
-                                    color: #000;
-                                    text-align: left;"> {{review.averageRating.toFixed(2)}}</b> <span style="margin-left: 5px;
-                                    font-size: 11px;
-                                  ;"> / 5</span>
-                                    <div style="    margin-right: -40px;
-                                    margin-left: 20px;">
-                                        <!-- <rating [(ngModel)]="rate" [max]="max" readonly="true" name="ratingText1" disable>
-                                        </rating> -->
+                                    <b class="averageRating"> {{review.averageRating.toFixed(2)}}</b> <span
+                                        class="averageRatingText"> / 5</span>
+                                    <div class="averageRatingSec">
                                         <p-rating [ngModel]="rate" readonly="true" stars="5" [cancel]="false"
                                             name="rating1"></p-rating>
-
                                     </div>
                                 </div>
                             </div>

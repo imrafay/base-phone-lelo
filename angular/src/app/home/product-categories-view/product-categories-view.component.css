@@ -83,9 +83,12 @@
   font-size: 30px;
 }
 .fontColor {
-  color: gray;
-  font-weight: bold;
-}
+  /* color: gray; */
+  font-weight: 700;
+  font-size: 13px;
+  color: #000;
+  letter-spacing: 0;
+  line-height: 18px;}
 .ml-2-mr-2{
   margin-right: 2px;
   margin-left: 2px;
@@ -125,3 +128,12 @@
   letter-spacing: 0;
   line-height: 16px;
 }
+.resetSection{padding-bottom: 0px;
+  padding-right: 15px;
+  padding-top: 10px;}
+
+  .fontColor-label{
+    font-size: 13px!important;
+    color: #000000c7!important;
+    font-weight: 100 !important;
+  }

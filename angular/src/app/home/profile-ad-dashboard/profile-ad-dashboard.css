@@ -34,3 +34,21 @@
     justify-content: center;
     align-items: center;
 }
+.averageRating{ 
+font-size: 16px;
+ color: #000;
+ text-align: left;  
+}
+.averageRatingText{
+    margin-left: 5px;
+    font-size: 11px;
+                              
+}
+.averageRatingSec{
+  margin-right: -40px;
+    margin-left: 20px;
+}
+.align-center-middle{
+    display: flex;
+    align-items: center;justify-content:center
+}

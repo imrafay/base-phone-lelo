@@ -22,10 +22,8 @@ import { AppAuthService } from '@shared/auth/app-auth.service';
 export class SignUpRegisterModalComponent extends AppComponentBase implements OnInit {
   @ViewChild('createOrEditModal', { static: true }) modal: ModalDirective;
   @ViewChild('appcreateuserlocation', { static: true }) appcreateuserlocation: CreateUserLocationComponent;
-
   CreateUserDto = new CreateUserDto();
   roles: RoleDto[] = [];
-
   neighbourhood: number = 0;
   selectedState: string = ''
   selectedCity: string = ''
@@ -51,8 +49,20 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
   isVerifyCodeSpinner = false;
   isSignUpDetailsSpinner = false;
   @Output() newItemEvent = new EventEmitter<string>();
-
-
+  config = {
+    allowNumbersOnly: true,
+    length: 4,
+    isPasswordInput: false,
+    disableAutoFocus: false,
+    placeholder: '',
+    inputStyles: {
+      'width': '50px',
+      'height': '50px'
+    }
+  };
+  @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
+  otp: string='0';
+  showOtpComponent = true;
   constructor(private _UserServiceProxy: UserServiceProxy,
     injector: Injector,
     private _AppSessionService: AppSessionService,
@@ -79,6 +89,9 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
     this.signUpDetailFormBool = false;
     this.modal.show();
 
+  }
+  onOtpChange(otp) {
+    this.otp = otp;
   }
   registerOption() {
     console.log(this.inputRegisterOption)
@@ -144,7 +157,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
 
   sendVerificationCode() {
     this.isVerifyCodeSpinner = true;
-    this._UserServiceProxy.verifyUserPhoneNumber(this.userId, this.inputVerifyCode).subscribe(res => {
+    this._UserServiceProxy.verifyUserPhoneNumber(this.userId, this.otp).subscribe(res => {
       console.log(res)
       if (res == true) {
         this.registerAsUserChoice = true

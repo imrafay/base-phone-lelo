@@ -28,6 +28,7 @@ import { AuthGuard } from './auth/auth-guard';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { NgOtpInputModule } from  'ng-otp-input';
 
 @NgModule({
     imports: [
@@ -37,7 +38,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
         NgxPaginationModule,
         DropdownModule,
         ModalModule.forChild(),
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        NgOtpInputModule
     ],
     declarations: [
         AbpPaginationControlsComponent,
