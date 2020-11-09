@@ -5468,3 +5468,13 @@ p-rating .p-rating-icon:focus {
     display: flex;
     justify-content: center;
 }
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
+    color: black !important;
+    background: transparent !important;
+}
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item:focus {
+    box-shadow: none!important;
+}
+.p-inputtext:enabled:focus{
+    box-shadow: none !important;
+}
