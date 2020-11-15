@@ -5,6 +5,7 @@ using PhoneLelo.Project.Authorization.Users;
 using PhoneLelo.Project.MultiTenancy;
 using PhoneLelo.Project.Location;
 using PhoneLelo.Project.Storage;
+using PhoneLelo.Project.Chat;
 
 namespace PhoneLelo.Project.EntityFrameworkCore
 {
@@ -36,7 +37,11 @@ namespace PhoneLelo.Project.EntityFrameworkCore
 
         #region Feeb Back
         public virtual DbSet<UserProfileReview> UserProfileReviews { get; set; } 
-        public virtual DbSet<UserProfileReviewLike> UserProfileReviewLikes { get; set; } 
+        public virtual DbSet<UserProfileReviewLike> UserProfileReviewLikes { get; set; }
+        #endregion
+
+        #region Chate
+        public virtual DbSet<ChatMessage> ChatMessages { get; set; }
         #endregion
 
         public virtual DbSet<BinaryObject> BinaryObjects { get; set; }
