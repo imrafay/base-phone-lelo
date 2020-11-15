@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using PhoneLelo.Project.Authorization.Users;
+using PhoneLelo.Project.Chat;
+using PhoneLelo.Project.Chat.Dto;
 using PhoneLelo.Project.Product.Dto;
 
 namespace PhoneLelo.Project.Users.Dto
@@ -65,6 +67,14 @@ namespace PhoneLelo.Project.Users.Dto
         public UserProfileReviewInputProfile()
         {
             CreateMap<UserProfileReviewInputDto, UserProfileReview>();
+        }
+    }
+
+    public class ChatMessageInputProfile : Profile
+    {
+        public ChatMessageInputProfile()
+        {
+            CreateMap<ChatMessageInputDto, ChatMessage>();
         }
     }
 }
