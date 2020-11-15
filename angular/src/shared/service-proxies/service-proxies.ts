@@ -141,6 +141,201 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
+export class ChatServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param userId (optional) 
+     * @param message (optional) 
+     * @return Success
+     */
+    testMessage(userId: number | undefined, message: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Chat/TestMessage?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
+        if (message !== undefined && message !== null)
+            url_ += "message=" + encodeURIComponent("" + message) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTestMessage(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTestMessage(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processTestMessage(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param receiverId (optional) 
+     * @param senderId (optional) 
+     * @param pagedAndSort_Page (optional) 
+     * @param pagedAndSort_PageSize (optional) 
+     * @param pagedAndSort_SortBy (optional) 
+     * @return Success
+     */
+    getAll(receiverId: number | undefined, senderId: number | undefined, pagedAndSort_Page: number | undefined, pagedAndSort_PageSize: number | undefined, pagedAndSort_SortBy: SortByEnum | undefined): Observable<ChatMessageDtoListResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Chat/GetAll?";
+        if (receiverId === null)
+            throw new Error("The parameter 'receiverId' cannot be null.");
+        else if (receiverId !== undefined)
+            url_ += "ReceiverId=" + encodeURIComponent("" + receiverId) + "&";
+        if (senderId === null)
+            throw new Error("The parameter 'senderId' cannot be null.");
+        else if (senderId !== undefined)
+            url_ += "SenderId=" + encodeURIComponent("" + senderId) + "&";
+        if (pagedAndSort_Page === null)
+            throw new Error("The parameter 'pagedAndSort_Page' cannot be null.");
+        else if (pagedAndSort_Page !== undefined)
+            url_ += "pagedAndSort.Page=" + encodeURIComponent("" + pagedAndSort_Page) + "&";
+        if (pagedAndSort_PageSize === null)
+            throw new Error("The parameter 'pagedAndSort_PageSize' cannot be null.");
+        else if (pagedAndSort_PageSize !== undefined)
+            url_ += "pagedAndSort.PageSize=" + encodeURIComponent("" + pagedAndSort_PageSize) + "&";
+        if (pagedAndSort_SortBy === null)
+            throw new Error("The parameter 'pagedAndSort_SortBy' cannot be null.");
+        else if (pagedAndSort_SortBy !== undefined)
+            url_ += "pagedAndSort.SortBy=" + encodeURIComponent("" + pagedAndSort_SortBy) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<ChatMessageDtoListResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ChatMessageDtoListResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<ChatMessageDtoListResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ChatMessageDtoListResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ChatMessageDtoListResultDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: ChatMessageInputDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Chat/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class ConfigurationServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -4248,6 +4443,189 @@ export interface IRegisterOutput {
     canLogin: boolean;
 }
 
+export enum SortByEnum {
+    _1 = 1,
+    _2 = 2,
+    _3 = 3,
+    _4 = 4,
+    _5 = 5,
+}
+
+export enum MessageStatusEnum {
+    _0 = 0,
+    _1 = 1,
+    _2 = 2,
+}
+
+export class ChatMessageDto implements IChatMessageDto {
+    senderId: number;
+    senderName: string | undefined;
+    receiverId: number;
+    receiverName: string | undefined;
+    message: string | undefined;
+    messageStatus: MessageStatusEnum;
+    date: moment.Moment;
+
+    constructor(data?: IChatMessageDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.senderId = _data["senderId"];
+            this.senderName = _data["senderName"];
+            this.receiverId = _data["receiverId"];
+            this.receiverName = _data["receiverName"];
+            this.message = _data["message"];
+            this.messageStatus = _data["messageStatus"];
+            this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ChatMessageDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ChatMessageDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["senderId"] = this.senderId;
+        data["senderName"] = this.senderName;
+        data["receiverId"] = this.receiverId;
+        data["receiverName"] = this.receiverName;
+        data["message"] = this.message;
+        data["messageStatus"] = this.messageStatus;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        return data; 
+    }
+
+    clone(): ChatMessageDto {
+        const json = this.toJSON();
+        let result = new ChatMessageDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IChatMessageDto {
+    senderId: number;
+    senderName: string | undefined;
+    receiverId: number;
+    receiverName: string | undefined;
+    message: string | undefined;
+    messageStatus: MessageStatusEnum;
+    date: moment.Moment;
+}
+
+export class ChatMessageDtoListResultDto implements IChatMessageDtoListResultDto {
+    items: ChatMessageDto[] | undefined;
+
+    constructor(data?: IChatMessageDtoListResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(ChatMessageDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ChatMessageDtoListResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ChatMessageDtoListResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ChatMessageDtoListResultDto {
+        const json = this.toJSON();
+        let result = new ChatMessageDtoListResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IChatMessageDtoListResultDto {
+    items: ChatMessageDto[] | undefined;
+}
+
+export class ChatMessageInputDto implements IChatMessageInputDto {
+    receiverId: number;
+    senderId: number;
+    message: string | undefined;
+
+    constructor(data?: IChatMessageInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.receiverId = _data["receiverId"];
+            this.senderId = _data["senderId"];
+            this.message = _data["message"];
+        }
+    }
+
+    static fromJS(data: any): ChatMessageInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ChatMessageInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["receiverId"] = this.receiverId;
+        data["senderId"] = this.senderId;
+        data["message"] = this.message;
+        return data; 
+    }
+
+    clone(): ChatMessageInputDto {
+        const json = this.toJSON();
+        let result = new ChatMessageInputDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IChatMessageInputDto {
+    receiverId: number;
+    senderId: number;
+    message: string | undefined;
+}
+
 export class ChangeUiThemeInput implements IChangeUiThemeInput {
     theme: string;
 
@@ -4766,14 +5144,6 @@ export interface IProductAdvertInputDto {
     images: ProductAdvertImageDto[] | undefined;
     productAdvertBatteryUsages: ProductAdvertBatteryUsageDto[] | undefined;
     productAdvertAccessories: ProductAdvertAccessoryDto[] | undefined;
-}
-
-export enum SortByEnum {
-    _1 = 1,
-    _2 = 2,
-    _3 = 3,
-    _4 = 4,
-    _5 = 5,
 }
 
 export class ProductAdvertViewDto implements IProductAdvertViewDto {
