@@ -2,6 +2,7 @@
 using Abp.Domain.Entities.Auditing;
 using Abp.Organizations;
 using PhoneLelo.Project.Authorization.Users;
+using PhoneLelo.Project.Chat.Enum;
 using PhoneLelo.Project.Location;
 using PhoneLelo.Project.Product.Enum;
 using System;

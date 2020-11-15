@@ -19,4 +19,13 @@ namespace PhoneLelo.Project.Product.Enum
         [Description("Price")]
         MinPrice = 5,
     }
+
+    public enum SortByDateEnum
+    {
+        [Description("CreationTime DESC")]
+        Newest = 1,
+
+        [Description("CreationTime")]
+        Oldest = 2,
+    }
 }

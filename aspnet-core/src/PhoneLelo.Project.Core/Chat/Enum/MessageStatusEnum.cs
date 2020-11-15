@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace PhoneLelo.Project.Product.Enum
+namespace PhoneLelo.Project.Chat.Enum
 {
     public enum MessageStatusEnum
     {
