@@ -83,14 +83,33 @@ namespace PhoneLelo.Project.Import.MobilePhone
             #endregion
 
             #region Add Product Advert Images
-            var productAdvertImages = input.Images
-                    .Where(x => !x.Image.IsNullOrEmpty())
-                   .Select(x => new ProductAdvertImage()
-                   {
-                       Image = x.Image,
-                       ImagePriority = x.ProductImagePriority,
-                       ProductAdvertId = productAdvert.Id
-                   }).ToList();
+
+            var productAdvertImages = new List<ProductAdvertImage>();
+
+            if (input.Images.Count() == 1)
+            {
+                productAdvertImages = input.Images
+                     .Where(x => !x.Image.IsNullOrEmpty())
+                     .Select(x => new ProductAdvertImage()
+                     {
+                         Image = x.Image,
+                         ImagePriority = ProductImagePriorityEnum.Primary,
+                         ProductAdvertId = productAdvert.Id
+                     }).ToList();
+
+            }
+            else
+            {
+                productAdvertImages = input.Images
+                 .Where(x => !x.Image.IsNullOrEmpty())
+                 .Select(x => new ProductAdvertImage()
+                 {
+                     Image = x.Image,
+                     ImagePriority = x.ProductImagePriority,
+                     ProductAdvertId = productAdvert.Id
+                 }).ToList();
+
+            }
 
             if (productAdvertImages.Any())
             {
@@ -274,7 +293,13 @@ namespace PhoneLelo.Project.Import.MobilePhone
                     }
                 };
 
-                return await GetAll(getAllfilter);
+                var newAds= await GetAll(getAllfilter);
+               
+                newAds.Items =  newAds.Items
+                .Where(x => x.Id != productAdvertId)
+                .ToList();
+
+                return newAds;
             }
 
             return result;
