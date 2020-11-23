@@ -29,6 +29,8 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { NgOtpInputModule } from  'ng-otp-input';
+import { PusherService } from './pusher-service.service';
+
 
 @NgModule({
     imports: [
@@ -64,6 +66,9 @@ import { NgOtpInputModule } from  'ng-otp-input';
         CreateUserLocationComponent,
         SignUpRegisterModalComponent,
         ProductCardComponent,
+    ],
+    providers:[
+        PusherService
     ]
 })
 export class SharedModule {

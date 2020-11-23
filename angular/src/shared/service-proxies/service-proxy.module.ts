@@ -18,6 +18,7 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.UserLocationServiceProxy,
         ApiServiceProxies.UserProfileReviewServiceProxy,
         ApiServiceProxies.ProductAdvertServiceProxy,
+        ApiServiceProxies.ChatServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })

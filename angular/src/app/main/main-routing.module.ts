@@ -17,6 +17,7 @@ import { MessagesComponent } from './messages/messages.component';
                 children: [
                     { path: 'add-post', component: CreateOrEditAddPostComponent },
                     { path: 'user-dashboard', component: UserDashboardComponent },
+                    { path: 'message/:userId/:userName', component: MessagesComponent },
                     { path: 'message', component: MessagesComponent },
                 ],
             }
