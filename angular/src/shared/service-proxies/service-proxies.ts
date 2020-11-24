@@ -3607,10 +3607,15 @@ export class UserServiceProxy {
     }
 
     /**
+     * @param userId (optional) 
      * @return Success
      */
-    getUserForView(): Observable<UserDto> {
-        let url_ = this.baseUrl + "/api/services/app/User/GetUserForView";
+    getUserForView(userId: number | undefined): Observable<UserDto> {
+        let url_ = this.baseUrl + "/api/services/app/User/GetUserForView?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

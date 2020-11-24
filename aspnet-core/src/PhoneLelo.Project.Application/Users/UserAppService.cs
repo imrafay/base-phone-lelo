@@ -23,12 +23,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Abp.Domain.Uow;
 using System;
-using System.Reflection;
-using System.IO;
-using System.Globalization;
-using CsvHelper;
-using CsvHelper.Configuration.Attributes;
-using Microsoft.AspNetCore.Routing;
 
 namespace PhoneLelo.Project.Users
 {
@@ -336,15 +330,14 @@ namespace PhoneLelo.Project.Users
         }
 
         [AbpAllowAnonymous]
-        public async Task<UserDto> GetUserForView()
+        public async Task<UserDto> GetUserForView(long userId)
         {
             using (CurrentUnitOfWork.SetTenantId(AbpSession.TenantId))
             {
-                var currentUserId = AbpSession.UserId;
-                if (currentUserId.HasValue)
+                if (userId > 0)
                 {
                     var dbUser = await _userManager.GetUserByIdAsync(
-                        userId: AbpSession.UserId.Value);
+                        userId: userId);
 
                     if (dbUser == null)
                     {

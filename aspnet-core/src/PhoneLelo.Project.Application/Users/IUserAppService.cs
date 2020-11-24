@@ -27,6 +27,6 @@ namespace PhoneLelo.Project.Users
 
         Task<ListResultDto<RoleDto>> GetRegistrationRoles();
 
-        Task<UserDto> GetUserForView();
+        Task<UserDto> GetUserForView(long userId);
     }
 }
