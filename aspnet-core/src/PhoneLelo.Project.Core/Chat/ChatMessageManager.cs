@@ -1,22 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Abp.Authorization;
-using Abp.Authorization.Users;
-using Abp.Configuration;
-using Abp.Configuration.Startup;
-using Abp.Dependency;
-using Abp.Domain.Repositories;
-using Abp.Domain.Uow;
-using Abp.Zero.Configuration;
-using PhoneLelo.Project.Authorization.Roles;
+﻿using Abp.Domain.Repositories;
 using PhoneLelo.Project.Authorization.Users;
-using PhoneLelo.Project.MultiTenancy;
 using Abp.Domain.Services;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Linq;
-using PhoneLelo.Project.Chat;
-using PhoneLelo.Project.Product.Dto;
 using PhoneLelo.Project.Chat.Dto;
+using Abp.Linq.Extensions;
 
 namespace PhoneLelo.Project.Chat
 {
@@ -35,15 +23,19 @@ namespace PhoneLelo.Project.Chat
 
 
         public IQueryable<ChatMessageDto> GetChatMessages(
-            long senderId,
-            long receiverId)
+            long receiverId,
+            long senderId=0)
         {
             var messages = (from chat in _chatMessageRepository.GetAll()
-                            .Where(x=>
-                                ((x.SenderId== senderId &&
-                                x.ReceiverId== receiverId) ||
-                                x.SenderId == receiverId &&
+                            
+                            .WhereIf(senderId > 0 && receiverId > 0, x =>
+                                (x.SenderId == senderId &&
+                                x.ReceiverId == receiverId) ||
+                                (x.SenderId == receiverId &&
                                 x.ReceiverId == senderId))
+                            .WhereIf(receiverId > 0,x=>
+                                x.SenderId == receiverId ||
+                                x.ReceiverId == receiverId)
 
                             join receiver in _userRepository.GetAll()
                             on chat.ReceiverId equals receiver.Id
@@ -64,7 +56,6 @@ namespace PhoneLelo.Project.Chat
 
             return messages;
         }
-
 
         public async Task CreateAsync(ChatMessage input)
         {

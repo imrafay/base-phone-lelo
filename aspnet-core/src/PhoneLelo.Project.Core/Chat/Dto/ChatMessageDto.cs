@@ -36,6 +36,18 @@ namespace PhoneLelo.Project.Chat.Dto
 
         public long SenderId { get; set; }
 
-        public PagedAndSortDto pagedAndSort { get; set; }
+        public PagedAndSortChatFilterDto pagedAndSort { get; set; }
     }
+
+    public class UserChatOutputDto
+    {
+        public long SenderId { get; set; }
+        public string SenderName { get; set; }
+
+        public string LastMessage { get; set; }
+
+        public MessageStatusEnum MessageStatus { get; set; }
+        public DateTime Date { get; set; }
+    }
+
 }

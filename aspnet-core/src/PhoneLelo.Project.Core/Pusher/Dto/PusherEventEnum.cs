@@ -6,5 +6,8 @@ namespace PhoneLelo.Project.Pusher.Dto
     {
         [Description("test-user")]
         TestUser,
+
+        [Description("chat-message")]
+        ChatMessage,
     }
 }

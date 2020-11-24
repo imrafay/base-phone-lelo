@@ -17,6 +17,9 @@ using PhoneLelo.Project.Chat.Enum;
 using PhoneLelo.Project.Pusher;
 using PhoneLelo.Project.Pusher.Dto;
 using PhoneLelo.Project.Utils;
+using PhoneLelo.Project.Product.Dto;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace PhoneLelo.Project.Chat.Service
 {
@@ -41,10 +44,14 @@ namespace PhoneLelo.Project.Chat.Service
             var input = new PusherEventInputDto()
             {
                 UserId = userId,
-                EventEnum = RealTimeEventEnum.TestUser,
+                EventEnum = RealTimeEventEnum.TestUser,            
+            };
+
+            var payload = new
+            {
                 Message = message
             };
-            await _pusherManager.TriggerPusherEvent(input);
+            await _pusherManager.TriggerPusherEvent(input, payload);
         }
         public async Task<ListResultDto<ChatMessageDto>> GetAll(
             ChatMessageFilterInputDto filter)
@@ -93,11 +100,60 @@ namespace PhoneLelo.Project.Chat.Service
             var pusherEvent = new PusherEventInputDto()
             {
                 UserId = input.ReceiverId,
-                EventEnum = RealTimeEventEnum.TestUser,
-                Message = input.Message
+                EventEnum = RealTimeEventEnum.ChatMessage
             };
-            await _pusherManager.TriggerPusherEvent(pusherEvent);
+
+            var payload = new
+            {
+                Message= input.Message,
+                SenderUserId = input.SenderId
+            };
+            await _pusherManager.TriggerPusherEvent(pusherEvent, payload);
+
             #endregion
+        }
+
+        public async Task<List<UserChatOutputDto>> GetUserChatsList(long userId)
+        {
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+            {
+                var chatsQuery = _chatMessageManager.GetChatMessages(userId);
+                var senderIds = new List<long>();
+
+                senderIds.AddRange(chatsQuery.Where(x => x.SenderId != userId)
+                        .Select(x => x.SenderId)
+                        .ToList());
+                senderIds.AddRange(chatsQuery.Where(x => x.ReceiverId != userId)
+                        .Select(x => x.ReceiverId)
+                        .ToList());
+
+                var result = new List<UserChatOutputDto>();
+
+                foreach (var senderId in senderIds.Distinct())
+                {
+                    var chat = await chatsQuery
+                        .Where(x =>
+                               (x.SenderId == senderId &&
+                               x.ReceiverId == userId) ||
+                               (x.SenderId == userId &&
+                               x.ReceiverId == senderId))
+                        .OrderByDescending(x => x.Date)
+                        .FirstOrDefaultAsync();
+                    var userChat = new UserChatOutputDto()
+                    {
+                        MessageStatus = chat.MessageStatus,
+                        Date = chat.Date,
+                        LastMessage = chat.Message,
+                        SenderId = senderId,
+                        SenderName = (chat.SenderId == senderId) ? chat.SenderName : chat.ReceiverName
+                    };
+
+                    result.Add(userChat);
+                }
+
+                return result;
+            }
         }
     }
 }

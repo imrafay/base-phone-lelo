@@ -209,12 +209,12 @@ export class ChatServiceProxy {
     /**
      * @param receiverId (optional) 
      * @param senderId (optional) 
+     * @param pagedAndSort_SortBy (optional) 
      * @param pagedAndSort_Page (optional) 
      * @param pagedAndSort_PageSize (optional) 
-     * @param pagedAndSort_SortBy (optional) 
      * @return Success
      */
-    getAll(receiverId: number | undefined, senderId: number | undefined, pagedAndSort_Page: number | undefined, pagedAndSort_PageSize: number | undefined, pagedAndSort_SortBy: SortByEnum | undefined): Observable<ChatMessageDtoListResultDto> {
+    getAll(receiverId: number | undefined, senderId: number | undefined, pagedAndSort_SortBy: SortByDateEnum | undefined, pagedAndSort_Page: number | undefined, pagedAndSort_PageSize: number | undefined): Observable<ChatMessageDtoListResultDto> {
         let url_ = this.baseUrl + "/api/services/app/Chat/GetAll?";
         if (receiverId === null)
             throw new Error("The parameter 'receiverId' cannot be null.");
@@ -224,6 +224,10 @@ export class ChatServiceProxy {
             throw new Error("The parameter 'senderId' cannot be null.");
         else if (senderId !== undefined)
             url_ += "SenderId=" + encodeURIComponent("" + senderId) + "&";
+        if (pagedAndSort_SortBy === null)
+            throw new Error("The parameter 'pagedAndSort_SortBy' cannot be null.");
+        else if (pagedAndSort_SortBy !== undefined)
+            url_ += "pagedAndSort.SortBy=" + encodeURIComponent("" + pagedAndSort_SortBy) + "&";
         if (pagedAndSort_Page === null)
             throw new Error("The parameter 'pagedAndSort_Page' cannot be null.");
         else if (pagedAndSort_Page !== undefined)
@@ -232,10 +236,6 @@ export class ChatServiceProxy {
             throw new Error("The parameter 'pagedAndSort_PageSize' cannot be null.");
         else if (pagedAndSort_PageSize !== undefined)
             url_ += "pagedAndSort.PageSize=" + encodeURIComponent("" + pagedAndSort_PageSize) + "&";
-        if (pagedAndSort_SortBy === null)
-            throw new Error("The parameter 'pagedAndSort_SortBy' cannot be null.");
-        else if (pagedAndSort_SortBy !== undefined)
-            url_ += "pagedAndSort.SortBy=" + encodeURIComponent("" + pagedAndSort_SortBy) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -332,6 +332,66 @@ export class ChatServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param userId (optional) 
+     * @return Success
+     */
+    getUserChatsList(userId: number | undefined): Observable<UserChatOutputDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Chat/GetUserChatsList?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUserChatsList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUserChatsList(<any>response_);
+                } catch (e) {
+                    return <Observable<UserChatOutputDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserChatOutputDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetUserChatsList(response: HttpResponseBase): Observable<UserChatOutputDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(UserChatOutputDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserChatOutputDto[]>(<any>null);
     }
 }
 
@@ -4443,12 +4503,9 @@ export interface IRegisterOutput {
     canLogin: boolean;
 }
 
-export enum SortByEnum {
+export enum SortByDateEnum {
     _1 = 1,
     _2 = 2,
-    _3 = 3,
-    _4 = 4,
-    _5 = 5,
 }
 
 export enum MessageStatusEnum {
@@ -4624,6 +4681,65 @@ export interface IChatMessageInputDto {
     receiverId: number;
     senderId: number;
     message: string | undefined;
+}
+
+export class UserChatOutputDto implements IUserChatOutputDto {
+    senderId: number;
+    senderName: string | undefined;
+    lastMessage: string | undefined;
+    messageStatus: MessageStatusEnum;
+    date: moment.Moment;
+
+    constructor(data?: IUserChatOutputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.senderId = _data["senderId"];
+            this.senderName = _data["senderName"];
+            this.lastMessage = _data["lastMessage"];
+            this.messageStatus = _data["messageStatus"];
+            this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UserChatOutputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserChatOutputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["senderId"] = this.senderId;
+        data["senderName"] = this.senderName;
+        data["lastMessage"] = this.lastMessage;
+        data["messageStatus"] = this.messageStatus;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        return data; 
+    }
+
+    clone(): UserChatOutputDto {
+        const json = this.toJSON();
+        let result = new UserChatOutputDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserChatOutputDto {
+    senderId: number;
+    senderName: string | undefined;
+    lastMessage: string | undefined;
+    messageStatus: MessageStatusEnum;
+    date: moment.Moment;
 }
 
 export class ChangeUiThemeInput implements IChangeUiThemeInput {
@@ -5144,6 +5260,14 @@ export interface IProductAdvertInputDto {
     images: ProductAdvertImageDto[] | undefined;
     productAdvertBatteryUsages: ProductAdvertBatteryUsageDto[] | undefined;
     productAdvertAccessories: ProductAdvertAccessoryDto[] | undefined;
+}
+
+export enum SortByEnum {
+    _1 = 1,
+    _2 = 2,
+    _3 = 3,
+    _4 = 4,
+    _5 = 5,
 }
 
 export class ProductAdvertViewDto implements IProductAdvertViewDto {

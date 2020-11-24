@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
@@ -15,5 +16,7 @@ namespace PhoneLelo.Project.Chat.Service
             ChatMessageFilterInputDto filter);
 
         Task Create(ChatMessageInputDto input);
+
+        Task<List<UserChatOutputDto>> GetUserChatsList(long userId);
     }
 }

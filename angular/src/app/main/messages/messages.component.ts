@@ -46,7 +46,7 @@ export class MessagesComponent extends AppComponentBase implements OnInit {
   }
 
   recieveEvent() {
-    this.pusherService.channel.bind('test-user', (message) => {
+    this.pusherService.channel.bind('chat-message', (message) => {
       console.log(message);
       this.getAllMessages();
     });

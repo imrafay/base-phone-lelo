@@ -12,7 +12,9 @@ namespace PhoneLelo.Project.Pusher
 
     public interface IPusherManager : IDomainService
     {
-        Task TriggerPusherEvent(PusherEventInputDto input);
+        Task TriggerPusherEvent(
+            PusherEventInputDto input,
+            object obj);
     }
 
     public class PusherManager : DomainService, IPusherManager
@@ -38,12 +40,14 @@ namespace PhoneLelo.Project.Pusher
             );
         }
 
-        public async Task TriggerPusherEvent(PusherEventInputDto input)
+        public async Task TriggerPusherEvent(
+            PusherEventInputDto input,
+            object obj)
         {
             await _pusher.TriggerAsync(
                         channelName: $"user-{input.UserId}",
                         eventName: input.EventEnum.GetDescription(),
-                        data: input.Message
+                        data: obj
                     );
         }
     }
