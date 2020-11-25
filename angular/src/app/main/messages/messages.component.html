@@ -170,11 +170,11 @@
                 </div>
                 <div class="messages" *ngIf="userMessagesCount > 0">
                     <ul *ngFor="let message of messages">
-                        <li class="sent" *ngIf="message.senderId == appSession.userId">
+                        <li class="replies" *ngIf="message.senderId == appSession.userId">
                             <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
                             <p>{{message.message}}</p>
                         </li>
-                        <li class="replies" *ngIf="message.senderId != appSession.userId">
+                        <li class="sent" *ngIf="message.senderId != appSession.userId">
                             <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
                             <p>{{message.message}}</p>
                         </li>

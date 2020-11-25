@@ -56,15 +56,15 @@ export class MessagesComponent extends AppComponentBase implements OnInit {
   sendMessage() {
     this.ChatMessageInputDto.senderId = this.appSession.userId;
     this.ChatMessageInputDto.receiverId = this.receiverId;
-    // this._chatService.create(this.ChatMessageInputDto).subscribe(res => {
-    //   console.log(res)
-    //   this.pusherService.channel.trigger('test-user', (res) => {
-    //     console.log(res)
-    //   })
-    //   this.ChatMessageInputDto.message = '';
-    // })
-    this._chatService.testMessage(this.ChatMessageInputDto.receiverId,this.ChatMessageInputDto.message).subscribe(res => {
+    this._chatService.create(this.ChatMessageInputDto).subscribe(res => {
+      console.log(res)
+      this.pusherService.channel.trigger('chat-message', (res) => {
+        console.log(res)
+      })
+      this.ChatMessageInputDto.message = '';
     })
+    //this._chatService.testMessage(this.ChatMessageInputDto.receiverId,this.ChatMessageInputDto.message).subscribe(res => {
+    //})
   
   }
 
