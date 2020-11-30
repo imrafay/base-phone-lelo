@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
-import { ProductAdvertServiceProxy, ProductAdvertViewDto, ProductAdvertDetailViewDto, SiteStatisticsOutputDto, UserProfileReviewInputDto, ChatMessageInputDto, ChatServiceProxy, ChatMessageDto } from '@shared/service-proxies/service-proxies';
+import { ProductAdvertServiceProxy, ProductAdvertViewDto, ProductAdvertDetailViewDto, SiteStatisticsOutputDto, UserProfileReviewInputDto, ChatMessageInputDto, ChatServiceProxy, ChatMessageDto, UserChatOutputDto } from '@shared/service-proxies/service-proxies';
 import { CreateOrEditAddPostComponent } from '../create-or-edit-add-post/create-or-edit-add-post.component';
 import { AbpSessionService } from 'abp-ng2-module';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
@@ -21,6 +21,9 @@ export class MessagesComponent extends AppComponentBase implements OnInit {
   userMessagesCount: number;
   messageText = '';
   ChatMessageInputDto: ChatMessageInputDto = new ChatMessageInputDto();
+  userChatmessages: UserChatOutputDto[] = [];
+  highlightedRows = []
+
   constructor(
     private _ProductAdvertService: ProductAdvertServiceProxy,
     injector: Injector,
@@ -42,13 +45,14 @@ export class MessagesComponent extends AppComponentBase implements OnInit {
   ngOnInit(): void {
     this.messages = [];
     this.recieveEvent();
-    this.receiverId && this.appSession.userId ? this.getAllMessages() : null;
+    this.receiverId && this.appSession.userId ? this.getAllMessages(this.receiverId) : null;
+    this.getUserChatmessages();
   }
 
   recieveEvent() {
     this.pusherService.channel.bind('chat-message', (message) => {
       console.log(message);
-      this.getAllMessages();
+      this.getAllMessages(this.receiverId);
     });
   }
 
@@ -58,30 +62,47 @@ export class MessagesComponent extends AppComponentBase implements OnInit {
     this.ChatMessageInputDto.receiverId = this.receiverId;
     this._chatService.create(this.ChatMessageInputDto).subscribe(res => {
       console.log(res)
-      this.pusherService.channel.trigger('chat-message', (res) => {
-        console.log(res)
-      })
+      // this.pusherService.channel.trigger('chat-message', (res) => {
+      //   console.log(res)
+      // })
       this.ChatMessageInputDto.message = '';
     })
     //this._chatService.testMessage(this.ChatMessageInputDto.receiverId,this.ChatMessageInputDto.message).subscribe(res => {
     //})
-  
+
   }
 
-  getAllMessages() {
-    this._chatService.getAll(this.receiverId, this.appSession.userId, undefined, undefined, undefined).subscribe(res => {
+  getAllMessages(id) {
+    this._chatService.getAll(id, this.appSession.userId, undefined, undefined, undefined).subscribe(res => {
       console.log(res);
       this.userMessagesCount = res.items.length;
       this.messages = res.items;
     })
   }
+  getUserChatmessages() {
+    this._chatService.getUserChatsList(this.appSession.userId).subscribe(res => {
+      console.log(res);
+      this.userChatmessages = res;
+    })
+  }
 
-  generateAvater(nameString: string, idTag: string) {
+  generateAvater(nameString: string, idTag: string, i?: number,) {
     var colours = ["#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50", "#f1c40f", "#e67e22", "#e74c3c", "#ecf0cc", "#95a5a6", "#f39c12", "#d35400", "#c0392b", "#bdc3c7", "#7f8c8d"];
     var name = nameString,
       nameSplit = name ? name.split(" ") : '',
       initials = nameSplit ? nameSplit[0].charAt(0).toUpperCase() : '';
-    var recipientName = document.getElementById(idTag)
+    var recipientName = document.getElementById(idTag);
+    this.recepientBinding(recipientName, initials, colours);
+  }
+  generateAvaterForChat(nameString: string, i: number, idTag: string) {
+    var colours = ["#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50", "#f1c40f", "#e67e22", "#e74c3c", "#ecf0cc", "#95a5a6", "#f39c12", "#d35400", "#c0392b", "#bdc3c7", "#7f8c8d"];
+    var name = nameString,
+      nameSplit = name ? name.split(" ") : '',
+      initials = nameSplit ? nameSplit[0].charAt(0).toUpperCase() : '';
+    var recipientName = document.getElementById(idTag + i);
+    this.recepientBinding(recipientName, initials, colours);
+  }
+  recepientBinding(recipientName, initials, colours) {
     recipientName.innerText = initials;
     var charIndex = initials.charCodeAt(0) - 64,
       colourIndex = charIndex % 20;
@@ -89,6 +110,18 @@ export class MessagesComponent extends AppComponentBase implements OnInit {
     recipientName.style.background = colours[colourIndex - 1];
     recipientName.style.textAlign = "center";
     recipientName.style.color = "white";
+  }
+  onSelectChat(id,name) {
+    this.highlightedRows.length > 0 ? this.highlightedRows.pop() : null;
+    this.highlightedRows.push(id);
+    if (this.highlightedRows && this.highlightedRows.length > 0) {
+      this.receiverId = id;
+      this.receiverName=name;
+      this.getAllMessages(this.receiverId);
+    }
+  }
+  isValid(){
+    return!(this.messageText && this.receiverId && this.appSession.userId);
   }
 }
 interface Message {
