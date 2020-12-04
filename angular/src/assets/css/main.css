@@ -16,7 +16,7 @@ body {
     line-height: 25px;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    overflow-x: hidden
+    overflow-x: hidden;
 }
 
 h1,
@@ -1637,7 +1637,8 @@ a.back-to-top:focus {
     z-index: 99;
     overflow: hidden;
     max-width: 350px;
-    max-height: 162px;
+    /* max-height: 162px; */
+    height: 140px;
     -webkit-transition: all .4s ease;
     -moz-transition: all .4s ease;
     -ms-transition: all .4s ease;

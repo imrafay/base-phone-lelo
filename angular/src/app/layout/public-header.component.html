@@ -38,7 +38,8 @@
                             <input type="text" name="" id="" placeholder="Enter keyword" [(ngModel)]="searchFilter" class="search-input">
                             <div>
                                 <!-- <button type="submit" name="submit" class="btn btn-primary ">Search</button> -->
-                                <button type="submit" name="submit" class="btn btn-primary search-btn-home" [routerLink]="['/app/home/category',searchFilter]">
+                                <button type="submit" name="submit" class="btn btn-primary search-btn-home" [routerLink]="['/app/home/category',searchFilter]"
+                                [disabled]="!searchFilter">
                                     <i class="fas fa-search"></i>
                                 </button>
 

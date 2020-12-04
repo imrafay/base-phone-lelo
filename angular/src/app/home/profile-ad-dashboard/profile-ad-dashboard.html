@@ -36,12 +36,12 @@
                         <div class="dashboard-box">
                             <h2 class="dashbord-title">Reviews</h2>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="review.rating">
                             <div class="customerReviewsHeading">
                                 Customer Reviews({{review.rating && review.rating.totalReviews}})
                             </div>
                         </div>
-                        <div class="row ">
+                        <div class="row" *ngIf="review.rating">
                             <div class="col-4">
                                 <div class="row mb-3" *ngFor="let reviewStart of review.rating.ratings;let i = index">
                                     <div class="col-3">

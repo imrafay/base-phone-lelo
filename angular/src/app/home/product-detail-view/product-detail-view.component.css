@@ -89,8 +89,9 @@ tr:nth-child(even) {
 .page-height{
   display: flex;
   justify-content: center;
-  margin-bottom: 200px;
-  margin-top: 200px;
+  /* margin-bottom: 200px;*/
+  margin-top: 200px; 
+  height: 100vh;
 }
 .selectedImg{
   border: 1px solid #e91e63;

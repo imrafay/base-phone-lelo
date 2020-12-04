@@ -1,8 +1,9 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { ProductCompanyServiceProxy, DropdownOutputDto, ProductAdvertServiceProxy, ProductAdvertViewDto, ProductAdvertDetailViewDto, UserProfileReviewInputDto } from '@shared/service-proxies/service-proxies';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { AppComponentBase } from '@shared/app-component-base';
+import { ActivationStart } from '@angular/router';
 
 @Component({
   selector: 'product-detail-view.component',
@@ -73,21 +74,26 @@ export class ProductDetailViewComponent extends AppComponentBase implements OnIn
     private _ProductAdvertService: ProductAdvertServiceProxy,
     private _route: ActivatedRoute,
     private viewportScroller: ViewportScroller,
+    private _router: Router,
 
 
   ) {
     super(injector);
-    console.log(this._route.params)
-    this.searchId = this._route.params ? this._route.params['value'].id : ''
+    this.searchId = this._route.params ? this._route.params['value'].id : '';
+    this._router.events.subscribe((val) => {
+      if (val instanceof ActivationStart) {
+        if (val) {
+          if (val.snapshot.params) {
+            this._router.routeReuseStrategy.shouldReuseRoute = function () {
+              return false;
+            };
+          }
+        }
+      }
+    });
   }
   ngOnInit(): void {
-    console.log(this.commentsArray)
-    // this.getAllBrands();
-    // this.getAllRams();
-    // this.getAllStorages();
     this.getAllProducts();
-
-
     this.getProductById();
   }
 
@@ -136,5 +142,5 @@ export class ProductDetailViewComponent extends AppComponentBase implements OnIn
       this.isReadonly = true;
     }
   }
- 
+
 }
