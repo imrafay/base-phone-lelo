@@ -1,0 +1,69 @@
+.nxtBtn {
+    background: transparent;
+    color: #E91E63;
+    width: 140px;
+    border: 1px solid #E91E63;
+}
+
+.inputNumber {
+    margin: auto;
+    width: 340px;
+}
+
+.input-wdith-340 {
+    width: 340px;
+}
+
+.mb-50 {
+    margin-bottom: 50px !important
+}
+
+.mb-50 {
+    margin-bottom: 50px !important
+}
+
+.mt-100 {
+    margin-top: 100px
+}
+
+.verifyLabel {
+    font-size: 13px;
+}
+
+.resetCode {
+    color: blue
+}
+.mb-30{
+    margin-bottom: 30px;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.textWarning {
+    color: #e91e63;
+}
+
+/* .numberStyling{
+    width: 70%;
+    margin: auto;
+} */
+
+#phoneNumber .input-group-text {
+    background-color: #e91e63 !important;
+    border: 1px solid #e91e63 !important;
+    color: #ffffff !important;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}

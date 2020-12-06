@@ -1,0 +1,176 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-md" id="signUpModal">
+        <div class="modal-content" style="margin-top: 100px;" *ngIf="active">
+            <form #signUpForm="ngForm" *ngIf="mobileFormBool == true">
+
+                <div class="modal-body">
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div class="form-group text-center mt-100 mb-5">
+                        <img src="assets/img/logo.png">
+                    </div>
+                    <div class="mb-50" id="phoneNumber" style="min-height: 65px;">
+                        <div class="center ">
+                            <span class="input-group-text" style="border-radius: 0px;"
+                                id="basic-addon1">{{phoneCode}}</span>
+                            <input name="mobNumber" class="form-control m-input input-wdith-340"
+                                [(ngModel)]="inputNumber" placeholder="Enter your Number" type="text" #number="ngModel"
+                                minlength="9" maxlength="9" required style="border-radius: 0px;"
+                                (keydown)="validateNumber($event)">
+
+                        </div>
+                        <div *ngIf="number.invalid" class="text-center textWarning m-auto" style="height: 20px;">
+                            <div *ngIf="number.errors.minlength">
+                                number must be at least 9 digitss.
+                            </div>
+                            <div *ngIf="number.errors.maxlength">
+                                number must be at least 9 digits.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-center mb-50">
+                        <button type="submit" id="submit" class="btn btn-common" (click)="signUpNumber()"
+                            [disabled]="!signUpForm.form.valid">Next</button>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 0px;" *ngIf="isSignUpNumberSpinner">
+                        <p-progressSpinner></p-progressSpinner>
+                    </div>
+                </div>
+            </form>
+            <form #verificationForm="ngForm" *ngIf="mobileFormBool == false && verificationFormBool == true">
+                <div class="modal-body">
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="form-group text-center mt-100 mb-5">
+                        <img src="assets/img/logo.png">
+                    </div>
+                    <div class="form-group" style="min-height: 90px;" id="phoneVerifyCode">
+                        <!-- <input name="verificationCode" autoFocus [(ngModel)]="inputVerifyCode"
+                            class="form-control m-input inputNumber" placeholder="Verification Code" type="text"
+                            (keydown)="validateNumber($event)" maxlength="4" minlength="4" required> -->
+                            <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)" [config]="config"></ng-otp-input>
+                        <label class="d-flex justify-content-center mt-3 verifyLabel">We just sent your authentication
+                            code at
+                            {{phoneCode}}{{inputNumber}}
+                        </label>
+                    </div>
+                    <div class="textWarning text-center m-2" *ngIf="incorrectCode">Code is incorrect</div>
+                    <div class="form-group text-center mb-50">
+                        <button type="submit" id="submit" class="btn btn-common" (click)="sendVerificationCode()"
+                            [disabled]="otp && otp.length != 4">Next</button>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 0px;" *ngIf="isVerifyCodeSpinner">
+                        <p-progressSpinner></p-progressSpinner>
+                    </div>
+                </div>
+            </form>
+
+            <form #registerAsUserChoiceForm="ngForm"
+                *ngIf="registerAsUserChoice == true  && verificationFormBool == false">
+                <div class="modal-body">
+
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div class="form-group text-center mt-100 mb-5">
+                        <img src="assets/img/logo.png">
+                    </div>
+
+
+                    <div class="mb-10 text-center row" *ngFor="let role of roles">
+                        <div class="col-4" style="text-align: end;">
+                            <input name="selectRole" type="radio" (change)="changeRole($event)" value="{{role.id}}">
+                        </div>
+                        <div class="col-8" style="text-align: start;">
+                            <label class="ml-1">Register as {{role.displayName}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group text-center mb-50" style="margin-top: 50px;">
+                        <button type="submit" id="submit" class="btn btn-common" (click)="registerOption()"
+                            [disabled]="!inputRegisterOption">Next</button>
+                    </div>
+                </div>
+            </form>
+
+            <form #signUpDetailsForm="ngForm" *ngIf="signUpDetailFormBool == true &&
+            registerAsUserChoice == false">
+                <div class="modal-body">
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="form-group text-center mt-100 mb-5">
+                        <img src="assets/img/logo.png">
+                    </div>
+                    <div class="form-group mb-0" style="min-height: 90px;">
+                        <input name="name" class="form-control m-input inputNumber" type="text" placeholder="First Name"
+                            [(ngModel)]="inputName" #name="ngModel" required>
+                        <div *ngIf="name.invalid" class="text-center textWarning" style="height: 30px;">
+                            <div *ngIf="name.errors.required">
+                                Name is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-0" style="min-height: 90px;">
+                        <input name="surName" class="form-control m-input inputNumber" type="text"
+                            placeholder="Last Name" [(ngModel)]="inputSurName" #surName="ngModel" required>
+                        <div *ngIf="surName.invalid" class="text-center textWarning" style="height: 30px;">
+                            <div *ngIf="surName.errors.required">
+                                Last Name is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-0" style="min-height: 90px;">
+                        <input name="EmailAddress" class="form-control m-input inputNumber" type="text"
+                            placeholder="Email Address" [(ngModel)]="inputEmail"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required #EmailAddress="ngModel">
+                        <div *ngIf="EmailAddress.invalid && (EmailAddress.dirty || EmailAddress.touched)"
+                            class="textWarning text-center">
+                            <div *ngIf="EmailAddress.errors.required">
+                                Email Address is required.
+                            </div>
+                            <div *ngIf="EmailAddress.errors.pattern">
+                                Email Address is incorrect.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-center mb-50">
+                        <button type="submit" id="submit" class="btn btn-common" (click)="signUpDetail()"
+                            [disabled]="!signUpDetailsForm.form.valid">Next</button>
+                    </div>
+                    <div class="d-flex justify-content-center" style="height: 0px;" *ngIf="isSignUpDetailsSpinner">
+                        <p-progressSpinner></p-progressSpinner>
+                    </div>
+                </div>
+            </form>
+
+            <form #locationDetailForm="ngForm" *ngIf="locationDetailForm == true &&
+            signUpDetailFormBool == false">
+                <div class="modal-body">
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="form-group text-center mt-100 mb-5">
+                        <img src="assets/img/logo.png">
+                    </div>
+                    <app-create-user-location (onSelectAllDropdownEvents)="onSelectDropdown($event)">
+                    </app-create-user-location>
+                    <!-- <div class="form-group text-center mb-100">
+                        <button type="submit" class="btn nxtBtn" (click)="saveLocation()"
+                         [disabled]="!isValid()">
+                            <span>
+                                Submit</span></button>
+                    </div> -->
+                    <div class="form-group text-center mb-50">
+                        <button type="submit" id="submit" class="btn btn-common" (click)="saveLocation()"
+                            [disabled]="!isValid()">Next</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

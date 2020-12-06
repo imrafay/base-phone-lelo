@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { SharedModule } from '@shared/shared.module';
-import { HomeComponent } from '@app/home/home.component';
+// import { HomeComponent } from '@app/home/home.component';
 import { AboutComponent } from '@app/about/about.component';
 // tenants
 import { TenantsComponent } from '@app/tenants/tenants.component';
@@ -29,7 +29,6 @@ import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.c
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 // layout
-import { HeaderComponent } from './layout/header.component';
 import { HeaderLeftNavbarComponent } from './layout/header-left-navbar.component';
 import { HeaderLanguageMenuComponent } from './layout/header-language-menu.component';
 import { HeaderUserMenuComponent } from './layout/header-user-menu.component';
@@ -39,10 +38,15 @@ import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 
+import { AdminHeaderComponent } from './layout/admin-header.component';
+import { PublicHeaderComponent } from './layout/public-header.component';
+import { CategoryComponent } from './category/category.component';
+// import { SignUpRegisterModalComponent } from './layout/sign-up-register-modal/sign-up-register-modal.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     AboutComponent,
     // tenants
     TenantsComponent,
@@ -59,7 +63,6 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     ChangePasswordComponent,
     ResetPasswordDialogComponent,
     // layout
-    HeaderComponent,
     HeaderLeftNavbarComponent,
     HeaderLanguageMenuComponent,
     HeaderUserMenuComponent,
@@ -67,13 +70,15 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     SidebarComponent,
     SidebarLogoComponent,
     SidebarUserPanelComponent,
-    SidebarMenuComponent
+    SidebarMenuComponent,
+    AdminHeaderComponent,
+    PublicHeaderComponent,
+    CategoryComponent,
+    // SignUpRegisterModalComponent,
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
+    FormsModule, ReactiveFormsModule,
     HttpClientJsonpModule,
     ModalModule.forChild(),
     BsDropdownModule,
@@ -83,8 +88,13 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
+    //primeng
+    // DropdownModule,
+    // ProgressSpinnerModule,
   ],
-  providers: [],
+  providers: [
+    
+  ],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,
@@ -96,6 +106,7 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     CreateUserDialogComponent,
     EditUserDialogComponent,
     ResetPasswordDialogComponent,
+    PublicHeaderComponent
   ],
 })
-export class AppModule {}
+export class AppModule { }

@@ -21,6 +21,8 @@ using PhoneLelo.Project.Roles.Dto;
 using PhoneLelo.Project.Users.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Abp.Domain.Uow;
+using System;
 
 namespace PhoneLelo.Project.Users
 {
@@ -33,6 +35,7 @@ namespace PhoneLelo.Project.Users
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
+        private readonly int _tenantId = 1;
 
         public UserAppService(
             IRepository<User, long> repository,
@@ -50,6 +53,7 @@ namespace PhoneLelo.Project.Users
             _passwordHasher = passwordHasher;
             _abpSession = abpSession;
             _logInManager = logInManager;
+
         }
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
@@ -75,6 +79,7 @@ namespace PhoneLelo.Project.Users
             return MapToEntityDto(user);
         }
 
+
         public override async Task<UserDto> UpdateAsync(UserDto input)
         {
             CheckUpdatePermission();
@@ -93,16 +98,54 @@ namespace PhoneLelo.Project.Users
             return await GetAsync(input);
         }
 
+        [AbpAllowAnonymous]
+        public async Task UpdateUserProfile(UserDto input)
+        {
+            CheckUpdatePermission();
+
+            var user = await _userManager.GetUserByIdAsync(input.Id);
+
+            MapToEntity(input, user);
+
+            CheckErrors(await _userManager.UpdateAsync(user));
+
+            if (input.RoleNames != null)
+            {
+                CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
+            }
+            await CurrentUnitOfWork.SaveChangesAsync();
+        }
+
         public override async Task DeleteAsync(EntityDto<long> input)
         {
             var user = await _userManager.GetUserByIdAsync(input.Id);
             await _userManager.DeleteAsync(user);
         }
 
+        [AbpAllowAnonymous]
         public async Task<ListResultDto<RoleDto>> GetRoles()
         {
-            var roles = await _roleRepository.GetAllListAsync();
-            return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+            {
+                var roles = await _roleRepository.GetAllListAsync();
+                return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
+            }
+        }
+
+        [AbpAllowAnonymous]
+        public async Task<ListResultDto<RoleDto>> GetRegistrationRoles()
+        {
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+            {
+                var roles = await _roleRepository.GetAllListAsync();
+                roles = roles
+                    .Where(x => x.Name != StaticRoleNames.Host.Admin)
+                    .ToList();
+
+                return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
+            }
         }
 
         public async Task ChangeLanguage(ChangeUserLanguageDto input)
@@ -222,6 +265,99 @@ namespace PhoneLelo.Project.Users
 
             return true;
         }
+
+        [AbpAllowAnonymous]
+        public async Task<long> SignUpUserByPhoneNumberAsync(
+            string phoneNumber,
+            string roleName)
+        {
+            //TODO : phone number validation(1 to 1)
+            var user = new User()
+            {
+                Name = AppConsts.DefaultUserName,
+                Surname = string.Empty,
+                UserName = phoneNumber,
+                EmailAddress = phoneNumber,
+                IsActive = true,
+                PhoneNumber = phoneNumber,
+                TenantId = _tenantId
+            };
+
+            //TODO:Change this dummy confirmation
+            user.IsEmailConfirmed = true;
+            user.IsPhoneNumberConfirmed = false;
+
+            await _userManager.InitializeOptionsAsync(_tenantId);
+            CheckErrors(await _userManager.CreateAsync(user, AppConsts.DefaultUserPassword));
+
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+            {
+                if (!phoneNumber.IsNullOrEmpty())
+                {
+                    var roleNames = new List<string>() { StaticRoleNames.Tenants.Seller };
+                    using (AbpSession.Use(_tenantId, user.Id))
+                    {
+                        await _userManager.SetRolesAsync(user, roleNames.ToArray());
+                    }
+                }
+
+                user.PhoneNumberCode = GenerateAndSendVerificationCode(phoneNumber);
+                await _userManager.UpdateAsync(user);
+            }
+            await CurrentUnitOfWork.SaveChangesAsync();
+
+            return user.Id;
+        }
+
+        [AbpAllowAnonymous]
+        public async Task<bool> VerifyUserPhoneNumber(
+            long userId,
+            string verificationCode)
+        {
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MustHaveTenant))
+            using (UnitOfWorkManager.Current.DisableFilter(AbpDataFilters.MayHaveTenant))
+            {
+                var user = await _userManager.GetUserByIdAsync(userId);
+                if (user != null && user.PhoneNumberCode == verificationCode)
+                {
+                    user.IsPhoneNumberConfirmed = true;
+                    await _userManager.UpdateAsync(user);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        [AbpAllowAnonymous]
+        public async Task<UserDto> GetUserForView(long userId)
+        {
+            using (CurrentUnitOfWork.SetTenantId(AbpSession.TenantId))
+            {
+                if (userId > 0)
+                {
+                    var dbUser = await _userManager.GetUserByIdAsync(
+                        userId: userId);
+
+                    if (dbUser == null)
+                    {
+                        return null;
+                    }
+
+                    var output = base.MapToEntityDto(dbUser);
+                    return output;
+                }
+                return null;
+            }
+        }
+
+        private string GenerateAndSendVerificationCode(string phoneNumber)
+        {
+            //TODO : SMS verfication implementation here.
+            var code = AppConsts.DefaultPhoneNumberCode;
+            return code;
+        }
     }
+
 }
 

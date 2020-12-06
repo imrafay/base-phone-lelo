@@ -1,0 +1,384 @@
+<form name="form" (ngSubmit)="f.form.valid && onPostAd()" #f="ngForm" novalidate>
+    <div id="content" class="section-padding">
+        <div class="row center" style="margin-top:20px;">
+            <div class="col-sm-12 col-md-12 page-sidebar">
+                <aside>
+                    <div class="sidebar-box">
+                        <div>
+                            <section class="mb-4 mt-4">
+                                <div class="text-center">
+                                    <h4 class="" style="    color: #233d7b;
+                                    ">
+                                        Sell your Phone With 4 Easy &amp; Simple Steps!
+                                    </h4>
+                                    <p class="" style="color: #070707;">It's free and takes less than a minute</p>
+                                    <div class="" style="    margin: 20px 0 -10px;">
+
+                                        <i class="fa fa-phone header-logo"></i>
+                                        <span>
+                                            Enter Your Phone Information
+                                        </span>
+                                        <i class="fa fa-upload header-logo" aria-hidden="true"></i>
+                                        <span>
+                                            Upload Photos
+                                        </span>
+                                        <i class="fas fa-money-check-alt header-logo"></i>
+                                        <span>
+
+                                            Enter Your Selling Price
+                                        </span>
+                                        <i class="fa fa-info-circle header-logo" aria-hidden="true"></i>
+                                        <span>
+
+                                            Enter Your Phone Condition
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+        <div>
+            <div class="col-xl-12 col-sm-12 col-12 d-flex justify-content-center" *ngIf="!isInProgress">
+                <p-progressSpinner></p-progressSpinner>
+            </div>
+        </div>
+        <div class="container" *ngIf="isInProgress">
+            <div class="row center">
+                <div class="col-sm-12 col-md-10">
+                    <div class=" page-content">
+
+                        <div class="inner-box mt-3 mb-3">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Mobile Information</h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+
+                                <!-- <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Phone Title</label>
+                                    <input class="form-control input-md" name="Title" placeholder="Title" type="text"
+                                        [(ngModel)]="phoneTitle">
+
+                                </div> -->
+                                <div class="form-group mb-3" *ngIf="productBrands.length">
+                                    <label class="control-label fontColor">Brands</label>
+
+                                    <p-dropdown [options]="productBrands" [(ngModel)]="selectedProductBrands"
+                                        optionLabel="name" name="productBrands" [style]="{'width':'100%'}"
+                                        (onChange)="onSelectBrand($event)" placeholder="Select Brand" [filter]="true">
+                                    </p-dropdown>
+
+
+                                </div>
+                                <div class="form-group mb-3" *ngIf="productModel.length">
+                                    <label class="control-label fontColor">Model</label>
+
+                                    <p-dropdown [options]="productModel" [(ngModel)]="selectedProductModel"
+                                        optionLabel="name" name="productModel" [style]="{'width':'100%'}"
+                                        placeholder="Select Model" [filter]="true">
+                                    </p-dropdown>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Accessories</label>
+
+                                    <p-multiSelect [options]="accessories" [(ngModel)]="selectedAccessories"
+                                        [style]="{'width':'100%'}" placeholder="Select Accessories"
+                                        optionLabel="accessoryName" name="selectedAccessories">
+                                    </p-multiSelect>
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Condtion</label><br>
+                                    <span class="form-group mb-3" *ngFor="let cond of booleanEnum">
+                                        <label class="control-label p-2">{{cond.name}}</label>
+                                        <input name="condition" type="radio" [value]="cond" [(ngModel)]="isNew"
+                                            name="isNew">
+                                    </span>
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Exchange</label><br>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" [value]="bool" name="isExchange" [(ngModel)]="isExchange">
+                                    </span>
+
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">PTA</label><br>
+                                    <span class="form-group mb-3" *ngFor="let status of booleanEnum">
+                                        <label class="control-label p-2">{{status.name}}</label>
+                                        <input name="status" type="radio" [value]="status" [(ngModel)]="isPtaApproved"
+                                            name="isPtaApproved">
+                                    </span>
+
+                                </div>
+
+
+                                <label class="control-label fontColor">Battery Timing</label><br>
+                                <div class="form-group mb-3 box-container-dotted">
+                                    <label class="control-label fw-500">With Wifi</label><br>
+
+                                    <span class="form-group mb-3" *ngFor="let battery of batteryWifi">
+                                        <input type="radio" [value]="battery" name="batteryWifi"
+                                            [(ngModel)]="selectedBatteryWifi">
+                                        <label class="ml-1 p-2">{{battery.name}} hours</label>
+                                    </span>
+
+
+                                    <br>
+                                    <label class="control-label fw-500">With Gaming</label><br>
+                                    <span class="form-group mb-3" *ngFor="let battery of batteryGaming">
+                                        <input type="radio" [value]="battery" name="batteryGaming"
+                                            [(ngModel)]="selectedBatteryGaming">
+                                        <label class="ml-1 p-2">{{battery.name}} hours</label>
+                                    </span>
+
+                                    <br>
+                                    <label class="control-label fw-500">With 3G / 4G</label><br>
+                                    <span class="form-group mb-3" *ngFor="let battery of batteryMobileData">
+                                        <input name="batteryMobileData" type="radio" [value]="battery"
+                                            [(ngModel)]="selectedBatteryMobileData">
+                                        <label class="ml-1 p-2">{{battery.name}} hours</label>
+                                    </span>
+                                </div>
+                                <div class="form-group mb-3"
+                                    *ngIf="selectedProductBrands && selectedProductBrands['name'] == 'Apple'">
+                                    <label class="control-label fontColor">Battery health</label><br>
+                                    <input class="form-control input-md" name="name" type="text" placeholder="0%"
+                                        [(ngModel)]="batteryHealth">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="inner-box mt-3 mb-3">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Image Upload</h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+                                <p-fileUpload #pfileUpload class="file-upload-section" multiple="multiple"
+                                    name="pfileUpload" [url]="uploadUrl" accept="image/*" maxFileSize="10000000"
+                                    (onBeforeUpload)="onBeforeUpload($event)" (onUpload)="onUpload($event)"
+                                    (onSelect)="onSelect($event)" (onRemove)="onRemove($event)" chooseLabel="Browse"
+                                    [auto]="true" (onError)="onError($event)" [showUploadButton]="false"
+                                    [showCancelButton]="false">
+                                    <ng-template pTemplate="content">
+                                        <!-- <ul *ngIf="uploadedFiles.length">
+                                            <li *ngFor="let file of uploadedFiles" class="d-flex mt-1">
+                                                <div style="width: 40px;">
+                                                    <input type="radio" name="fileName" [value]="file.name"
+                                                        [(ngModel)]="isPriorty">
+                                                </div>
+                                                <div>
+                                                    {{file.name}}
+                                                </div>
+                                            </li>
+                                        </ul> -->
+                                        <ul *ngIf="images">
+                                            <li *ngFor="let img of images;let i = index" class="d-flex mt-1">
+                                                <div style="width: 40px;" *ngIf="file">
+                                                    <input type="radio" name="fileName"
+                                                        [value]="file && file.name?file.name:file && file.image" [(ngModel)]="isPriorty">
+                                                </div>
+                                                
+                                                <div>
+                                                    <span *ngIf="img && img.image">
+                                                        <img [src]="'https://phonelelostore.blob.core.windows.net/phonelelo/ProductImages/'+img.image"
+                                                            alt="" style="max-width: 200px;">
+                                                    </span>
+                                                    <span *ngIf="img && img.src">
+                                                        <img [src]="img.src" alt="" style="max-width: 200px;">
+                                                    </span>
+                                                    <span style="margin-left: 20px;"
+                                                    (click)="removeImg(img, i)">
+                                                        <i class="far fa-trash-alt" style="padding-left:5px"></i>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </ng-template>
+                                </p-fileUpload>
+                            </div>
+                        </div>
+                        <div class="inner-box mt-3 mb-3">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Price</h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Price</label>
+                                    <input class="form-control input-md" name="price" placeholder="Ad your Price"
+                                        [(ngModel)]="price" type="text">
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Price Bargaining</label><br>
+                                    <span class="form-group mb-3" *ngFor="let price of pricesBargaining">
+                                        <label class="ml-1 p-2">{{price.name}}</label>
+                                        <input name="selectRole" type="radio" [(ngModel)]="isNegotiable"
+                                            [value]="price">
+                                    </span>
+                                </div>
+                                <div class="form-group mb-5 mt-4" *ngIf="isNegotiable && isNegotiable['id'] == 1">
+
+                                    <p-slider [(ngModel)]="rangeValues" [range]="true" [style]="{'width':'50%'}"
+                                        [min]="0" [max]="5000" name="rangeSlider">
+                                    </p-slider>
+                                    <br> <label style="margin-top: 5px;">
+                                        {{rangeValues[0] + ' Rs  - ' + rangeValues[1] + ' Rs'}}</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="inner-box mt-3 mb-3">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Mobile Condition</h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Spot</label><br>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" [value]="bool" name="isSpot" [(ngModel)]="isSpot">
+                                    </span>
+
+                                    <span *ngIf="isSpot == 1">
+                                        <input class="form-control input-md" name="Title" placeholder="0%" type="text">
+                                    </span>
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Damage</label>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" [value]="bool" name="isDamaged" [(ngModel)]="isDamaged">
+                                    </span> </div>
+                                <!-- <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Scratch</label>
+                                    <input class="form-control input-md" name="Scratch" placeholder="0%" type="text">
+                                </div> -->
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Finger working</label><br>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" [value]="bool" [(ngModel)]="isFingerWorking"
+                                            name="isFingerWorking">
+                                    </span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Face working</label><br>
+
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" [value]="bool" [(ngModel)]="isFaceSensorWorking"
+                                            name="isFaceSensorWorking">
+                                    </span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="row">
+                                        <div class="col-6">
+
+                                            <label class="control-label fontColor">Description</label><br>
+                                        </div>
+                                        <div class="col-6 reset-btn">
+                                            <a (click)="reset()" style="cursor:pointer">Reset</a>
+                                        </div>
+
+
+                                    </div>
+                                    <textarea name="description" cols="10" rows="3" class="form-control input-md"
+                                        [(ngModel)]="description">
+
+                                    </textarea>
+                                    <div class="border-color-textArea">
+                                        <div class="mt-2" style="    color: #323743;
+                                        ">you can use these suggestion</div>
+                                        <div class="mt-2">
+                                            <a class="suggestion-a" name="suggestion-1"
+                                                (click)="suggestion('Its new like box pack')">Like New</a>
+                                            <a class="suggestion-a" name="suggestion-2"
+                                                (click)="suggestion('Phone is PTA approved')">Pta Approval</a>
+                                            <a class="suggestion-a" name="suggestion-3"
+                                                (click)="suggestion('Phone with orignal box')">Orignal Box</a>
+                                            <a class="suggestion-a" name="suggestion-4"
+                                                (click)="suggestion('It is sealed')">Sealed</a>
+                                            <a class="suggestion-a" name="suggestion-5"
+                                                (click)="suggestion('Its urgent need buyer')">Urgent Sale</a>
+                                            <a class="suggestion-a" name="suggestion-6"
+                                                (click)="suggestion('Its negotiable')">Negotiable</a>
+                                            <a class="suggestion-a" name="suggestion-7"
+                                                (click)="suggestion('Only contact serious buyer')">Contact Serious
+                                                Buyer</a>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="inner-box mt-3 mb-3">
+                            <div class="dashboard-box">
+                                <h2 class="dashbord-title">Mobile Specification</h2>
+                            </div>
+                            <div class="dashboard-wrapper">
+
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Ram</label>
+
+                                    <p-dropdown [options]="ram" optionLabel="name" name="Ram" [style]="{'width':'100%'}"
+                                        placeholder="Select Ram" [(ngModel)]="selectedRam">
+                                    </p-dropdown>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Storage</label>
+
+                                    <p-dropdown [options]="storage" optionLabel="name" name="Storage"
+                                        [style]="{'width':'100%'}" placeholder="Select Storage"
+                                        [(ngModel)]="selectedStorage">
+                                    </p-dropdown>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Kit</label><br>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" [value]="bool" [(ngModel)]="isKit" name="isKit">
+                                    </span>
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="control-label fontColor">Warranty</label><br>
+                                    <span class="form-group mb-3" *ngFor="let bool of booleanEnum">
+                                        <label class="control-label p-2">{{bool.name}}</label>
+                                        <input type="radio" [value]="bool" [(ngModel)]="isWarranty" name="isWarranty">
+                                    </span>
+                                    <br>
+                                    <br>
+
+                                    <span *ngIf="isWarranty == 1">
+                                        <input class="form-control input-md" name="Title" placeholder="Warranty months"
+                                            type="text" [(ngModel)]="warrantyMonths">
+                                    </span>
+
+                                </div>
+                                <!-- [disabled]="isValid()" -->
+                                <button class="btn btn-common" type="submit" [disabled]="isValid()">Post
+                                    Ad</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

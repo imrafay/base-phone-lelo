@@ -1,0 +1,403 @@
+<div class="row page-height" *ngIf="!isProgress">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+<div class="container" style="margin-top:100px;margin-bottom: 50px;" *ngIf="isProgress">
+    <div class="row container mb-10">
+        <div class="col-4">
+            <div class="row">
+                <div>
+                    <lib-ngx-image-zoom [thumbImage]=imageShown [fullImage]=imageShown [magnification]="1"
+                        [enableScrollZoom]="true" [enableLens]="true" [lensWidth]="100"></lib-ngx-image-zoom>
+                </div>
+            </div>
+            <div class="row mt-3" *ngIf="images">
+                <div *ngFor="let img of images;let i = index" (click)="mouseEnter(img.id,img)" [ngClass]="
+                    highlightedRows[0] ===img.id ? 'selectedImg': ''" class="cursor-pointer">
+                    <a><img class="img-fluid imgSlider"
+                            [src]="'https://phonelelostore.blob.core.windows.net/phonelelo/ProductImages/'+img.image"
+                            alt=""></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-8" style="padding: 50px 0px 0px 50px;
+        " *ngIf="product && product.productAdvert">
+            <div class="row">
+                <h5>{{product.productModelName}}</h5>
+            </div>
+            <div class="row" style="margin-top:-10px;font-size: 12px;">
+                {{product.productCompanyName}}
+            </div>
+            <div class="row">
+                <img src="assets/img/phone-img/rating.png" style="height: 15px;margin-top: 5px;">
+                <img src="assets/img/phone-img/rating.png" style="height: 15px;margin-top: 5px;">
+                <img src="assets/img/phone-img/rating.png" style="height: 15px;margin-top: 5px;">
+                <img src="assets/img/phone-img/rating.png" style="height: 15px;margin-top: 5px;">
+                <img src="assets/img/phone-img/rating.png" style="height: 15px;margin-top: 5px;">
+                <div style="margin-left: 10px;
+                margin-top: 1px;">No ratings</div>
+            </div>
+
+            <div class="row">
+                Brand: {{product.productCompanyName}} | More Mobiles Sale & Purchasing From Phonelelo
+            </div>
+            <div class="row pb-4" style="display: inline-block;
+           width: 100%;
+           border-bottom: 1px solid #eff0f5;
+           line-height: 20px;"></div>
+
+            <div class="row pt-2" style="color:#e91e63;font-size:30px;margin-left: -17px;">
+                Rs. {{product.productAdvert.price | number}}
+
+            </div>
+            <div class="row pt-3" style="margin-left: -19px;">
+                <div class="badges">
+                    <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isPtaApproved">PTA
+                        approved</span>
+                    <span class="p-tag p-tag-danger ml-1" *ngIf="!product.productAdvert.isPtaApproved">PTA
+                        non-approved</span>
+                    <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isNew">
+                        New</span>
+                    <span class="p-tag p-tag-danger ml-1" *ngIf="!product.productAdvert.isNew">
+                        Used</span>
+                    <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isNegotiable">
+                        Exchange offer</span>
+                    <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isKit">
+                        Kit only</span>
+                    <span class="p-tag p-tag-danger ml-1" *ngIf="!product.productAdvert.isKit">
+                        Box</span>
+                    <span class="p-tag p-tag-success ml-1" *ngIf="product.productAdvert.isInWarranty">
+                        Warranty remaining</span>
+                    <span class="p-tag p-tag-danger ml-1" *ngIf="!product.productAdvert.isInWarranty">
+                        No warranty</span>
+                </div>
+            </div>
+            <div class="row pt-3">
+                {{product.productAdvert.description}}
+            </div>
+            <div class="row pt-3">
+                <div class="col-3 pl-0">
+                    <span class="product-status-badge">Storage: </span>
+                    &nbsp; {{product.productAdvert.ram}}gb/{{product.productAdvert.storage}}gb
+                </div>
+                <div class="col-3 pl-0">
+                    <span class="product-status-badge">Exhange Policy: </span>
+                    &nbsp; <span *ngIf="product.productAdvert.isExchangeable">Yes</span>
+                    <span *ngIf="!product.productAdvert.isExchangeable">No</span>
+                </div>
+                <div class="col-3 pl-0">
+                    <span class="product-status-badge">Face Sensor: </span>
+                    <span *ngIf="product.productAdvert.isFaceSensorWorking">Yes</span>
+                    <span *ngIf="!product.productAdvert.isFaceSensorWorking">No</span>
+                </div>
+                <div class="col-3 pl-0">
+                    <span class="product-status-badge">Finger Sensor: </span>
+                    <span *ngIf="product.productAdvert.isFingerSensorWorking">Yes</span>
+                    <span *ngIf="!product.productAdvert.isFingerSensorWorking">No</span>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div>
+                    <button type="button" class="btn btn-common"
+                    [routerLink]="['/app/home/profile',product.userId]">
+                        View {{product.userFullName}} profile</button>
+                </div>
+                <div class="ml-1">
+                    <button type="button" class="btn btn-common"
+                        [routerLink]="['/app/main/message',product.userId,product.userFullName]">
+                        Chat with seller</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container details-box" style="margin-bottom: 50px;" *ngIf="isProgress">
+    <div>
+        <tabset *ngIf="product && product.productModelSpecification">
+            <tab heading="Product Details">
+                <section>
+                    <div class="row" style="margin-top: 15px;" id="AnchorId">
+                        <div class="product-detail-heading">Overview</div>
+                        <div class="col-12 product-detail-text">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la">Certification:</div>
+                                        <div class="col-9 overviewText-li">Nice</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la">Brand Name:
+                                        </div>
+                                        <div class="col-9 overviewText-li">{{product.productModelSpecification.brand}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la">Place of origin:
+                                        </div>
+                                        <div class="col-9 overviewText-li">Karachi</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la">Model Number:
+                                        </div>
+                                        <div class="col-9 overviewText-li">{{product.productAdvert.productModelId}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la"> Product name:
+                                        </div>
+                                        <div class="col-9 overviewText-li">{{product.productModelSpecification.model}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la"> Features:
+                                        </div>
+                                        <div class="col-9 overviewText-li">
+                                            {{product.productModelSpecification.featuresSensors}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la">Battery:
+                                        </div>
+                                        <div class="col-9 overviewText-li">{{product.productModelSpecification.battery}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 overviewText-la"> Design:
+                                        </div>
+                                        <div class="col-9 overviewText-li">
+                                            {{product.productModelSpecification.displaySize}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="product-detail-heading">Product Description</div>
+                        <div class="col-12 product-detail-text">
+                            <span>{{product.productModelSpecification.body}}.</span>
+                            <span> {{product.productModelSpecification.display}}.</span>
+                            <span> {{product.productModelSpecification.displayResolution}}.</span>
+                            <span> {{product.productModelSpecification.displaySize}}.</span>
+                            <span> {{product.productModelSpecification.features}}.</span>
+                            <span> {{product.productModelSpecification.featuresSensors}}.</span>
+                        </div>
+                    </div>
+                </section>
+            </tab>
+            <tab heading="Specification">
+                <section>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="product-detail-heading">Specification</div>
+                        <div class="col-8 col-md-12">
+                            <table>
+                                <tr>
+                                    <td>Product name
+                                    </td>
+                                    <td>{{product.productModelSpecification.model}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Features
+                                    </td>
+                                    <td>{{product.productModelSpecification.features}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Battery</td>
+                                    <td>{{product.productModelSpecification.battery}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Display</td>
+                                    <td>{{product.productModelSpecification.display}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Display resolution</td>
+                                    <td>{{product.productModelSpecification.displayResolution}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Display size</td>
+                                    <td>{{product.productModelSpecification.displaySize}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Features sensors</td>
+                                    <td>{{product.productModelSpecification.featuresSensors}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Internal memory</td>
+                                    <td>{{product.productModelSpecification.memoryInternal}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Brand</td>
+                                    <td>{{product.productModelSpecification.brand}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Network technology</td>
+                                    <td>{{product.productModelSpecification.networkTechnology}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </tab>
+            <tab heading="Features and Display">
+                <section>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="product-detail-heading">Features & Display</div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Battery</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.body}} with
+                                {{product.productModelSpecification.battery}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Display size</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.display}} with
+                                {{product.productModelSpecification.displaySize}} and
+                                {{product.productModelSpecification.displayResolution}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Launch date</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.launchAnnouncedYear}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">features & Sensors</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.features}} and sensors are
+                                {{product.productModelSpecification.featuresSensors}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Platform</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.platformOS}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Memory</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.memoryInternal}}
+                            </div>
+                        </div>
+                        <div class="col-8 col-md-12">
+                            <div class="product-detail-sub-heading">Network</div>
+                            <div class="pt-1 pb-3">
+                                {{product.productModelSpecification.networkTechnology}}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </tab>
+        </tabset>
+    </div>
+</div>
+<!-- <div class="container" style="margin-bottom: 50px;padding: 0px;" *ngIf="isProgress">
+    <div id="comments" style="margin-bottom: 50px;">
+        <div class="comment-box">
+            <h3>Comments</h3>
+            <ol class="comments-list">
+                <li *ngFor="let comment of commentsArray;let i = index">
+                    <div class="media">
+                        <div class="thumb-left">
+                            <a href="#">
+                                <img src="assets/img/phone-img/img3.png" alt="" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="info-body">
+                            <div class="media-heading">
+                                <h4 class="name">{{comment.commentUsername}}</h4>
+                                <span class="comment-date"><i class="lni-alarm-clock"></i> June 21, 2018</span>
+                                <a class="reply-link cursor-pointer" (click)="onEnterReply($event,i)"><i
+                                        class="lni-reply"></i>
+                                    Reply</a>
+                            </div>
+                            <p>{{comment.commentText}}</p>
+                            <div class="row" *ngIf="replyInput[0] == i">
+                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                    <div class="mb-2 mt-4">
+                                        <input id="author" class="form-control" name="author" type="text" size="30"
+                                            placeholder="Reply..">
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <span class="send-reply-btn cursor-pointer">
+                                            Send
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul *ngIf="comment && comment.commentReplies">
+                        <li *ngFor="let commentReply of comment.commentReplies">
+                            <div class="media">
+                                <div class="thumb-left">
+                                    <a href="#">
+                                        <img src="assets/img/phone-img/img3.png" alt="" class="img-fluid">
+                                    </a>
+                                </div>
+                                <div class="info-body">
+                                    <div class="media-heading">
+                                        <h4 class="name">{{commentReply.userName}}</h4>
+                                        <span class="comment-date"><i class="lni-alarm-clock"></i> June 21, 2018</span>
+                                        <a class="reply-link cursor-pointer" (click)="onEnterReply($event,i)"><i
+                                                class="lni-reply"></i>
+                                            Reply</a>
+                                    </div>
+                                    <p>
+                                        {{commentReply.userReply}} </p>
+                                    <div class="row" *ngIf="replyInput[0] == i">
+                                        <div class="col-lg-12 col-md-12 col-xs-12">
+                                            <div class="mb-2 mt-4">
+                                                <input id="author" class="form-control" name="author" type="text"
+                                                    size="30" placeholder="Reply..">
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <span class="send-reply-btn cursor-pointer">
+                                                    Send
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+
+            <div id="respond">
+                <h2 class="respond-title" style="margin-bottom: 10px;">Leave A Review</h2>
+                <form action="#">
+                    <div class="row mb-4">
+                        <div class="col-lg-6 col-md-6 col-xs-12">
+                            <div>Rating </div>
+
+                            <rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly"
+                                (keyup)="confirmSelection($event)"></rating>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12col-xs-12">
+                            <div class="form-group">
+                                <textarea id="comment" class="form-control" name="comment" cols="45" rows="8"
+                                    placeholder="Message..." [(ngModel)]="commentText"></textarea>
+                            </div>
+                            <button type="submit" id="submit" class="btn btn-common" (click)="onSaveReview()">Post
+                                Comment</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div> -->
+<div class="container" style="margin-bottom: 50px;padding: 0px;" *ngIf="isProgress && products.length > 0">
+    <h1 class="section-title">Related Products</h1>
+    <product-card [products]="products" *ngIf="products.length > 0"> </product-card>
+</div>

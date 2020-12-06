@@ -38,6 +38,45 @@ namespace PhoneLelo.Project.EntityFrameworkCore.Seed.Tenants
                 adminRole = _context.Roles.Add(new Role(_tenantId, StaticRoleNames.Tenants.Admin, StaticRoleNames.Tenants.Admin) { IsStatic = true }).Entity;
                 _context.SaveChanges();
             }
+            
+            var sellerRole = _context.Roles
+                .IgnoreQueryFilters()
+                .FirstOrDefault(r => 
+                    r.TenantId == _tenantId && 
+                    r.Name == StaticRoleNames.Tenants.Seller);
+
+            if (sellerRole == null)
+            {
+                sellerRole = _context.Roles.Add(new Role(
+                    _tenantId,
+                    StaticRoleNames.Tenants.Seller,
+                    StaticRoleNames.Tenants.SellerDisplayName
+                    ) 
+                    { 
+                        IsStatic = true
+                    }).Entity;
+                _context.SaveChanges();
+            }
+            
+            var shopOwnerRole = _context.Roles.
+                IgnoreQueryFilters()
+                .FirstOrDefault(r => 
+                r.TenantId == _tenantId && 
+                r.Name == StaticRoleNames.Tenants.ShopOwner);
+
+            if (shopOwnerRole == null)
+            {
+                shopOwnerRole = _context.Roles
+                    .Add(new Role(
+                        _tenantId,
+                        StaticRoleNames.Tenants.ShopOwner,
+                        StaticRoleNames.Tenants.ShopOwnerDisplayName) 
+                    { 
+                        IsStatic = true
+                    }).Entity;
+
+                _context.SaveChanges();
+            }
 
             // Grant all permissions to admin role
 

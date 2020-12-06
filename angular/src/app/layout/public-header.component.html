@@ -1,0 +1,143 @@
+<header id="header-wrap">
+    <nav class="navbar navbar-expand-lg bg-white fixed-top scrolling-navbar" style="box-shadow: 0px 2px 1px 1px #e91e63;
+    color: white;
+    height: 50px;top:0px">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="lni-menu"></span>
+                    <span class="lni-menu"></span>
+                    <span class="lni-menu"></span>
+                </button>
+                <a routerLink="/" class="navbar-brand"><img src="assets/img/logo.png" alt=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="navbar-nav w-100">
+                    <li class="nav-item" (click)="onSelectMenu(1)" [ngClass]=" highlightedRows[0] == 1  ? 'active'  : ''">
+                        <a class="nav-link" routerLink="/" aria-haspopup="true" aria-expanded="false">
+                            <!-- Home -->
+                            <i class="fas fa-home" style="font-size: 20px;"></i>
+                        </a>
+
+                    </li>
+                    <!-- <li class="nav-item" *ngIf="isUserValid" (click)="onSelectMenu(2)"
+                        [ngClass]=" highlightedRows[0] == 2  ? 'active'  : ''">
+                        <a class="nav-link" routerLink="/app/main/user-dashboard">
+                            Dashboard
+                        </a>
+                    </li> -->
+                    <li class="nav-item" style="    width: 100%;
+                    display: flex;
+                    margin-right: 3px;
+                    justify-content: center;">
+                        <!-- <input type="text" placeholder="search"> -->
+
+                        <div class="d-flex" style="width: 70%; margin-top: 15px;">
+                            <input type="text" name="" id="" placeholder="Enter keyword" [(ngModel)]="searchFilter" class="search-input">
+                            <div>
+                                <!-- <button type="submit" name="submit" class="btn btn-primary ">Search</button> -->
+                                <button type="submit" name="submit" class="btn btn-primary search-btn-home" [routerLink]="['/app/home/category',searchFilter]"
+                                [disabled]="!searchFilter">
+                                    <i class="fas fa-search"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </li>
+                    <!-- <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:55px"
+                        [ngClass]=" highlightedRows[0] == 3  ? 'active'  : ''">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Services
+                        </a>
+                        <div class="dropdown-menu">
+
+                            <a class="dropdown-item" routerLink="/app/main/add-post">Ads Post</a>
+                        </div>
+                    </li> -->
+                </ul>
+                <div class="post-btn" style="margin-right: 25px;">
+                    <a class="btn btn-common" (click)="signUpRegisterModalShow()" style="color:white">
+                        Sell
+                        <i class="fas fa-plus ml-1 "></i>
+                    </a>
+                </div>
+                <a routerLink="/account/login" *ngIf="!isUserValid">
+                    <!-- <i class="lni-lock"></i>
+                    Log In -->
+                    <i class="fas fa-sign-in-alt icons-header mt-1"></i>
+                </a>
+                <!-- <a routerLink="/account/login" class="ml-1" (click)="logout()" *ngIf="isUserValid">
+                    <i class="fas fa-sign-out-alt icons-header"></i>
+                </a> -->
+                <a style="padding-bottom: 15x;" class="cursor-pointer">
+                    <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:70px" [ngClass]=" highlightedRows[0] == 3  ? 'active'  : ''">
+                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-bottom: 10px;">
+                            <i class="fas fa-user icons-header"></i>
+                        </a>
+                        <div class="dropdown-menu" style="left: -46px;min-width: 0px;margin-top: -20px;">
+                            <a class="dropdown-item" routerLink="/app/main/user-dashboard">
+                                <i class="fas fa-clipboard mr-1"></i>Dashboard</a>
+                            <a class="dropdown-item" routerLink="/app/main/message">
+                                <i class="fas fa-inbox mr-1"></i>Messages</a>
+                            <a class="dropdown-item" (click)="logout()">
+                                <i class="fas fa-sign-out-alt mr-1"></i>Sign out</a>
+                        </div>
+                    </li>
+                </a>
+            </div>
+        </div>
+        <ul class="mobile-menu">
+            <li>
+                <a class="active" href="#">
+                    Home
+                </a>
+                <ul class="dropdown">
+                    <li><a class="active" href="index-2.html">Home 1</a></li>
+                    <li><a href="index-3.html">Home 2</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="category.html">Categories</a>
+            </li>
+            <li>
+                <a href="#">
+                    Listings
+                </a>
+                <ul class="dropdown">
+                    <li><a href="adlistinggrid.html">Ad Grid</a></li>
+                    <li><a href="adlistinglist.html">Ad Listing</a></li>
+                    <li><a href="ads-details.html">Listing Detail</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Pages</a>
+                <ul class="dropdown">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="ads-details.html">Ads Details</a></li>
+                    <li><a href="post-ads.html">Ads Post</a></li>
+                    <li><a href="pricing.html">Packages</a></li>
+                    <li><a href="testimonial.html">Testimonial</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="404.html">404</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Blog</a>
+                <ul class="dropdown">
+                    <li><a href="blog.html">Blog - Right Sidebar</a></li>
+                    <li><a href="blog-left-sidebar.html">Blog - Left Sidebar</a></li>
+                    <li><a href="blog-grid-full-width.html"> Blog full width </a></li>
+                    <li><a href="single-post.html">Blog Details</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="contact.html">Contact Us</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<signUpRegisterModal #signUpRegisterModal></signUpRegisterModal>

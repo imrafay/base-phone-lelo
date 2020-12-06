@@ -11,10 +11,14 @@ export class AppConsts {
     };
 
     static readonly localization = {
-        defaultLocalizationSourceName: 'Project'
+        defaultLocalizationSourceName: 'Phonelelo'
     };
 
     static readonly authorization = {
         encryptedAuthTokenName: 'enc_auth_token'
     };
+
+    static readonly mobileBrand = {
+        Apple: 'Apple'
+    }
 }

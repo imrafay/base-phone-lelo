@@ -11,12 +11,21 @@
     <UserSecretsId>PhoneLelo-Project-56C2EF2F-ABD6-4EFC-AAF2-2E81C34E8FB1</UserSecretsId>
     <RootNamespace>PhoneLelo.Project</RootNamespace>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>false</Optimize>
+  </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\SourceFiles\*.xml" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Abp.AutoMapper" Version="5.10.1" />
-    <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="5.10.1" />
-    <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.3.1" />
+    <PackageReference Include="Abp.AutoMapper" Version="5.13.0" />
+    <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="5.13.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.6.0" />
+    <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.4.0" />
+    <PackageReference Include="Flurl" Version="2.8.2" />
+    <PackageReference Include="PusherServer" Version="4.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FeedBack\Enum\" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,93 @@
+<div id="content" class="section-padding" style="margin-top: 1.5rem;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-3 page-sidebar">
+                <app-user-siderbar></app-user-siderbar>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-9 d-flex justify-content-center" *ngIf="!isInProgress">
+                <p-progressSpinner></p-progressSpinner>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-9" *ngIf="isInProgress">
+                <div class="page-content">
+                    <div class="inner-box">
+                        <div class="dashboard-box">
+                            <h2 class="dashbord-title">Dashboard</h2>
+                        </div>
+                        <div class="dashboard-wrapper">
+                            <div class="dashboard-sections">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                        <div class="dashboardbox">
+                                            <div class="icon"><i class="lni-write"></i></div>
+                                            <div class="contentbox">
+                                                <h2><a href="#">Total Ad Posted</a></h2>
+                                                <h3>{{SiteStatisticsOutputDto ? SiteStatisticsOutputDto.totalAdsCount : 0}}
+                                                    Add Posted</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+                                        <div class="dashboardbox">
+                                            <div class="icon"><i class="lni-add-files"></i></div>
+                                            <div class="contentbox">
+                                                <h2><a href="#">Locations</a></h2>
+                                                <h3>{{SiteStatisticsOutputDto ? SiteStatisticsOutputDto.totalLocationsCount : 0}}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table  dashboardtable tablemyads">
+                                <thead>
+                                    <tr>
+
+                                        <th>Photo</th>
+                                        <th>Title</th>
+                                        <th>Ram/Storage</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let products of product">
+
+                                        <td class="photo">
+                                            <span *ngIf="!products.primaryProductImage">
+                                                <img class="img-fluid" src="assets/img/product/img1.jpg" alt="">
+                                            </span>
+                                            <span *ngIf="products.primaryProductImage">
+                                                <img class="img-fluid" [src]="products.primaryProductImage" alt="">
+                                            </span>
+                                        </td>
+                                        <td data-title="Title">
+                                            <h3>{{products.productCompanyName}}</h3>
+                                            <span>{{products.productModelName}}</span>
+                                        </td>
+                                        <td data-title="Category"><span
+                                                class="adcategories">{{products.ram}}/{{products.storage}}</span></td>
+
+                                        <td data-title="Price">
+                                            <h3>{{products.price | number}}</h3>
+                                        </td>
+                                        <td data-title="Action">
+                                            <div class="btns-actions">
+                                                <a class="btn-action btn-edit cursor-pointer"
+                                                    (click)="getProductById(products.id)"><i class="lni-pencil"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                 
+                                </tbody>
+                              
+                            </table>
+                            <div class="row d-flex justify-content-center mb-5 mt-5" *ngIf="product && product.length == 0">
+                                <div>No Ads</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
