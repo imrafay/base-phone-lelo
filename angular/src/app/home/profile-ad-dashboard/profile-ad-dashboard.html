@@ -88,18 +88,15 @@
                                                 <!-- <rating [(ngModel)]="comment.rating" [max]="max" readonly="true" name="ratingText"></rating> -->
                                                 <p-rating [ngModel]="comment.rating" readonly="true" stars="5"
                                                     [cancel]="false" name="rating2"></p-rating>
-
                                             </h4>
                                             <span class="comment-date"><i class="lni-alarm-clock"></i>
                                                 {{comment.creationTime.format('ll')}}</span>
-
                                         </div>
                                         <p>{{comment.review}}</p>
                                     </div>
                                 </div>
                             </li>
                         </ol>
-
                         <div id="respond" *ngIf="searchId != appSession.userId">
                             <h2 class="respond-title" style="margin-bottom: 10px;" *ngIf="!isReviewEnable">
                                 <span><button class="btn btn-common" (click)="onClickReview()">
@@ -109,11 +106,8 @@
                                 <div class="row mb-4">
                                     <div class="col-lg-6 col-md-6 col-xs-12">
                                         <div class="pl-1">Rating </div>
-
-                                        <!-- <rating [(ngModel)]="rate" [max]="max" [readonly]="isReadonly" name="rating" (keyup)="confirmSelection($event)"></rating> -->
                                         <p-rating [ngModel]="rate" [cancel]="false" (onRate)="onSelectRating($event)"
                                             name="rating1"></p-rating>
-
                                     </div>
                                 </div>
                                 <div class="row">

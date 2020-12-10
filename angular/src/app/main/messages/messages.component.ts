@@ -44,7 +44,11 @@ export class MessagesComponent extends AppComponentBase implements OnInit {
 
   ngOnInit(): void {
     this.messages = [];
-    this.recieveEvent();
+    // this.recieveEvent();
+    this.pusherService.channel.bind('chat-message', (message) => {
+      console.log(message);
+      this.getAllMessages(this.receiverId);
+    });
     this.receiverId && this.appSession.userId ? this.getAllMessages(this.receiverId) : null;
     this.getUserChatmessages();
   }
@@ -58,18 +62,20 @@ export class MessagesComponent extends AppComponentBase implements OnInit {
 
 
   sendMessage() {
-    this.ChatMessageInputDto.senderId = this.appSession.userId;
-    this.ChatMessageInputDto.receiverId = this.receiverId;
-    this._chatService.create(this.ChatMessageInputDto).subscribe(res => {
-      console.log(res)
-      // this.pusherService.channel.trigger('chat-message', (res) => {
-      //   console.log(res)
-      // })
-      this.ChatMessageInputDto.message = '';
-    })
-    //this._chatService.testMessage(this.ChatMessageInputDto.receiverId,this.ChatMessageInputDto.message).subscribe(res => {
-    //})
-
+    if (this.ChatMessageInputDto.message && this.receiverId && this.appSession.userId) {
+      this.ChatMessageInputDto.senderId = this.appSession.userId;
+      this.ChatMessageInputDto.receiverId = this.receiverId;
+      this._chatService.create(this.ChatMessageInputDto).subscribe(res => {
+        console.log(res)
+        // event is not triggering from backend thats why we use below line, if we want to trigger from front so we have to uncomment these lines
+        // this.pusherService.channel.trigger('chat-message', (res) => {
+        //   console.log(res)
+        // })
+        this.ChatMessageInputDto.message = '';
+      })
+      //this._chatService.testMessage(this.ChatMessageInputDto.receiverId,this.ChatMessageInputDto.message).subscribe(res => {
+      //})
+    }
   }
 
   getAllMessages(id) {
@@ -111,17 +117,17 @@ export class MessagesComponent extends AppComponentBase implements OnInit {
     recipientName.style.textAlign = "center";
     recipientName.style.color = "white";
   }
-  onSelectChat(id,name) {
+  onSelectChat(id, name) {
     this.highlightedRows.length > 0 ? this.highlightedRows.pop() : null;
     this.highlightedRows.push(id);
     if (this.highlightedRows && this.highlightedRows.length > 0) {
       this.receiverId = id;
-      this.receiverName=name;
+      this.receiverName = name;
       this.getAllMessages(this.receiverId);
     }
   }
-  isValid(){
-    return!(this.messageText && this.receiverId && this.appSession.userId);
+  isValid() {
+    return (this.messageText && this.receiverId && this.appSession.userId);
   }
 }
 interface Message {

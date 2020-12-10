@@ -60,8 +60,8 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
       'height': '50px'
     }
   };
-  @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
-  otp: string='0';
+  @ViewChild('ngOtpInput', { static: false }) ngOtpInput: any;
+  otp: string = '0';
   showOtpComponent = true;
   constructor(private _UserServiceProxy: UserServiceProxy,
     injector: Injector,
@@ -131,7 +131,7 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
       this.neighbourhood = valuesArray[3];
     }
   }
-  
+
   signUpDetail() {
     this.isSignUpDetailsSpinner = true;
     this.CreateUserDto.emailAddress = this.inputEmail;
@@ -157,10 +157,12 @@ export class SignUpRegisterModalComponent extends AppComponentBase implements On
 
   sendVerificationCode() {
     this.isVerifyCodeSpinner = true;
+    this.signUpDetailFormBool = true;
+    this.registerAsUserChoice = false;
     this._UserServiceProxy.verifyUserPhoneNumber(this.userId, this.otp).subscribe(res => {
       console.log(res)
       if (res == true) {
-        this.registerAsUserChoice = true
+        // this.registerAsUserChoice = true
         this.mobileFormBool = false;
         this.verificationFormBool = false;
         this.cd.detectChanges();

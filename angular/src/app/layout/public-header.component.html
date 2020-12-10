@@ -5,7 +5,8 @@
         <div class="container-fluid">
 
             <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
+                    aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                     <span class="lni-menu"></span>
                     <span class="lni-menu"></span>
@@ -15,7 +16,8 @@
             </div>
             <div class="collapse navbar-collapse" id="main-navbar">
                 <ul class="navbar-nav w-100">
-                    <li class="nav-item" (click)="onSelectMenu(1)" [ngClass]=" highlightedRows[0] == 1  ? 'active'  : ''">
+                    <li class="nav-item" (click)="onSelectMenu(1)"
+                        [ngClass]=" highlightedRows[0] == 1  ? 'active'  : ''">
                         <a class="nav-link" routerLink="/" aria-haspopup="true" aria-expanded="false">
                             <!-- Home -->
                             <i class="fas fa-home" style="font-size: 20px;"></i>
@@ -35,11 +37,12 @@
                         <!-- <input type="text" placeholder="search"> -->
 
                         <div class="d-flex" style="width: 70%; margin-top: 15px;">
-                            <input type="text" name="" id="" placeholder="Enter keyword" [(ngModel)]="searchFilter" class="search-input">
+                            <input type="text" name="" id="" placeholder="Enter keyword" [(ngModel)]="searchFilter"
+                                class="search-input">
                             <div>
                                 <!-- <button type="submit" name="submit" class="btn btn-primary ">Search</button> -->
-                                <button type="submit" name="submit" class="btn btn-primary search-btn-home" [routerLink]="['/app/home/category',searchFilter]"
-                                [disabled]="!searchFilter">
+                                <button type="submit" name="submit" class="btn btn-primary search-btn-home"
+                                    [routerLink]="['/app/home/category',searchFilter]" [disabled]="!searchFilter">
                                     <i class="fas fa-search"></i>
                                 </button>
 
@@ -73,8 +76,10 @@
                     <i class="fas fa-sign-out-alt icons-header"></i>
                 </a> -->
                 <a style="padding-bottom: 15x;" class="cursor-pointer">
-                    <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:70px" [ngClass]=" highlightedRows[0] == 3  ? 'active'  : ''">
-                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-bottom: 10px;">
+                    <li class="nav-item dropdown" *ngIf="isUserValid" (click)="onSelectMenu(3)" style="height:70px"
+                        [ngClass]=" highlightedRows[0] == 3  ? 'active'  : ''">
+                        <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style="margin-bottom: 10px;">
                             <i class="fas fa-user icons-header"></i>
                         </a>
                         <div class="dropdown-menu" style="left: -46px;min-width: 0px;margin-top: -20px;">
