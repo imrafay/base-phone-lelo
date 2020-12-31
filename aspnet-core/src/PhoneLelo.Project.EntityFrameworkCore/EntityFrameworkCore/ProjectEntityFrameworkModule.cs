@@ -1,4 +1,5 @@
-﻿using Abp.EntityFrameworkCore.Configuration;
+﻿using Abp.Dependency;
+using Abp.EntityFrameworkCore.Configuration;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Zero.EntityFrameworkCore;
@@ -41,9 +42,19 @@ namespace PhoneLelo.Project.EntityFrameworkCore
 
         public override void PostInitialize()
         {
+            EnsureMigrated();
+
             if (!SkipDbSeed)
             {
                 SeedHelper.SeedHostDb(IocManager);
+            }
+        }
+
+        private void EnsureMigrated()
+        {
+            using (var migrateExecuter = IocManager.ResolveAsDisposable<MultiTenantMigrateExecuter>())
+            {
+                migrateExecuter.Object.Run();
             }
         }
     }
