@@ -14,9 +14,13 @@ namespace PhoneLelo.Project.Web.Host.Startup
 
         public static IWebHost BuildWebHost(string[] args)
         {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+            return new WebHostBuilder()
+                        .UseKestrel()
+                        .UseContentRoot(Directory.GetCurrentDirectory())
+                        .UseIISIntegration()
+                        .UseStartup<Startup>()
+                        .Build();
+
         }
     }
 }
