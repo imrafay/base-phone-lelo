@@ -8,11 +8,11 @@ namespace PhoneLelo.Project.EntityFrameworkCore
 {
     public class DatabaseCheckHelper : ITransientDependency
     {
-        private readonly IDbContextProvider<DbContext> _dbContextProvider;
+        private readonly IDbContextProvider<ProjectDbContext> _dbContextProvider;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
 
         public DatabaseCheckHelper(
-            IDbContextProvider<RhithmDbContext> dbContextProvider,
+            IDbContextProvider<ProjectDbContext> dbContextProvider,
             IUnitOfWorkManager unitOfWorkManager
         )
         {
