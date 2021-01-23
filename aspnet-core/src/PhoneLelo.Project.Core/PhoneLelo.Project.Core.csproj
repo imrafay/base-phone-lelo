@@ -22,6 +22,8 @@
     <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="5.13.0" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.6.0" />
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.4.0" />
+    <PackageReference Include="Firebase.Auth" Version="1.0.0" />
+    <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
     <PackageReference Include="Flurl" Version="2.8.2" />
     <PackageReference Include="PusherServer" Version="4.2.0" />
   </ItemGroup>
